@@ -1,0 +1,15 @@
+return digraph{"G",
+  edge{"run", "intr"},
+  edge{"intr", "runbl"},
+  edge{"runbl", "run"},
+  edge{"run", "kernel"},
+  edge{"kernel", "zombie"},
+  edge{"kernel", "sleep"},
+  edge{"kernel", "runmem"},
+  edge{"sleep", "swap"},
+  edge{"swap", "runswap"},
+  edge{"runswap", "new"},
+  edge{"runswap", "runmem"},
+  edge{"new", "runmem"},
+  edge{"sleep", "runmem"}
+}

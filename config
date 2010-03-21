@@ -1,0 +1,96 @@
+# Your system. Expands to 'GNU/Linux' or 'Cygwin'
+SYSTEM = $(shell uname -o)
+
+# Module name
+MODULE=luagraph
+
+# Lua Version to use:
+LV = 5.1
+
+# Debugging 1 or 0
+DEBUG = 1
+
+# Root of Lua Installation
+INSTALL_ROOT=/usr/local
+INSTALL_SHARE=$(INSTALL_ROOT)/share/lua/$(LV)
+INSTALL_LIB=$(INSTALL_ROOT)/lib/lua/$(LV)
+INSTALL_DOC=$(INSTALL_ROOT)/share/doc/$(MODULE)
+
+# Installation stuff
+INSTALL = install -p
+INSTALL_EXEC = $(INSTALL) -m 0755
+INSTALL_DATA = $(INSTALL) -m 0644
+INSTALL_COPY = cp -p -r
+
+# Root of Lua Installation
+INSTALL_ROOT=/usr/local
+INSTALL_SHARE=$(INSTALL_ROOT)/share/lua/$(LUAVERS)
+INSTALL_LIB=$(INSTALL_ROOT)/lib/lua/$(LUAVERS)
+
+# Platform specific differences
+#
+ifeq ($(SYSTEM), Cygwin)
+  # Lua installation
+  LUA = /usr/local
+  LUAINC=$(LUA)/include
+  LUABIN=$(LUA)/lua
+  LUALIB=$(LUA)/lib
+
+  # Cygwin: need to link against Lua libraries
+  EXT = dll
+  LIBS=-llua$(LV)
+
+  # Repository (SVN)
+  REPOSITORY=file:///J:/leuwer/svn/lua/lua-modules/trunk
+else
+  # Lua installation
+  LUA = /usr
+  LUAINC=$(LUA)/include/lua$(LV)
+  LUABIN=$(LUA)/bin/lua$(LV)
+  LUALIB=$(LUA)/lib
+  EXT = so
+  LIBS=
+
+  # Repository (SVN)
+  REPOSITORY=file:///windows/d/leuwer/svn/lua/lua-modules/trunk
+endif
+#
+# Compat-5.1 location
+#
+COMPAT=compat-5.1r5
+DEFCOMPAT=-DCOMPAT_H
+
+LUAGRAPH=graph51.lua
+
+# Current Version of LuaGRAPH
+VERSION=1.0.4
+
+# Graphviz version 
+GVVERSION=2.26
+
+# Targets
+LUAGRAPH_SO=graph.$(EXT).$(VERSION)
+
+#
+# Compiler and Linker
+#
+DEF=$(DEFCOMPAT) -DVERSION='"$(VERSION)"' -DGVVERSION='"$(GVVERSION)"' -DDEMAND_LOADING=1
+CC=gcc
+GVROOT=/usr/include
+ifeq ($(DEBUG), 1)
+  CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -ggdb
+  LDFLAGS= -ggdb -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib -fpic
+else
+  CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -O2
+  LDFLAGS= -O -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib -fpic
+endif
+LIBS+= -lgvc -lgraph -lcdt -lpathplan -lltdl
+LD=gcc
+
+# Distribution stuff
+EXPORTDIR = $(HOME)/exports
+DISTNAME = $(MODULE)-$(VERSION)
+DISTARCH = $(DISTNAME).tar.gz
+CVSMODULE = lua/lua-$(LV)/modules/$(MODULE)
+SVNMODULE = $(MODULE)-$(VERSION)
+

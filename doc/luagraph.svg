@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1340"
+   sodipodi:version="0.32"
+   inkscape:version="0.41"
+   width="210mm"
+   height="297mm"
+   sodipodi:docbase="/home/leuwer/lua/lua-5.0/modules/luagraph/doc/html"
+   sodipodi:docname="luagraph.svg"
+   inkscape:export-filename="/home/leuwer/lua/lua-5.0/modules/luagraph/doc/html/luagraph.png"
+   inkscape:export-xdpi="90.000000"
+   inkscape:export-ydpi="90.000000">
+  <metadata
+     id="metadata1345">
+    <rdf:RDF
+       id="RDF1347">
+      <cc:Work
+         rdf:about=""
+         id="Work1349">
+        <dc:format
+           id="format1351">image/svg+xml</dc:format>
+        <dc:type
+           id="type1353"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1343" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1272"
+     inkscape:window-height="965"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="3.5534800"
+     inkscape:cx="121.36351"
+     inkscape:cy="856.05920"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg1340">
+    <sodipodi:guide
+       orientation="vertical"
+       position="150.03259"
+       id="guide2133" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="744.34076"
+       id="guide2135" />
+  </sodipodi:namedview>
+  <path
+     sodipodi:type="arc"
+     style="fill:#000072;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0019774;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dasharray:1.0019775 1.0019775;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+     id="path1363"
+     sodipodi:cx="35.839165"
+     sodipodi:cy="45.703259"
+     sodipodi:rx="16.162762"
+     sodipodi:ry="16.162762"
+     d="M 52.001926 45.703259 A 16.162762 16.162762 0 1 1  19.676403,45.703259 A 16.162762 16.162762 0 1 1  52.001926 45.703259 z"
+     transform="matrix(2.644770,0.000000,0.000000,2.644770,55.24623,43.94115)" />
+  <text
+     xml:space="preserve"
+     style="font-size:39.162186;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Nimbus Sans L;text-anchor:start;writing-mode:lr-tb"
+     x="118.92507"
+     y="183.37994"
+     id="text2129"
+     sodipodi:linespacing="100%"
+     transform="scale(0.979055,1.021393)"><tspan
+       sodipodi:role="line"
+       id="tspan2131"
+       x="118.92507"
+       y="183.37994">Lua</tspan></text>
+  <path
+     sodipodi:type="arc"
+     style="fill:#ffffff;fill-opacity:1.0000000;stroke:none;stroke-width:1.0019774;stroke-miterlimit:4.0000000;stroke-dasharray:1.0019775 1.0019775;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+     id="path2137"
+     sodipodi:cx="163.56012"
+     sodipodi:cy="151.99098"
+     sodipodi:rx="13.176164"
+     sodipodi:ry="13.176164"
+     d="M 176.73628 151.99098 A 13.176164 13.176164 0 1 1  150.38396,151.99098 A 13.176164 13.176164 0 1 1  176.73628 151.99098 z"
+     transform="translate(-0.351366,-7.378652)" />
+  <path
+     sodipodi:type="arc"
+     style="stroke-linecap:round;fill:none;fill-opacity:1.0000000;stroke:#000000;stroke-width:1.2733040;stroke-miterlimit:4.0000000;stroke-dasharray:5.0932161,5.0932161;stroke-dashoffset:0.25466080;stroke-opacity:1.0000000;marker-start:none"
+     id="path2141"
+     sodipodi:cx="149.68123"
+     sodipodi:cy="164.81578"
+     sodipodi:rx="55.164207"
+     sodipodi:ry="57.623756"
+     d="M 204.84544 164.81578 A 55.164207 57.623756 0 1 1  94.517021,164.81578 A 55.164207 57.623756 0 1 1  204.84544 164.81578 z"
+     transform="matrix(1.000002,0.000000,0.000000,0.963729,0.702496,5.977975)" />
+  <path
+     sodipodi:type="arc"
+     style="fill:#000072;fill-opacity:1.0000000;stroke:none;stroke-width:1.0019774;stroke-miterlimit:4.0000000;stroke-dasharray:1.0019775 1.0019775;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000"
+     id="path2139"
+     sodipodi:cx="163.56012"
+     sodipodi:cy="151.99098"
+     sodipodi:rx="13.176164"
+     sodipodi:ry="13.176164"
+     d="M 176.73628 151.99098 A 13.176164 13.176164 0 1 1  150.38396,151.99098 A 13.176164 13.176164 0 1 1  176.73628 151.99098 z"
+     transform="translate(26.52800,-36.01485)" />
+  <path
+     style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"
+     d="M 90.896812,152.39932 L 92.022469,152.39932 L 101.59055,153.52498 L 110.59581,134.38881 L 122.13380,123.97648 L 128.88774,119.47385 L 121.28955,108.49869 L 101.87197,125.10214 L 90.896812,152.39932 z "
+     id="path2187" />
+  <text
+     xml:space="preserve"
+     style="font-size:13.999989;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans;text-anchor:start;writing-mode:lr-tb"
+     id="text2143"
+     transform="matrix(-0.892530,-0.259658,0.254198,-0.911699,243.9169,355.6411)"
+     sodipodi:linespacing="100%"><textPath
+       xlink:href="#path2141"
+       id="textPath2182">GRAPH</textPath></text>
+</svg>

@@ -1,0 +1,10 @@
+digraph Root {
+	subgraph Mother {
+		subgraph Son {
+		}
+	}
+	subgraph Father {
+		subgraph Daughter {
+		}
+	}
+}

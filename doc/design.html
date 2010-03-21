@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+
+  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+
+  <title>LuaGRAPH - Reference</title>
+  <link media="screen" href="style.css" rel="stylesheet" type="text/css" />
+
+  <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />
+</head>
+
+
+<body>
+
+<div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;" id="logo"><a name="home2" id="home2"></a><a href="http://www.lua.org"><img style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" id="lualogo" alt="www.lua.org" src="luagraph.png" name="lualogo" hspace="20" /></a></div>
+
+<div id="header">
+<h1 style="height: 120px; margin-left: 0px; width: 928px;">
+<big><big><a name="home" id="home"></a><br />
+
+LuaGRAPH - Reference</big></big><br />
+
+Graph Programming with Lua</h1>
+
+</div>
+
+<div id="leftnavigation">
+<ul>
+
+  <li style="margin-left: 0px; width: 185px;"><a class="current" href="index.html">Home</a></li>
+
+  <li><a href="index.html#license">License</a></li>
+
+  <li><a href="index.html#features">Features</a></li>
+
+  <li><a href="index.html#download">Download</a></li>
+
+  <li><a href="index.html#installation">Installation</a></li>
+
+  <li><a href="running.html">MANUAL</a></li>
+
+  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+    <ul>
+
+      <li><a href="running.html">Running&nbsp;</a></li>
+
+      <li><a href="#design">Design</a></li>
+
+      <li><a href="graph.html">Graphs</a></li>
+
+      <li><a href="node.html"><span style="font-weight: bold;">Nodes</span></a></li>
+
+      <li><a href="edge.html">Edges</a></li>
+
+    </ul>
+
+  </li>
+
+  <li><a href="examples.html">Examples</a></li>
+
+  <li><a href="index.html#whatsnew">What's new</a></li>
+
+  <li><a href="index.html#credits">Credits</a></li>
+
+  <li><a href="index.html#links">Links</a></li>
+
+  <li><a href="index.html#todo">ToDo</a></li>
+
+</ul>
+
+</div>
+
+<div id="content">
+<h1><a name="design" id="design"></a>Design&nbsp;</h1>
+
+<h3>Proxy userdata</h3>
+
+<p>The basic idea&nbsp; of the design is to make graphs look like
+Lua objects. As a consequence the&nbsp;usage of the "dot" language
+is not required, but is available. Graphs can be constructed, layed
+out and rendered from a Lua script without the need for external
+programs.</p>
+
+<p>In order to achieve this goal LuaGRAPH operates&nbsp;as an
+access or proxy layer to the graphviz libraries' functions,&nbsp;
+objects and object &nbsp;attributes.</p>
+
+<p>Graph objects like graphs, nodes and edges are stored in
+directories maintained by the graphviz library and are represented
+as Lua userdata objects to the programmer.&nbsp;The userdata
+objects&nbsp;function as a proxy to the graph objects mainly to
+access their attributes. The userdata&nbsp; is created and deleted
+on the fly&nbsp;whenever needed without necessarily creating or
+deleting graph objects.&nbsp;</p>
+
+<p>The proxy objects are stored&nbsp;in the Lua registry. For
+instance, reading a graph from a file creates a graph object and
+all graphviz objects but only a proxy for the main graph. By
+subsequently referencing graph objects by there name or by
+iterators the corresponding userdata objects are automatically
+created.</p>
+
+<h3>Attributes</h3>
+
+<p>Attribute access is implemented using metamethods of Lua
+userdata. All standard attributes are strings, numbers are
+automatically converted to strings, but not vice versa. Attributes
+are transparently stored by LuaGRAPH as key-value pairs in the
+graphviz directories and not&nbsp;in Lua data structures. LuaGRAPH
+does typically not interprete the key of an attribute. Hence, any
+key-value pair can be stored.&nbsp;LuaGRAPH has no explicit
+knowledge&nbsp;about the attributes, which makes it insensitive
+against future versions of the graphviz library with potentially
+new attributes. On the other hand any key not known by the graphviz
+library doesn't hurt and can be regarded as user defined object
+attributes.&nbsp;</p>
+
+<p>In order to allow handling of such arbitrary typed attributes,
+LuaGRAPH maintains an internal attribute key&nbsp;<span style="font-weight: bold; font-style: italic;">.attrib,</span> which
+allows LuaGRAPH to attach data of any type (strings, numbers,
+tables, boolean, other userdata and functions) to a graph object.
+This allows the programmer to define it's own methods for a graph
+object.&nbsp;</p>
+
+<p>Object attributes are accessed in the common dot notation for
+tables with strings as keys, e.g. if n is a proxy reference to a
+node, it's drawing color can be set this way: <span style="font-weight: bold; font-style: italic;">n.color =
+"blue"</span>.</p>
+
+<h3>Object Access</h3>
+
+<p>Graph objects are typically accessed via methods of other graph
+objects, e.g. a node can be created or retrieved by a graph's
+<a href="graphmeth.html#g_node">g.node()</a>
+method:&nbsp;<span style="font-weight: bold; font-style: italic;">&nbsp;</span></p>
+
+<pre><span style="font-weight: bold;">n = g.node("tail")</span>.  <br /></pre>
+
+<p>An edge can be created using the <a href="node.html#n_edge">n.edge()</a> method of the tail node and
+providing a reference to the head node as parameter to this
+method:&nbsp;<span style="font-style: italic;"><span style="font-weight: bold;">&nbsp;</span></span></p>
+
+<pre><span style="font-weight: bold;">e = n:edge("head")</span>
+</pre>
+
+<h3>Iterators</h3>
+
+<p>LuaGRAPH implements a variety of iterators to iterate over
+subgraphs of a graph, nodes and edges of a graph or edges of a
+node. See the LuaGRAPH <a href="graph.html">Reference</a> section
+for details.</p>
+
+<p><span style="font-weight: bold;">Higher Abstraction
+Layers<br />
+</span></p>
+
+<p>LuaGRAPH provides some means of higher abstraction to create
+more sophisticated graph objects like clusters and records. While
+clusters are just subgraphs with a name extension according to
+graphviz' convention, a record requires a special syntax in it's
+label attribute. In order to help to construct this syntax LuaGRAPH
+provides a means using collections of&nbsp;horizontal and vertical
+box constructors to define such a record.&nbsp;</p>
+
+<h3>Using tables to describe a graph</h3>
+
+<p>LuaGRAPH provides a number of functions that return a
+constructor function for&nbsp; graph object creation. A
+hierarchical collection of such constructors allows the programmer
+to define a graph using Lua's table syntax. Here is an example:</p>
+
+<pre>gr = require "graph"<br />
+<br />
+--<br />
+-- For simple formatted printing<br />
+--<br />
+local function printf(fmt, ...)<br />
+  print(string.format(fmt, unpack(arg)))<br />
+end<br />
+<br />
+--<br />
+-- Get a local reference for frequently used functions (optional)<br />
+--<br />
+local node, edge, subgraph, cluster, digraph, strictdigraph =<br />
+  gr.node, gr.edge, gr.subgraph, gr.cluster, gr.digraph, gr.strictdigraph<br />
+<br />
+--<br />
+-- Example graph<br />
+--<br />
+local g = digraph{"G",<br />
+  cluster{"c0",<br />
+    edge{"a0", "a1", "a2", "a3"}<br />
+  },<br />
+  cluster{"c1",<br />
+    edge{"b0", "b1", "b2", "b3"}<br />
+  },<br />
+  edge{"x", "a0"},<br />
+  edge{"x", "b0"},<br />
+  edge{"a1", "a3"},<br />
+  edge{"a3", "a0"}<br />
+}<br />
+<br />
+--<br />
+-- Same graph in dot notation<br />
+--<br />
+local dotsource = [[<br />
+digraph G {<br />
+        subgraph cluster_c0 {a0 -&gt; a1 -&gt; a2 -&gt; a3;}<br />
+        subgraph cluster_c1 {b0 -&gt; b1 -&gt; b2 -&gt; b3;}<br />
+        x -&gt; a0;<br />
+        x -&gt; b0;<br />
+        a1 -&gt; a3;<br />
+        a3 -&gt; a0;<br />
+}<br />
+]]<br />
+<br />
+<br />
+-- Print graph as dotfile<br />
+printf("1. Generated 'dot' format:")<br />
+g:write()<br />
+printf("2. Source in 'dot' format:\n %s\n", dotsource)<br />
+<br />
+-- Show the graph<br />
+g:showdotty()<br />
+<br />
+-- Close the graph<br />
+g:close()
+</pre>
+
+<br />
+</div>
+
+<div id="footer">(c) 2006-2009 Herbert Leuwer, November 2006&nbsp;&nbsp;
+&nbsp;<a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>
+
+</body>
+</html>
