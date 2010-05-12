@@ -37,7 +37,7 @@ g:declare{
 --
 for rec in modules do
   for mod, usedbylist in string.gfind(rec, "([_%w]+) %w+ %w+ ([-,_%w]+)") do
-    n = g:node(mod) 
+    n = g:node(mod)
     for usedby in string.gfind(usedbylist, "([-_%w]+)") do
       if (usedby ~= '-') and (usedby ~= '') then
 	n:edge(g:node(usedby))

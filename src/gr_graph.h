@@ -44,31 +44,17 @@ typedef struct Agedgeinfo_s Agedgeinfo_t;
 #define STRICT (1)
 #define NONSTRICT (0)
 
-/*
+/* 
  * Some compatibility defines between agraph and graph 
  */
-#ifndef AGTYPE
-  #define AGTYPE(obj) agobjkind(obj)
-#endif
-#ifndef AGID
-  #define AGID(obj) ((obj)->id)
-#endif
-#ifndef agnameof
-  #define agnameof(obj) ((obj)->name)
-#endif
+#define AGTYPE(obj) agobjkind(obj)
+#define AGID(obj) ((obj)->id)
+#define agnameof(obj) ((obj)->name)
 #define agisstrict(obj) (AG_IS_STRICT(obj) != 0)
-#ifndef agisdirected
-  #define agisdirected(obj) (AG_IS_DIRECTED(obj) != 0)
-#endif
-#ifndef agroot
-  #define agroot(obj) ((obj)->root)
-#endif
-#ifndef agisarootobj
-  #define agisarootobj(obj) ((obj)->root == obj)
-#endif
-#ifndef agrename
-  #define agrename(obj, nam) (obj)->name = (nam)
-#endif
+#define agisdirected(obj) (AG_IS_DIRECTED(obj) != 0)
+#define agroot(obj) ((obj)->root)
+#define agisarootobj(obj) ((obj)->root == obj)
+#define agrename(obj, nam) (obj)->name = (nam)
 Agraph_t *agfstsubg(Agraph_t *g, Agedge_t **lastedge);
 Agraph_t *agnxtsubg(Agraph_t *g, Agedge_t **lastedge);
 Agnode_t *agidnode(Agraph_t *g, int index);
@@ -80,6 +66,7 @@ struct gr_graph_s {
   Agraph_t *g;
   char *name; /* only for debugging */
   Agedge_t *lastedge;
+  GVC_t *gvc;
 };
 typedef struct gr_graph_s gr_graph_t;
 

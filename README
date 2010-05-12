@@ -8,19 +8,19 @@ LuaGRAPH
   
   LuaGRAPH is a binding to the graphviz library.
 
-  LuaGRAPH requires the graphviz library version 2.26 or later, which
+  LuaGRAPH requires the graphviz library version 2.8 or later, which
   can be downloaded from 
 	
 	http://www.graphviz.org/
 
+  The module was developed using graphviz version 2.20.
 
-  You must have Lua version 5.1. Lua can be downloaded 
+  You must have Lua version 5.0 or later to use it. Lua can be downloaded 
   from its home page:
 	  http://www.tecgraf.puc-rio.br/lua/
-
+c
   If you use LuaGRAPH with Lua 5.0 you should have the compat-5.1 package properly
-  installed on your system. Note, Lua 5.0 is no longer officially supported by
-  LuaGRAPH.
+  installed on your system.
   If you use LuaGRAPH with Lua 5.1 you should set the compiler switch COMPAT_H in
   your makefile.
 
@@ -52,22 +52,28 @@ LuaGRAPH
   In order to build LuaGRAPH on a Linux, Unix or Cygwin/Mingw based
   POSIX like system:
 
-  1. Make sure you have Lua 5.1. LuaGRAPH may still work with Lua 5.0.
-     However, Lua 5.0 is no longer officially supported.
-     The file test.lua in the test subdirectory uses lualogging which 
-     can be downloaded from LuaForge at http://luaforge.net or via
-     LuaRocks at http://www.luarocks.org.
+  1. Make sure you have Lua (version 5.0 or 5.1 later). The file test.lua
+     in the test subdirectory uses lualogging which can be downloaded 
+     from LuaForge at http://luaforge.net.
 
   2. With graphviz version 2.12 you might have to use the `ltdl' library 
      that comes with graphviz in order to have the rendering plugins to 
-     work properly. Version 2.26 is currently the last graphviz version
-     that is supported.
+     work properly. 
 
   3. LuaGRAPH comes with a makefile and a simple config file to adopt
      the make process to your target system.
 
-  4. Adopt build configuration to your platform by editing the file
-     config according to you needs.
+     Compiler Flags:
+
+     COMPAT_H
+	Instruct luaGRAPH to use Lua 5.1. This is automatically chosen if
+	you choose Lua 5.1 in the config file. 
+
+  4. Adopt build configuration to your platform by typing
+
+     	   configure
+
+     This 
 
   5. Compile the package
 
@@ -102,7 +108,7 @@ LuaGRAPH
 
   Please send your comments and bug reports to the Lua mailing list.
 
-December 2006 (March 2010)
+December 2006
 
 Have fun.
 
