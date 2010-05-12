@@ -78,13 +78,13 @@ DEF=$(DEFCOMPAT) -DVERSION='"$(VERSION)"' -DGVVERSION='"$(GVVERSION)"' -DDEMAND_
 CC=gcc
 GVROOT=/usr/include
 ifeq ($(DEBUG), 1)
-  CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -ggdb
+  CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -ggdb -fPIC
   LDFLAGS= -ggdb -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib -fpic
 else
-  CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -O2
+  CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -O2 -fPIC
   LDFLAGS= -O -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib -fpic
 endif
-LIBS+= -lgvc -lgraph -lcdt -lpathplan -lltdl
+LIBS+= -lgvc -lgraph -lcdt -lpathplan -lltdl -lgvplugin_core
 LD=gcc
 
 # Distribution stuff
