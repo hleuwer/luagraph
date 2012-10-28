@@ -84,7 +84,7 @@ static int gr_render(lua_State *L);
 \*=========================================================================*/
 static GVC_t *gvc;
 
-const lt_symlist_t lt_preloaded_symbols[] = { { 0, 0 } };
+ lt_symlist_t lt_preloaded_symbols[] = { { 0, 0 } };
 
 /*
  * Base library functions

@@ -22,10 +22,6 @@ INSTALL_EXEC = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 0644
 INSTALL_COPY = cp -p -r
 
-# Root of Lua Installation
-INSTALL_ROOT=/usr/local
-INSTALL_SHARE=$(INSTALL_ROOT)/share/lua/$(LUAVERS)
-INSTALL_LIB=$(INSTALL_ROOT)/lib/lua/$(LUAVERS)
 
 # Platform specific differences
 #
@@ -76,13 +72,13 @@ LUAGRAPH_SO=graph.$(EXT).$(VERSION)
 #
 DEF=$(DEFCOMPAT) -DVERSION='"$(VERSION)"' -DGVVERSION='"$(GVVERSION)"' -DDEMAND_LOADING=1
 CC=gcc
-GVROOT=/usr/include
+GVROOT=/usr
 ifeq ($(DEBUG), 1)
   CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -ggdb -fPIC
-  LDFLAGS= -ggdb -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib -fpic
+  LDFLAGS= -ggdb -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib/graphviz -fpic
 else
   CFLAGS=-I$(GVROOT) -I$(LUAINC) -I$(COMPAT) $(DEF) -Wall -O2 -fPIC
-  LDFLAGS= -O -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib -fpic
+  LDFLAGS= -O -Wl,-E -Wl,--rpath -Wl,$(GVROOT)/lib -shared -L$(GVROOT)/lib/graphviz -fpic
 endif
 LIBS+= -lgvc -lgraph -lcdt -lpathplan -lltdl -lgvplugin_core
 LD=gcc
