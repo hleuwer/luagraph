@@ -1,13 +1,19 @@
+--=========================================================================*\
+-- LuaGRAPH toolkit
+-- Graph support for Lua.
+-- Herbert Leuwer
+-- 30-7-2006, 30-12-2016, 01/2017
+--
+-- Lua module "graph.lua"
+--=========================================================================*\
 local graph = require "graph.core"
 local string = require "string"
 local table = require "table"
---local base = _G
+
 local type, getmetatable, pairs, ipairs, assert = 
   _G.type, _G.getmetatable, _G.pairs, _G.ipairs, _G.assert
 
-
 module("graph", package.seeall)
-local ggraph = graph
 --
 -- Overloaded graph.open(), graph.read()
 --
@@ -30,56 +36,48 @@ local defattr = {
 }
 
 OUTPUTFORMATS = {
-  canon = "DOT pretty",
-  dot = "DOT",
-  xdot = "extended DOT",
-  cmap = "Client-side imagemap (deprecated)",
-  dia = "Dia format",
-  eps = "Encapsulated PostScript",
-  fig = "FIG",
-  gd = "Graphics Draw format",
-  gd2 = "Graphics Draw 2 format",
-  gif = "Graphics Interchage Format",
---  gtk = "Antialiased image using a GTK 2.0 canvas",
-  hpgl = "Hewlett Packard Graphics Language HP-GL/2",
-  ico = "Icon Image File Format",
-  imap = "Server-side and client-side imagemaps",
-  imap_np = "Server-side and client-side imagemaps",
-  cmapx = "Server-side and client-side imagemaps",
-  cmapx_np = "Server-side and client-side imagemaps",
-  ismap = "Server-side imagemap (deprecated)",
-  jpg = "JPEG (deprecated - 8 May 2006 - will no longer be supported)",
-  jpeg = "JPEG (deprecated - 8 May 2006 - will no longer be supported)",
-  mif = "FrameMaker MIF format",
-  mp = "MetaPost",
-  pcl = "Hewlett Packard Printer Control",
-  pdf = "Portable Document Format (PDF)",
-  pic = "Autodesk PIC",
-  plain = "Simple text format",
-  ["plain-ext"] = "Extended text format",
-  png = "Portable Network Graphics format",
-  ps = "PostScript",
-  ps2 = "PostScript for PDF",
-  svg = "Scalable Vector Graphics",
-  svgz = "Scalable Vector Graphics",
-  vml = "Vector Markup Language (VML)",
-  vmlz = "Vector Markup Language (VML) - compressed",
-  vrml = "VRML",
-  vtx ="Visual Thought format",
-  wbmp = "Wireless BitMap format",
-  xlib = "Xlib canvas",
+   {format = "canon", descr = "DOT pretty"},
+   {format = "dot",   descr = "DOT"},
+   {format = "xdot",  descr = "extended DOT"},
+   {format = "cmap",  descr = "Client-side imagemap (deprecated)"},
+   {format = "dia",   descr = "Dia format"},
+   {format = "eps",   descr = "Encapsulated PostScript"},
+   {format = "fig",   descr = "FIG"},
+   {format = "gd",    descr = "Graphics Draw format"},
+   {format = "gd2",   descr = "Graphics Draw 2 format"},
+   {format = "gif",   descr = "Graphics Interchage Format"},
+   {format = "gtk",   descr = "Antialiased image using a GTK 2.0 canvas"},
+   {format = "hpgl",  descr = "Hewlett Packard Graphics Language HP-GL/2"},
+   {format = "ico",   descr = "Icon Image File Format"},
+   {format = "imap",  descr = "Server-side and client-side imagemaps"},
+   {format = "imap_np", descr = "Server-side and client-side imagemaps"},
+   {format = "cmapx", descr = "Server-side and client-side imagemaps"},
+   {format = "cmapx_np", descr = "Server-side and client-side imagemaps"},
+   {format = "ismap", descr = "Server-side imagemap (deprecated)"},
+   {format = "jpg",   descr = "JPEG (deprecated - 8 May 2006 - will no longer be supported)"},
+   {format = "jpeg",  descr = "JPEG (deprecated - 8 May 2006 - will no longer be supported)"},
+   {format = "mif",   descr = "FrameMaker MIF format"},
+   {format = "mp",    descr = "MetaPost"},
+   {format = "pcl",   descr = "Hewlett Packard Printer Control"},
+   {format = "pdf",   descr = "Portable Document Format (PDF)"},
+   {format = "pic",   descr = "Autodesk PIC"},
+   {format = "plain", descr = "Simple text format"},
+   {format = "plain-ext", descr = "Extended text format"},
+   {format = "png",   descr = "Portable Network Graphics format"},
+   {format = "ps",    descr = "PostScript"},
+   {format = "ps2",   descr = "PostScript for PDF"},
+   {format = "svg",   descr = "Scalable Vector Graphics"},
+   {format = "svgz",  descr = "Scalable Vector Graphics"},
+   {format = "vml",   descr = "Vector Markup Language (VML)"},
+   {format = "vmlz",  descr = "Vector Markup Language (VML) - compressed"},
+   {format = "vrml",  descr = "VRML"},
+   {format = "vtx",   descr ="Visual Thought format"},
+   {format = "wbmp",  descr = "Wireless BitMap format"},
+   {format = "xlib",  descr = "Xlib canvas"},
 }
 --==============================================================================
 -- Utilities
 --==============================================================================
---------------------------------------------------------------------------------
--- Get graphviz version as major, minor
---------------------------------------------------------------------------------
-string.gsub(_GVVERSION,"(%d+).(%d+)", 
-	    function(u,v)
-	      _GVMAJOR=tonumber(u)
-	      _GVMINOR=tonumber(v)
-	    end)
 
 --------------------------------------------------------------------------------
 -- Iterator over non-numeric indices of a table
@@ -141,7 +139,7 @@ local _overload
 local function _subgraph(self, ...)
   local arg = {...}
   local name
-  local attr = {graph={}}
+  local attr = {}
   if type(arg[1]) == "table" then
     name = arg[1][1]
     nocreate = arg[1][2]
@@ -167,7 +165,7 @@ local function _subgraph(self, ...)
     if type(v) == "table" then
       g:declare(v)
     else
-      g:declare{graph={k=v}}
+      g:declare{k=v}
     end
   end
   return g, err
@@ -199,66 +197,70 @@ end
 -- e = g:edge("tail", "head", "label", nocreate)
 --------------------------------------------------------------------------------
 local function _edge(self, ...)
-  local arg = {...}
-  local nodes, edges = {}, {}
-  local attr
-  local node = {}
-  local last
-  if type(arg[1]) == "table" then
-    attr = attribs(arg[1])
-    -- create the edges
-    for i, v in ipairs(arg[1]) do
-      -- we must care about ports here:
-      node = {}
-      if type(v) == "string" then
-	string.gsub(v, "^(%w+):*(%w*):*(%w*)", function(u, v, w)
-						node.name = u
-						node.port = v
-						node.compass = w
-					       end)
-	node.node = self:__node(node.name)
-      elseif type(v) == "userdata" then
-	node.node = v
-      else
-	error("wrong node type")
+   local arg = {...}
+   local nodes, edges = {}, {}
+   local attr
+   local node = {}
+   local last
+   if type(arg[1]) == "table" then
+      attr = attribs(arg[1])
+      -- create the edges
+      for i, v in ipairs(arg[1]) do
+         -- we must care about ports here:
+         node = {}
+         if type(v) == "string" then
+            string.gsub(v, "^(%w+):*(%w*):*(%w*)", function(u, v, w)
+                           node.name = u
+                           node.port = v
+                           node.compass = w
+            end)
+            node.node = self:__node(node.name)
+         elseif type(v) == "userdata" then
+            node.node = v
+         else
+            error("wrong node type")
+         end
+         table.insert(nodes, node.node)
+         if i > 1 then
+            -- Create edges and set attributes to each edge
+            local e, tail_or_err, head = self:__edge(last.node, node.node)
+            if not e then
+               return nil, err
+            end
+            if last.port then e.tailport = last.port end
+            if node.port then e.headport = node.port end
+            addmethod(e, "getattrib", getattrib)
+            for k,v in pairs(attr) do
+               e[k] = v
+            end
+            table.insert(edges, e)
+         end
+         last = node
       end
-      table.insert(nodes, node.node)
-      if i > 1 then
-	-- Create edges and set attributes to each edge
-	local e = self:__edge(last.node, node.node)
-	if last.port then e.tailport = last.port end
-	if node.port then e.headport = node.port end
-	addmethod(e, "getattrib", getattrib)
-	for k,v in pairs(attr) do
-	  e[k] = v
-	end
-	table.insert(edges, e)
+      return edges, nodes
+   elseif type(arg[1]) == "string" or type(arg[1]) == "userdata" then
+      local node = {[1]={},[2]={}}
+      for i = 1,2 do
+         local v = arg[i]
+         -- we must care about ports here:
+         if type(v) == "string" then
+            string.gsub(v, "^(%w+):*(%w*):*(%w*)", function(u, v, w)
+                           node[i].name = u
+                           node[i].port = v
+                           node[i].compass = w
+            end)
+            arg[i] = self:__node(node[i].name)
+         end
       end
-      last = node
-    end
-    return edges, nodes
-  elseif type(arg[1]) == "string" or type(arg[1]) == "userdata" then
-    local node = {[1]={},[2]={}}
-    for i = 1,2 do
-      local v = arg[i]
-      -- we must care about ports here:
-      if type(v) == "string" then
-	string.gsub(v, "^(%w+):*(%w*):*(%w*)", function(u, v, w)
-						 node[i].name = u
-						 node[i].port = v
-						 node[i].compass = w
-					       end)
-	arg[i] = self:__node(node[i].name)
-      end
-    end
-    local e = self:__edge(unpack(arg))
-    if node[1].port then e.tailport=node[1].port end
-    if node[2].port then e.headport=node[2].port end
-    addmethod(e, "getattrib", getattrib)
-    return e, tail, head
-  else
-    error("invalid edge declaration")
-  end
+      local e, tail_or_err, head = self:__edge(unpack(arg))
+      if not e then return e, tail_or_err end
+      if node[1].port then e.tailport=node[1].port end
+      if node[2].port then e.headport=node[2].port end
+      addmethod(e, "getattrib", getattrib)
+      return e, tail_or_err, head
+   else
+      error("invalid edge declaration")
+   end
 end
 
 --------------------------------------------------------------------------------
@@ -407,20 +409,18 @@ end
 --------------------------------------------------------------------------------
 -- Show graph with dotty
 --------------------------------------------------------------------------------
-local function show(self, doit)
-   doit = doit or true
-   if doit == true then
-      if _GVMINOR > 8 and false then
-	 self:layout()
-	 --	 return self:render("gtk")
-	 --	 return self:render("xlib")
-	 --	 return self:render("dot", "out.dot")
-      else
-	 return self:showdotty(doit)
-      end
+local function show(self, printdot)
+   local printdot = printdot or false
+   self:showdotty(doit)
+   if printdot == true then
+      self.render(nil, "dot", "out.dot")
    end
+   return true
 end
 
+function gvversion()
+   return io.popen('dot -V 2>&1 | cut -d " " -f 5'):read()
+end
 --------------------------------------------------------------------------------
 -- Partially overload C-defined metamethods
 -- Note: keep this function behind the overloading ones
@@ -454,7 +454,7 @@ _overload = overload
 function open(...)
   local arg = {...}
   local name
-  local attr = {graph={}}
+  local attr = {}
   local g
   if type(arg[1]) == "string" then
     -- Syntax 1: graph.open("NAME","directed", {graph={ATTR,..}, edge={ATTR,..}, node={ATTR,..}})
@@ -474,6 +474,7 @@ function open(...)
       end
     end
   end
+  
   -- Create the graph and declare attributes
   g = _open(name, kind)
   g:declare(defattr)
@@ -482,14 +483,6 @@ function open(...)
   -- adjust methods
   overload(g)
 
-  -- set attributes
-  for k,v in pairs(attr) do
-    if type(v) == "table" then
-      g:declare(v)
-    else
-      g:declare{graph={k=v}}
-    end
-  end
   return g
 end
 

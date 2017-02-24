@@ -1,510 +1,1 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
-<head>
-
-  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
-
-
-  <title>LuaGRAPH Reference - Graphs</title>
-  <link media="screen" href="style.css" rel="stylesheet" type="text/css" />
-
-  <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />
-</head>
-
-
-<body>
-
-<div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;" id="logo"><a name="home2" id="home2"></a><a href="http://www.lua.org"><img style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" id="lualogo" alt="www.lua.org" src="luagraph.png" name="lualogo" hspace="20" /></a></div>
-
-<div id="header">
-<h1 style="height: 120px; margin-left: 0px; width: 928px;">
-<big><big><a name="home" id="home"></a><br />
-
-LuaGRAPH - Reference</big></big><br />
-
-Graph Programming with Lua</h1>
-
-</div>
-
-<div id="leftnavigation">
-<ul>
-
-  <li style="margin-left: 0px; width: 185px;"><a class="current" href="index.html">Home</a></li>
-
-  <li><a href="index.html#license">License</a></li>
-
-  <li><a href="index.html#features">Features</a></li>
-
-  <li><a href="index.html#download">Download</a></li>
-
-  <li><a href="index.html#installation">Installation</a></li>
-
-  <li><a href="running.html">MANUAL</a></li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li><a href="running.html">Running&nbsp;</a></li>
-
-      <li><a href="graph.html">Design</a></li>
-
-      <li><a href="#graphs">Graphs</a></li>
-
-      <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-        <ul>
-
-          <li><a href="#functions">Functions</a></li>
-
-        </ul>
-
-        <ul>
-
-          <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-            <ul>
-
-              <li><a href="#graph_read">graph.open</a></li>
-
-              <li><a href="#graph_read">graph.read</a></li>
-
-              <li><a href="#graph_digraph">graph.digraph</a></li>
-
-              <li><a href="#graph_digraph">graph.strictdigraph</a></li>
-
-              <li><a href="#graph_digraph">graph.graph</a></li>
-
-              <li><a href="#graph_digraph">graph.strictgraph</a></li>
-
-              <li><a href="#graph_digraph">graph.subgraph</a></li>
-
-              <li><a href="#graph_cluster">graph.cluster</a></li>
-
-              <li><a href="#graph_node">graph.node</a></li>
-
-              <li><a href="#graph_record">graph.record</a></li>
-
-              <li><a href="#graph_edge">graph.edge</a></li>
-
-            </ul>
-
-          </li>
-
-          <li><a href="graphmeth.html#graph_attributes">Attributes</a></li>
-
-          <li><a href="graphmeth.html#methods">Methods</a></li>
-
-        </ul>
-
-      </li>
-
-      <li><a href="node.html"><span style="font-weight: bold;">Nodes</span></a></li>
-
-      <li><a href="edge.html">Edges</a></li>
-
-    </ul>
-
-  </li>
-
-  <li><a href="examples.html">Examples</a></li>
-
-  <li><a href="index.html#whatsnew">What's New</a></li>
-
-  <li><a href="index.html#credits">Credits</a></li>
-
-  <li><a href="index.html#links">Links</a></li>
-
-  <li><a href="index.html#todo">ToDo</a></li>
-
-</ul>
-
-</div>
-
-<div id="content">
-<h1><a name="graphs" id="graphs"></a>Graphs</h1>
-
-<h3>Creating Graphs</h3>
-
-<p>Graphs are respresented by graph objects. A graph object
-consists of a root graph object and may contain multiple&nbsp;
-subgraphs, nodes and edges between nodes. Any number of graph
-objects may coexist &nbsp;in a single Lua script.&nbsp;</p>
-
-<p>A graph is created by one of three methods:</p>
-
-<ul>
-
-  <li>Create a single graph first via <a href="#graph_open">graph.open()</a> function and then add other objects
-to the created graph using the methods of the objects.</li>
-
-  <li>Read a graph defined in DOT syntax from a file using the
-    <a href="#graph_read">graph.read()</a> function</li>
-
-  <li>Create a single graph using the&nbsp; <a href="#graph_digraph">graph.&lt;type&gt;graph()</a> function defining
-all the elements in the function's parameter table.</li>
-
-</ul>
-
-<p>Each graph holds a set of default properties or attributes for
-subgraphs, nodes and edges. Default properties can be
-overwritten&nbsp;by properties individually set for a specific
-object.&nbsp;</p>
-
-<h3><a name="layout_engines" id="layout_engines"></a>Layout
-Engines</h3>
-
-<p>Once a graph object has been instantiated with&nbsp; attributes
-set, it can be layed out using&nbsp;the graph's method <a href="graphmeth.html#g_layout">g:layout(METHOD)</a> , where METHOD is
-the name of the layout algorithm. The layout algorithm appends
-coordinate attributes to all objects, which can then be used by a
-rendering engine to actually draw the graph. LuaGRAPH supports all
-algorithms provided by the graphviz libraries:&nbsp;</p>
-
-<ul>
-
-  <li style="font-weight: bold;">dot</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>directed&nbsp;graph layout. This is the default algorithm.</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">neato</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>undirected graph layout&nbsp;using spring models</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">fdp</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>undirected graph layout&nbsp;using the spring model</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">circo</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>circular graph layout, where nodes are placed in a circle</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">twopi</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>radial graph layout</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">nop, nop2</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>undirected graph layout like neato, but assumes the graph has
-position attributes attached.</li>
-
-    </ul>
-
-  </li>
-
-</ul>
-
-<h3><a name="rendering_engines" id="rendering_engines"></a>Rendering</h3>
-
-<p>After the layout process the graph is rendered using the graph's
-method <a href="graphmeth.html#g_render">g:render(TYPE [,
-FILE])</a> with TYPE defining the output format which is written to
-the output file&nbsp;FILE or to STDOUT, if the filename is omitted.
-The following output formats are supported:</p>
-
-<pre>luagraph$ lua -l graph -e "table.foreach(graph.OUTPUTFORMATS, print)"<br />
-fig     FIG<br />
-wbmp    Wireless BitMap format<br />
-jpg     JPEG (deprecated - 8 May 2006 - will no longer be supported)<br />
-pcl     Hewlett Packard Printer Control<br />
-svg     Scalable Vector Graphics<br />
-imap    Server-side and client-side imagemaps<br />
-jpeg    JPEG (deprecated - 8 May 2006 - will no longer be supported)<br />
-dot     DOT<br />
-gd2     Graphics Draw 2 format<br />
-cmapx   Server-side and client-side imagemaps<br />
-ismap   Server-side imagemap (deprecated)<br />
-vrml    VRML<br />
-plain-ext       Extended text format<br />
-dia     Dia format<br />
-xdot    extended DOT<br />
-mif     FrameMaker MIF format<br />
-cmap    Client-side imagemap (deprecated)<br />
-svgz    Scalable Vector Graphics<br />
-gd      Graphics Draw format<br />
-ps2     PostScript for PDF<br />
-ps      PostScript<br />
-gif     Graphics Interchage Format<br />
-mp      MetaPost<br />
-vtx     Visual Thought format<br />
-plain   Simple text format<br />
-png     Portable Network Graphics format<br />
-hpgl    Hewlett Packard Graphics Language HP-GL/2<br />
-pic     Autodesk PIC<br />
-<br />
-</pre>
-
-<h2><a name="functions" id="functions"></a>Functions<br />
-</h2>
-
-<h4><a name="graph_open" id="graph_open"></a>g, err =
-graph.open(NAME [, TYPE])</h4>
-
-<p>Creates a graph with name <span style="font-weight: bold;">NAME</span> and of type <span style="font-weight: bold;">TYPE</span>, which takes one of the following
-<span style="font-weight: bold;">string</span> values:</p>
-
-<ul>
-
-  <li>"directed" (default)</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>A directed graph drawn as hierarchy.</li>
-
-    </ul>
-
-  </li>
-
-  <li>"undirected"</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>An undirected graph without any hierarchy.</li>
-
-    </ul>
-
-  </li>
-
-  <li>"strictdirected"</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>A strict directed graph. Multi-edges are silently ignored.</li>
-
-    </ul>
-
-  </li>
-
-  <li>"strictundirected"</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>A strict undirected graph. Multi-edges are silently
-ignored.</li>
-
-    </ul>
-
-  </li>
-
-</ul>
-
-<p>Returns a graph <span style="font-weight: bold;">userdata</span>
-object <span style="font-weight: bold;">g</span> or <span style="font-weight: bold;">nil</span> plus an <span style="font-weight: bold;">error message</span> in case of failures.</p>
-
-<h4><a name="graph_read" id="graph_read"></a>g, objects =
-graph.read(FILENAME [, DOSCAN])</h4>
-
-<p>Reads a file in "DOT" notation of name <span style="font-weight: bold;">FILENAME</span> and creates a graph object
-<span style="font-weight: bold;">g</span>. If the <span style="font-weight: bold;">boolean</span> parameter <span style="font-weight: bold;">DOSCAN</span> is given the function will also
-iterate through subgraphs, nodes and edges in the graph and provide
-corresponding userdata objects in a collection&nbsp;<span style="font-weight: bold;">objects</span>. This collection is a table
-which contains 3 lists for subgraphs, nodes and edges.</p>
-
-<p>If the parameter <span style="font-weight: bold;">DOSCAN</span>
-is omitted, only the graph object&nbsp;and an empty (nil)
-collection are returned.&nbsp;</p>
-
-<p>If an error occurs the function returns nil plus an error
-string.&nbsp;</p>
-
-<h4><a name="graph_digraph" id="graph_digraph"></a>g, err =
-graph.digraph(PARAM)<br />
-
-g, err = graph.strictdigraph(PARAM)<br />
-
-g, err = graph.graph(PARAM)<br />
-
-g, err = graph.strictgraph(PARAM)</h4>
-
-<p>These functions are intended to create a graph containing
-subgraphs, nodes and edges from a single function call, where
-<span style="font-weight: bold;">PARAM</span> is a <span style="font-weight: bold;">table</span> defining graph objects contained
-in the created graph. This allows to describe a graph in&nbsp;form
-of a Lua table.&nbsp;</p>
-
-<p>The name of the graph is either provided as <span style="font-weight: bold;">PARAM[1]</span> or <span style="font-weight: bold;">PARAM.name</span>. All other elements&nbsp;
-with numerical index must contain constructors&nbsp; for the
-creation of either subgraphs, nodes or edges. LuaGRAPH provides the
-functions <a href="graph.html#graph_subgraph">graph.subgraph()</a>,
-<a href="graph.html#graph_cluster">graph.cluster()</a>, <a href="graph.html#graph_node">graph.node()</a>, <a href="graph.html#graph_record">graph.record()</a> and <a href="graph.html#graph_edge">graph.edge()</a> that deliver appropriate
-constructors for these objects.</p>
-
-<p>Any attributes to the graph can&nbsp;given as elements with a
-non-numeric element of the parameter table. Prototype (default)
-values are specified via the table attributes 'graph', 'node' and
-'edge'.</p>
-
-<p>The function returns a <span style="font-weight: bold;">userdata</span> object <span style="font-weight: bold;">g</span> or nil plus an error message in case
-of failures.</p>
-
-<p>Example:</p>
-
-<pre>gr = require "graph"<br />
-<br />
---<br />
--- Formatted printing<br />
---<br />
-local function printf(fmt, ...)<br />
-  print(string.format(fmt, unpack(arg)))<br />
-end<br />
-<br />
---<br />
--- Convenience<br />
---<br />
-local node, edge, subgraph, cluster, digraph, strictdigraph =<br />
-  gr.node, gr.edge, gr.subgraph, gr.cluster, gr.digraph, gr.strictdigraph<br />
-<br />
---<br />
--- The definition of a graph<br />
---<br />
-<span style="color: rgb(0, 0, 153);">local g = strictdigraph{"G",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  compound = "1",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  rankdir = "LR",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  size="6.5,6.5",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  comment = "LuaGraph: exam2.lua",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  cluster{"c1",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">    edge{</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      node{"n1", comment="123"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      node{"n2"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      label = "n1-n2"</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">    },</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  },</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  cluster{"c2",</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">    edge{</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      node{"m1"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      node{"m2"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      node{"m3"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">      label = "m1-m2-m3"</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">    },</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">    edge{"m3", "m1"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  },</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  node{"o1"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  edge{"n1", "m2", ltail="cluster_c1", lhead="cluster_c2", label="comp"},</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">  edge{"n1","o1", "m1", label="nom"}</span><br style="color: rgb(0, 0, 153);" />
-<span style="color: rgb(0, 0, 153);">}</span><br />
-<br />
---<br />
--- Show the graph using dotty<br />
---<br />
-if true then<br />
-  local fn = os.tmpname()..".dot"<br />
-  g:write()<br />
-  g:write(fn)<br />
-  os.execute("dotty "..fn)<br />
-  os.remove(fn)<br />
-end<br />
---<br />
--- Make the layout using 'dot' (default) engine<br />
---<br />
-print("Layout ...")<br />
-g:layout()<br />
-<br />
---<br />
--- Render the graph into postscript format<br />
---<br />
-print("Render ...")<br />
-g:render("ps", "out.ps")<br />
-g:render("gif", "out.gif")<br />
-g:render("svg", "out.svg")<br />
-g:render("png", "out.png")<br />
-<br />
---<br />
--- Close the graph<br />
---<br />
-print("Close ...")<br />
-g:close()<br />
-</pre>
-
-<p>The above example produces the following graph:</p>
-
-<img style="width: 635px; height: 167px;" alt="exam.gif" src="exam2.gif" /><br />
-
-<h4><a name="graph_subgraph" id="graph_subgraph"></a>ctor =
-graph.subgraph(PARAM)</h4>
-
-<p>Returns a constructor for creating a subgraph.&nbsp;&nbsp;</p>
-
-<p>The name of the subgraph is either provided as <span style="font-weight: bold;">PARAM[1]</span> or <span style="font-weight: bold;">PARAM.name</span>. All other elements of
-<span style="font-weight: bold;">PARAM</span> with numerical
-index&nbsp;contain functions for the creation of either subgraphs,
-nodes or edges. LuaGRAPH provides the functions <a href="#graph_subgraph">graph.subgraph()</a>, <a href="#graph_cluster">graph.cluster()</a>, <a href="#graph_node">graph.node()</a>, <a href="#graph_record">graph.record()</a> and <a href="#graph_edge">graph.edge()</a> that deliver appropriate
-constructors for these objects.</p>
-
-<p>Any attributes to the subgraph can be given as elements of the
-parameter table with a non-numeric index.</p>
-
-<h4><a name="graph_cluster" id="graph_cluster"></a>ctor =
-graph.cluster(PARAM)</h4>
-
-<p>Returns a constructor for creating a cluster, which is an
-ordinary subgraph but with the string "cluster_" prepended to the
-given name in the parameter table PARAM. See <a href="#graph_subgraph">graph.subgraph()</a> for details.</p>
-
-<h4><a name="graph_node" id="graph_node"></a>ctor =
-graph.node(PARAM)</h4>
-
-<p>Returns a constructor for creating a node. The parameter table
-has the same format as a graph's node creation method <a href="graphmeth.html#g_node">g.node()</a>.</p>
-
-<h4><a name="graph_record" id="graph_record"></a>ctor =
-graph.record(PARAM)</h4>
-
-<p>Returns a constructor for creating a record. The parameter table
-<span style="font-weight: bold;">PARAM</span> has the same format
-as a graph's record creation method <a href="graphmeth.html#g_record">g:record()</a>.</p>
-
-<h4><a name="graph_edge" id="graph_edge"></a>ctor =
-graph.edge(PARAM)</h4>
-
-<p>Returns a constructor for creating an edge. The parameter table
-<span style="font-weight: bold;">PARAM</span> contains the nodes of
-the edge in its elements with numberical index. The node is
-described by either a node creation constructor <a href="#graph_node">graph.node()</a>, a node object (userdata) or a node
-name (string). The nodes are created on the fly.</p>
-
-</div>
-
-<div id="footer">(c) 2006-2009 Herbert Leuwer, November 2006&nbsp;&nbsp;
-&nbsp;<a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>
-
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en-gb" xml:lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">  <head>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=windows-1252" />    <meta content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org"      name="generator" />    <title>LuaGRAPH Reference - Graphs</title>    <link type="text/css" rel="stylesheet" href="style.css" media="screen" />    <link type="text/css" href="styleprint.css" rel="stylesheet" media="print" />  </head>  <body>    <div id="logo" style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;"><a        id="home2"        name="home2"></a><a        href="http://www.lua.org"><img          hspace="20"          name="lualogo"          src="luagraph.png"          alt="www.lua.org"          id="lualogo"          style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" /></a></div>    <div id="header">      <h1 style="height: 120px; margin-left: 0px; width: 928px;"> <big><big><a              id="home"              name="home"></a><br />            LuaGRAPH - Reference</big></big><br />        Graph Programming with Lua</h1>    </div>    <div id="leftnavigation">      <ul>        <li style="margin-left: 0px; width: 185px;"><a href="index.html" class="current">Home</a></li>        <li><a href="index.html#license">License</a></li>        <li><a href="index.html#features">Features</a></li>        <li><a href="index.html#download">Download</a></li>        <li><a href="index.html#installation">Installation</a></li>        <li><a href="running.html">MANUAL</a></li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li><a href="running.html">Running </a></li>            <li><a href="design.html">Design</a></li>            <li><a href="#graphs">Graphs</a></li>            <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">              <ul>                <li><a href="#functions">Functions</a></li>              </ul>              <ul>                <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">                  <ul>                    <li><a href="#graph_gvversion"><b>graph.gvversion</b></a></li>                    <li><a href="#graph_plugins"><b>graph.plugins</b></a></li>                    <li><a href="#graph_open2">graph.open</a></li>                    <li><a href="#graph_read">graph.read</a></li>                    <li><a href="#graph_digraph">graph.digraph</a></li>                    <li><a href="#graph_digraph">graph.strictdigraph</a></li>                    <li><a href="#graph_digraph">graph.graph</a></li>                    <li><a href="#graph_digraph">graph.strictgraph</a></li>                    <li><a href="#graph_digraph">graph.subgraph</a></li>                    <li><a href="#graph_cluster">graph.cluster</a></li>                    <li><a href="#graph_node">graph.node</a></li>                    <li><a href="#graph_record">graph.record</a></li>                    <li><a href="#graph_edge">graph.edge</a></li>                  </ul>                </li>                <li><a href="graphmeth.html#graph_attributes">Attributes</a></li>                <li><a href="graphmeth.html#methods">Methods</a></li>              </ul>            </li>            <li><a href="node.html"><span style="font-weight: bold;">Nodes</span></a></li>            <li><a href="edge.html">Edges</a></li>          </ul>        </li>        <li><a href="examples.html">Examples</a></li>        <li><a href="index.html#whatsnew">What's New</a></li>        <li><a href="index.html#credits">Credits</a></li>        <li><a href="index.html#links">Links</a></li>        <li><br />        </li>      </ul>    </div>    <div id="content">      <h1><a id="graphs" name="graphs"></a>Graphs</h1>      <h3>Creating Graphs</h3>      <p>Graphs are represented by graph objects. A graph object consists of a        root graph object and may contain multiple  subgraphs, nodes and edges        between nodes. Any number of graph objects may coexist  in a single Lua        script. </p>      <p>A graph is created by one of three methods:</p>      <ul>        <li>Create a single graph first via <a href="#graph_open">graph.open()</a>          function and then add other objects to the created graph using the          methods of the objects.</li>        <li>Read a graph defined in DOT syntax from a file using the <a href="#graph_read">graph.read()</a>          function</li>        <li>Create a single graph using the  <a href="#graph_digraph">graph.&lt;type&gt;graph()</a>          function defining all the elements in the function's parameter table.</li>      </ul>      <p>Each graph holds a set of default properties or attributes for        subgraphs, nodes and edges. Default properties can be overwritten by        properties individually set for a specific object. </p>      <h3><a id="layout_engines" name="layout_engines"></a>Layout Engines</h3>      <p>Once a graph object has been instantiated with  attributes set, it can        be layed out and rendered using the graph's method <a href="graphmeth.html#g_layout">g:layout(LAYOUT_METHOD)</a>        , where LAYOUT METHOD is the name of the layout algorithm. The layout        algorithm appends coordinate attributes to all objects, which can then        be used by a rendering engine to actually draw the graph. LuaGRAPH        supports all algorithms provided by the graphviz libraries: </p>      <ul>        <li style="font-weight: bold;">dot</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>directed graph layout. This is the default algorithm.</li>          </ul>        </li>        <li style="font-weight: bold;">neato</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>undirected graph layout using spring models</li>          </ul>        </li>        <li style="font-weight: bold;">fdp</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>undirected graph layout using the spring model</li>          </ul>        </li>        <li style="font-weight: bold;">circo</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>circular graph layout, where nodes are placed in a circle</li>          </ul>        </li>        <li style="font-weight: bold;">twopi</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>radial graph layout</li>          </ul>        </li>        <li style="font-weight: bold;">nop, nop2</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>undirected graph layout like neato, but assumes the graph has              position attributes attached.</li>          </ul>        </li>      </ul>      <h3><a id="rendering_engines" name="rendering_engines"></a>Rendering</h3>      <p>After the layout process the graph is rendered using the graph's method        <a href="graphmeth.html#g_render">g:render(TYPE [, FILE])</a> with TYPE        defining the output format which is written to the output file FILE or        to STDOUT, if the filename is omitted. The supported set of output        formats depends on the actual graphviz installation and can be        determined by calling graph.plugins(). The following output formats may        be supported:</p>      <pre>$ lua -l graph -e "for _,v in ipairs(graph.OUTPUTFORMATS) do print(v.format, v.descr) end<br /><br />canon	DOT prettydot	DOTxdot	extended DOTcmap	Client-side imagemap (deprecated)dia	Dia formateps	Encapsulated PostScriptfig	FIGgd	Graphics Draw formatgd2	Graphics Draw 2 formatgif	Graphics Interchage Formatgtk	Antialiased image using a GTK 2.0 canvashpgl	Hewlett Packard Graphics Language HP-GL/2ico	Icon Image File Formatimap	Server-side and client-side imagemapsimap_np	Server-side and client-side imagemapscmapx	Server-side and client-side imagemapscmapx_np	Server-side and client-side imagemapsismap	Server-side imagemap (deprecated)jpg	JPEG (deprecated - 8 May 2006 - will no longer be supported)jpeg	JPEG (deprecated - 8 May 2006 - will no longer be supported)mif	FrameMaker MIF formatmp	MetaPostpcl	Hewlett Packard Printer Controlpdf	Portable Document Format (PDF)pic	Autodesk PICplain	Simple text formatplain-ext	Extended text formatpng	Portable Network Graphics formatps	PostScriptps2	PostScript for PDFsvg	Scalable Vector Graphicssvgz	Scalable Vector Graphicsvml	Vector Markup Language (VML)vmlz	Vector Markup Language (VML) - compressedvrml	VRMLvtx	Visual Thought formatwbmp	Wireless BitMap formatxlib	Xlib canvas</pre><h2><a id="functions" name="functions"></a>Functions</h2><h4><b><a name="graph_gvversion"></a>graph.gvversion()</b></h4><p>Shows the installed version of graphviz.</p><pre>$ lua -l graph -e 'print(graph.gvversion())'2.40.1</pre><h4><a id="graph_plugins" name="graph_open"></a>graph.plugins()</h4><p>Prints a list of actual supported render format to stdout.</p><pre>$ lua -l graph -e 'for k,v in pairs(graph.plugins()) do print(k,v) end'1	cairo2	dot3	dot_json4	fig5	gd6	json7	json08	lasi9	map10	mp11	pic12	pov13	ps14	quartz15	svg16	tk17	vml18	vrml19	xdot20	xdot_json</pre><h4><a name="graph_open2"></a>g, err =graph.open(NAME [, TYPE])</h4><p>Creates a graph with name <span style="font-weight: bold;">NAME</span> and of type <spanstyle="font-weight: bold;">TYPE</span>, which takes one of the following<span style="font-weight: bold;">string</span> values:</p><ul>  <li>"directed" (default)</li>  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">    <ul>      <li>A directed graph drawn as hierarchy.</li>    </ul>  </li>  <li>"undirected"</li>  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">    <ul>      <li>An undirected graph without any hierarchy.</li>    </ul>  </li>  <li>"strictdirected"</li>  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">    <ul>      <li>A strict directed graph. Multi-edges are silently ignored.</li>    </ul>  </li>  <li>"strictundirected"</li>  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">    <ul>      <li>A strict undirected graph. Multi-edges are silentlyignored.</li>    </ul>  </li></ul><p>Returns a graph <span style="font-weight: bold;">userdata</span>object <span style="font-weight: bold;">g</span> or <span style="font-weight: bold;">nil</span> plus an <spanstyle="font-weight: bold;">error message</span> in case of failures.</p><h4><a id="graph_read" name="graph_read"></a>g, objects =graph.read(FILENAME [, DOSCAN])</h4><p>Reads a file in "DOT" notation of name <span style="font-weight: bold;">FILENAME</span> and creates a graph object<span style="font-weight: bold;">g</span>. If the <span style="font-weight: bold;">boolean</span> parameter <spanstyle="font-weight: bold;">DOSCAN</span> is given the function will alsoiterate through subgraphs, nodes and edges in the graph and providecorresponding userdata objects in a collection <span style="font-weight: bold;">objects</span>. This collection is a tablewhich contains 3 lists for subgraphs, nodes and edges.</p><p>If the parameter <span style="font-weight: bold;">DOSCAN</span>is omitted, only the graph object and an empty (nil)collection are returned. </p><p>If an error occurs the function returns nil plus an errorstring. </p><h4><a id="graph_digraph" name="graph_digraph"></a>g, err =graph.digraph(PARAM)<br />g, err = graph.strictdigraph(PARAM)<br />g, err = graph.graph(PARAM)<br />g, err = graph.strictgraph(PARAM)</h4><p>These functions are intended to create a graph containingsubgraphs, nodes and edges from a single function call, where<span style="font-weight: bold;">PARAM</span> is a <span style="font-weight: bold;">table</span> defining graph objects containedin the created graph. This allows to describe a graph in formof a Lua table. </p><p>The name of the graph is either provided as <span style="font-weight: bold;">PARAM[1]</span> or <spanstyle="font-weight: bold;">PARAM.name</span>. All other elements with numerical index must contain constructors  for thecreation of either subgraphs, nodes or edges. LuaGRAPH provides thefunctions <a href="graph.html#graph_subgraph">graph.subgraph()</a>,<a href="graph.html#graph_cluster">graph.cluster()</a>, <a href="graph.html#graph_node">graph.node()</a>, <ahref="graph.html#graph_record">graph.record()</a> and <ahref="graph.html#graph_edge">graph.edge()</a> that deliver appropriateconstructors for these objects.</p><p>Any attributes to the graph can given as elements with anon-numeric element of the parameter table. Prototype (default)values are specified via the table attributes 'graph', 'node' and'edge'.</p><p>The function returns a <span style="font-weight: bold;">userdata</span> object <spanstyle="font-weight: bold;">g</span> or nil plus an error message in caseof failures.</p><p>Example:</p><pre>gr = require "graph"---- Formatted printing--local function printf(fmt, ...)  print(string.format(fmt, ...))end---- Convenience--local node, edge, subgraph, cluster, digraph, strictdigraph =  gr.node, gr.edge, gr.subgraph, gr.cluster, gr.digraph, gr.strictdigraph---- The definition of a graph--local g = strictdigraph{"G",  compound = "1",  rankdir = "LR",  size="6.5,6.5",  comment = "LuaGraph: exam2.lua",  cluster{"c1",    edge{      node{"n1", comment="123"},      node{"n2"},      label = "n1-n2"    },  },  cluster{"c2",    edge{      node{"m1"},      node{"m2"},      node{"m3"},      label = "m1-m2-m3"    },    edge{"m3", "m1"},  },  node{"o1"},  edge{"n1", "m2", ltail="cluster_c1", lhead="cluster_c2", label="comp"},  edge{"n1","o1", "m1", label="nom"}}---- Render the graph into postscript format--print("Render ...")g:layout("dot")g:render("ps", "out.ps")g:render("gif", "out.gif")g:render("svg", "out.svg")g:render("png", "out.png")g:freelayout()---- Show the graph--g:show()---- Close the graph--print("Close ...")g:close()</pre><p>The above example produces the following graph:</p><img src="exam2.gif" alt="exam.gif" style="width: 635px; height: 167px;" /><br /><h4><a id="graph_subgraph" name="graph_subgraph"></a>ctor =graph.subgraph(PARAM)</h4><p>Returns a constructor for creating a subgraph.  </p><p>The name of the subgraph is either provided as <span style="font-weight: bold;">PARAM[1]</span> or <spanstyle="font-weight: bold;">PARAM.name</span>. All other elements of<span style="font-weight: bold;">PARAM</span> with numericalindex contain functions for the creation of either subgraphs,nodes or edges. LuaGRAPH provides the functions <a href="#graph_subgraph">graph.subgraph()</a>, <ahref="#graph_cluster">graph.cluster()</a>, <ahref="#graph_node">graph.node()</a>, <ahref="#graph_record">graph.record()</a> and <ahref="#graph_edge">graph.edge()</a> that deliver appropriateconstructors for these objects.</p><p>Any attributes to the subgraph can be given as elements of theparameter table with a non-numeric index.</p><h4><a id="graph_cluster" name="graph_cluster"></a>ctor =graph.cluster(PARAM)</h4><p>Returns a constructor for creating a cluster, which is anordinary subgraph but with the string "cluster_" prepended to thegiven name in the parameter table PARAM. See <a href="#graph_subgraph">graph.subgraph()</a> for details.</p><h4><a id="graph_node" name="graph_node"></a>ctor =graph.node(PARAM)</h4><p>Returns a constructor for creating a node. The parameter tablehas the same format as a graph's node creation method <a href="graphmeth.html#g_node">g.node()</a>.</p><h4><a id="graph_record" name="graph_record"></a>ctor =graph.record(PARAM)</h4><p>Returns a constructor for creating a record. The parameter table<span style="font-weight: bold;">PARAM</span> has the same formatas a graph's record creation method <a href="graphmeth.html#g_record">g:record()</a>.</p><h4><a id="graph_edge" name="graph_edge"></a>ctor =graph.edge(PARAM)</h4><p>Returns a constructor for creating an edge. The parameter table<span style="font-weight: bold;">PARAM</span> contains the nodes ofthe edge in its elements with numberical index. The node isdescribed by either a node creation constructor <a href="#graph_node">graph.node()</a>, a node object (userdata) or a nodename (string). The nodes are created on the fly.</p></div><div id="footer">(c) 2006-2017 Herbert Leuwer, November 2006   <a href="mailto:herbert.leuwer@t-online.de">Contact</a></div></body></html>

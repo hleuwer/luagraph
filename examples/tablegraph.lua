@@ -36,7 +36,6 @@ end
 
 -- Retrun a graph representing a nested table structure
 local function tgraph(t)
-   print("Creating graph 'GG' ...")
    local g = m.open("GG")
    g.rankdir="LR"
    tnode(g, t)
@@ -112,6 +111,7 @@ while not ende do
 	 local g = tgraph(et[tonumber(s)])
 	 print("Close the display window completely to continue.")
 	 g:show()
+	 g:render("png", "out.png", "dot")
 	 g:close()
       else
 	 print("Selected item is NIL - cannot produce graph")

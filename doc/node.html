@@ -1,340 +1,1 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
-<head>
-
-  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
-
-
-  <title>LuaGRAPH Reference - Nodes</title>
-  <link media="screen" href="style.css" rel="stylesheet" type="text/css" />
-
-  <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />
-</head>
-
-
-<body>
-
-<div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;" id="logo"><a name="home2" id="home2"></a><a href="http://www.lua.org"><img style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" id="lualogo" alt="www.lua.org" src="luagraph.png" name="lualogo" hspace="20" /></a></div>
-
-<div id="header">
-<h1 style="height: 120px; margin-left: 0px; width: 928px;">
-<big><big><a name="home" id="home"></a><br />
-
-LuaGRAPH - Reference</big></big><br />
-
-Graph Programming with Lua</h1>
-
-</div>
-
-<div id="leftnavigation">
-<ul>
-
-  <li style="margin-left: 0px; width: 185px;"><a class="current" href="index.html">Home</a></li>
-
-  <li><a href="index.html#license">License</a></li>
-
-  <li><a href="index.html#features">Features</a></li>
-
-  <li><a href="index.html#download">Download</a></li>
-
-  <li><a href="index.html#installation">Installation</a></li>
-
-  <li><a href="running.html">MANUAL</a></li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li><a href="running.html">Running&nbsp;</a></li>
-
-      <li><a href="graph.html">Design</a></li>
-
-      <li><a href="graph.html">Graphs</a></li>
-
-      <li><a href="#nodes"><span style="font-weight: bold;">Nodes</span></a></li>
-
-      <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-        <ul>
-
-          <li><a href="#attributes"><span style="font-weight: bold;">Attributes</span></a></li>
-
-          <li><a href="#methods"><span style="font-weight: bold;">Methods</span></a></li>
-
-          <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-            <ul>
-
-              <li><a href="#data_types"><span style="font-weight: bold;">n.degree</span></a></li>
-
-              <li><a href="#data_types"><span style="font-weight: bold;">n.delete</span></a></li>
-
-              <li><a href="#n_edge"><span style="font-weight: bold;">n.edge</span></a></li>
-
-              <li><a href="#n_nextedge"><span style="font-weight: bold;">n.nextedge</span></a></li>
-
-              <li><a href="#n_nextedge"><span style="font-weight: bold;">n.nextinput</span></a></li>
-
-              <li><a href="#n_nextedge"><span style="font-weight: bold;">n.nextoutput</span></a></li>
-
-              <li><a href="#n_rawget"><span style="font-weight: bold;">n.rawget</span></a></li>
-
-              <li><a href="#type"><span style="font-weight: bold;">n.type</span></a></li>
-
-              <li><a href="#n_walkedges"><span style="font-weight: bold;">n.walkedges</span></a></li>
-
-              <li><a href="#n_walkedges"><span style="font-weight: bold;">n.walkinputs</span></a></li>
-
-              <li><a href="#n_walkedges"><span style="font-weight: bold;">n.walkoutputs</span></a></li>
-
-            </ul>
-
-          </li>
-
-        </ul>
-
-        <ul>
-
-          <li><a href="#Node_Metamethods">Metamethods</a></li>
-
-        </ul>
-
-      </li>
-
-      <li><a href="edge.html">Edges</a></li>
-
-      <li><a href="examples.html">Examples</a></li>
-
-    </ul>
-
-  </li>
-
-  <li><a href="index.html#whatsnew">What's New</a></li>
-
-  <li><a href="index.html#credits">Credits</a></li>
-
-  <li><a href="index.html#links">Links</a></li>
-
-  <li><a href="index.html#todo">ToDo</a></li>
-
-</ul>
-
-</div>
-
-<div id="content">
-<h1><a name="nodes" id="nodes"></a>Nodes<br />
-</h1>
-
-<h2><a name="attributes" id="attributes"></a>Node Attributes</h2>
-
-<p>Attributes required for graph layout and graph rendering are
-always stored as key value pairs in the form: g[key] or g.key, Only
-strings are allowed as keys. Any&nbsp;number of user defined string
-attributes, which are not necessarily&nbsp;used by the graphviz
-library can be set.</p>
-
-<p>With it's creation each node receives&nbsp; one of the following
-read-only attributes.</p>
-
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
-
-  <tbody>
-
-    <tr>
-
-      <td style="width: 153px; font-weight: bold;">Attribute Key</td>
-
-      <td style="width: 141px; font-weight: bold;">Value Type</td>
-
-      <td style="width: 229px; font-weight: bold;">Description</td>
-
-      <td style="width: 119px; font-weight: bold;">Notes</td>
-
-    </tr>
-
-    <tr>
-
-      <td>graph</td>
-
-      <td>graph userdata</td>
-
-      <td>Graph to which the given node belongs</td>
-
-      <td></td>
-
-    </tr>
-
-    <tr>
-
-      <td>id</td>
-
-      <td>number</td>
-
-      <td>Graphviz internal unique id for a node.</td>
-
-      <td></td>
-
-    </tr>
-
-    <tr>
-
-      <td>name</td>
-
-      <td>string</td>
-
-      <td>Name of the node.<br />
-      </td>
-
-      <td></td>
-
-    </tr>
-
-  </tbody>
-</table>
-
-<h2><a name="methods" id="methods"></a>Node Methods<br />
-</h2>
-
-<h4><a name="n_degree" id="n_degree"></a>result =
-n:degree(WHAT)</h4>
-
-<p>Returns the number of input edges to the node if the string
-parameter <span style="font-weight: bold;">WHAT</span> is set to
-"*i". If <span style="font-weight: bold;">WHAT</span> is set to
-"*o" the function returns the number of output edges. Finally if
-<span style="font-weight: bold;">WHAT</span> is set to "*a", the
-function returns the sum of input and output edges.</p>
-
-<h4><a name="n_delete" id="n_delete"></a>result = n:delete()</h4>
-
-<p style="margin-left: 120px;">Deletes the given node. All edges
-associated with this node are&nbsp; also&nbsp; deleted. Lua
-userdata objects associated with the graphviz objects, are
-invalidated and eventually deleted during garbage collection. Any
-attempt to access the node will result in a runtime error.</p>
-
-<p>The function returns a non-nil value on success.</p>
-
-<h4><a name="n_edge" id="n_edge"></a>e, tail, head =
-n:edge(HEAD&nbsp;[, LABEL [, NOCREATE]])</h4>
-
-<p>Retrieves or creates an&nbsp;edge between two nodes.
-The&nbsp;given node <span style="font-weight: bold;">n</span> is
-assumed as the <span style="font-weight: bold;">TAIL</span> of the
-edge. The <span style="font-weight: bold;">HEAD</span> of the edge
-is given as parameter either as node userdsata or by the node's
-name.The edge can be defined more precisely with the string
-parameter <span style="font-weight: bold;">LABEL</span>.&nbsp;</p>
-
-<p>Creation of the edge can be suppressed by passing true for the
-parameter <span style="font-weight: bold;">NOCREATE</span>.</p>
-
-<p>The function returns an edge userdata object together with the
-edge's tail and head node. It returns nil plus an error message in
-case of failures.</p>
-
-<h4><a name="n_nextedge" id="n_nextedge"></a>e =
-n:nextedge(LAST)<br />
-
-e = n:nextinput(LAST)<br />
-
-e = n:nextoutput(LAST)</h4>
-
-<p>These iterator functions&nbsp; retrieve the next edge of the
-given node <span style="font-weight: bold;">n</span> depending on
-the parameter <span style="font-weight: bold;">LAST</span>, which
-must be an edge userdata object. If <span style="font-weight: bold;">LAST</span> is nil the first edge is returned.
-If no more edges can be found the functions return nil.</p>
-
-<p>The function nextedge() returns any edge, while the functions
-nextinput() and nexoutput() return either an input or an output
-edge.</p>
-
-<p>All iterators return nil if no edge could be found.</p>
-
-<h4><a name="n_rawget" id="n_rawget"></a>result =
-n:rawget(KEY)</h4>
-
-<p>Retrieves an attributes from a node object n without using Lua
-metamethods. Attributes are always returned as strings.</p>
-
-<p>The function returns nil if there is no attribute with&nbsp;
-<span style="font-weight: bold;">KEY</span> could be found.</p>
-
-<h4><a name="type" id="type"></a>result = n:type()</h4>
-
-<p>See <a href="graphmeth.html#g_type">g:type().</a></p>
-
-<h4><a name="n_walkedges" id="n_walkedges"></a>iterfunc, n, nil =
-n:walkedges()<br />
-
-iterfunc, n, nil = n:walkinputs()<br />
-
-iterfunc, n, nil = n:walkoutputs()</h4>
-
-<p>These iterator functions return an edge, an input edge or an
-output edge of the given node <span style="font-weight: bold;">n</span> each time they are&nbsp;called. In
-fact they return the following triple:&nbsp;nextedge(), n, nil for
-usage in Lua's generic "for loop".</p>
-
-<p>If no more edges can be found the functions return nil.</p>
-
-<p>Example - Iterate over all edges of all nodes in a graph g.</p>
-
-<pre>for n in g:walknodes() do<br />
-  for e in n:walkedges() do<br />
-    print(e.label)<br />
-  end<br />
-end
-</pre>
-
-<h2><a name="Node_Metamethods" id="Node_Metamethods"></a>Node
-Metamethods</h2>
-
-<p style="font-weight: bold;">Comparison:
-&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
-<p style="font-weight: bold; margin-left: 40px;">n1 == n2</p>
-
-<p>Nodes can be compared using the ==&nbsp;operator. The comparison
-returns true if the nodes are identical (have equal attributes id).
-It returns false otherwise.&nbsp;</p>
-
-<p style="font-weight: bold;">Concatenation: &nbsp;&nbsp;&nbsp;
-&nbsp;</p>
-
-<p style="font-weight: bold; margin-left: 40px;">e = n1 .. n2</p>
-
-<p style="font-weight: bold;">Addition:</p>
-
-<p style="font-weight: bold; margin-left: 40px;">e = n1 + n2</p>
-
-<p>Both operators create an edge. The edge does not receive a label
-and the name of the edge is automatically assigned to
-"edge@&lt;id&gt;".</p>
-
-<p>Example:</p>
-
-<pre>goofy:luagraph$ lua -l graph -i<br />
-&gt; g=graph.open("g")<br />
-&gt; n1=g:node("n1")<br />
-&gt; n2=g:node("n2")<br />
-&gt; e1=n1+n2<br />
-&gt; =e1<br />
-userdata: 0x8070628<br />
-&gt; =e1.name<br />
-edge@1<br />
-&gt; =e1.label<br />
-nil<br />
-&gt; e2=n1..n2<br />
-&gt; =e2<br />
-userdata: 0x8070628<br />
-&gt; =e2.name<br />
-edge@1<br />
-&gt; =e1==e2<br />
-true
-</pre>
-</div>
-
-<div id="footer">(c) 2006-2009 Herbert Leuwer, November 2006&nbsp;&nbsp;
-&nbsp;<a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>
-
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb">  <head>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=windows-1252" />    <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />    <title>LuaGRAPH Reference - Nodes</title>    <link media="screen" href="style.css" rel="stylesheet" type="text/css" />    <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />  </head>  <body>    <div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;"      id="logo"><a        name="home2"        id="home2"></a><a        href="http://www.lua.org"><img          hspace="20"          style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;"          id="lualogo"          alt="www.lua.org"          src="luagraph.png"          name="lualogo" /></a></div>    <div id="header">      <h1 style="height: 120px; margin-left: 0px; width: 928px;"> <big><big><a              name="home"              id="home"><br />              LuaGRAPH - Reference</a></big></big><a name="home" id="home"><br />          Graph Programming with Lua</a></h1>      <a name="home" id="home"> </a></div>    <div id="leftnavigation">      <ul>        <li style="margin-left: 0px; width: 185px;"><a name="home" id="home"></a><a            class="current"            href="index.html">Home</a></li>        <li><a href="index.html#license">License</a></li>        <li><a href="index.html#features">Features</a></li>        <li><a href="index.html#download">Download</a></li>        <li><a href="index.html#installation">Installation</a></li>        <li><a href="running.html">MANUAL</a></li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li><a href="running.html">Running </a></li>            <li><a href="graph.html">Design</a></li>            <li><a href="graph.html">Graphs</a></li>            <li><a href="#nodes"><span style="font-weight: bold;">Nodes</span></a></li>            <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">              <ul>                <li><a href="#attributes"><span style="font-weight: bold;">Attributes</span></a></li>                <li><a href="#methods"><span style="font-weight: bold;">Methods</span></a></li>                <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">                  <ul>                    <li><a href="#data_types"><span style="font-weight: bold;">n.degree</span></a></li>                    <li><a href="#data_types"><span style="font-weight: bold;">n.delete</span></a></li>                    <li><a href="#n_edge"><span style="font-weight: bold;">n.edge</span></a></li>                    <li><a href="#n_nextedge"><span style="font-weight: bold;">n.nextedge</span></a></li>                    <li><a href="#n_nextedge"><span style="font-weight: bold;">n.nextinput</span></a></li>                    <li><a href="#n_nextedge"><span style="font-weight: bold;">n.nextoutput</span></a></li>                    <li><a href="#n_rawget"><span style="font-weight: bold;">n.rawget</span></a></li>                    <li><a href="#type"><span style="font-weight: bold;">n.type</span></a></li>                    <li><a href="#n_walkedges"><span style="font-weight: bold;">n.walkedges</span></a></li>                    <li><a href="#n_walkedges"><span style="font-weight: bold;">n.walkinputs</span></a></li>                    <li><a href="#n_walkedges"><span style="font-weight: bold;">n.walkoutputs</span></a></li>                  </ul>                </li>              </ul>              <ul>                <li><a href="#Node_Metamethods">Metamethods</a></li>              </ul>            </li>            <li><a href="edge.html">Edges</a></li>            <li><a href="examples.html">Examples</a></li>          </ul>        </li>        <li><a href="index.html#whatsnew">What's New</a></li>        <li><a href="index.html#credits">Credits</a></li>        <li><a href="index.html#links">Links</a></li>        <li><br />        </li>      </ul>    </div>    <div id="content">      <h1><a name="nodes" id="nodes">Nodes</a></h1>      <h2><a name="nodes" id="nodes"></a>Node Attributes</h2>      <p>Attributes required for graph layout and graph rendering are always        stored as key value pairs in the form: g[key] or g.key, Only strings are        allowed as keys. Any number of user defined string attributes, which are        not necessarily used by the graphviz library can be set.</p>      <p>With it's creation each node receives  one of the following read-only        attributes.</p>      <table cellspacing="2" cellpadding="2" border="1" style="text-align: left; width: 100%;">        <tbody>          <tr>            <td style="width: 153px; font-weight: bold;">Attribute Key</td>            <td style="width: 141px; font-weight: bold;">Value Type</td>            <td style="width: 229px; font-weight: bold;">Description</td>            <td style="width: 119px; font-weight: bold;">Notes</td>          </tr>          <tr>            <td>graph</td>            <td>graph userdata</td>            <td>Graph to which the given node belongs</td>            <td><br />            </td>          </tr>          <tr>            <td>id</td>            <td>number</td>            <td>Graphviz internal unique id for a node.</td>            <td><br />            </td>          </tr>          <tr>            <td>name</td>            <td>string</td>            <td>Name of the node.<br />            </td>            <td><br />            </td>          </tr>        </tbody>      </table>      <h2><a name="#methods"></a>Node Methods<br />      </h2>      <h4><a name="n_degree" id="n_degree">result = n:degree(WHAT)</a></h4>      <p>Returns the number of input edges to the node if the string parameter <span          style="font-weight: bold;">WHAT</span>        is set to "*i". If <span style="font-weight: bold;">WHAT</span> is set        to "*o" the function returns the number of output edges. Finally if <span          style="font-weight: bold;">WHAT</span>        is set to "*a", the function returns the sum of input and output edges.</p>      <h4><a name="n_delete" id="n_delete">result = n:delete()</a></h4>      <p>Deletes the given node. All edges associated with this node are  also         deleted. Lua userdata objects associated with the graphviz objects, are        invalidated and eventually deleted during garbage collection. Any        attempt to access the node will result in a runtime error.</p>      <p>The function returns a non-nil value on success.</p>      <h4><a name="n_edge" id="n_edge">e, tail, head = n:edge(HEAD [, LABEL [,          NOCREATE]])</a></h4>      <p>Retrieves or creates an edge between two nodes. The given node <span style="font-weight: bold;">n</span>        is assumed as the <span style="font-weight: bold;">TAIL</span> of the        edge. The <span style="font-weight: bold;">HEAD</span> of the edge is        given as parameter either as node userdsata or by the node's name.The        edge can be defined more precisely with the string parameter <span style="font-weight: bold;">LABEL</span>. </p>      <p>Creation of the edge can be suppressed by passing true for the        parameter <span style="font-weight: bold;">NOCREATE</span>.</p>      <p>The function returns an edge userdata object together with the edge's        tail and head node. It returns nil plus an error message in case of        failures.</p>      <h4><a name="n_nextedge" id="n_nextedge">e = n:nextedge(LAST)<br />          e = n:nextinput(LAST)<br />          e = n:nextoutput(LAST)</a></h4>      <p>These iterator functions  retrieve the next edge of the given node <span          style="font-weight: bold;">n</span>        depending on the parameter <span style="font-weight: bold;">LAST</span>,        which must be an edge userdata object. If <span style="font-weight: bold;">LAST</span>        is nil the first edge is returned. If no more edges can be found the        functions return nil.</p>      <p>The function nextedge() returns any edge, while the functions        nextinput() and nexoutput() return either an input or an output edge.</p>      <p>All iterators return nil if no edge could be found.</p>      <h4><a name="n_rawget" id="n_rawget">result = n:rawget(KEY)</a></h4>      <p>Retrieves an attributes from a node object n without using Lua        metamethods. Attributes are always returned as strings.</p>      <p>The function returns nil if there is no attribute with  <span style="font-weight: bold;">KEY</span>        could be found.</p>      <h4><a name="type" id="type">result = n:type()</a></h4>      <p>See <a href="graphmeth.html#g_type">g:type().</a></p>      <h4><a name="n_walkedges" id="n_walkedges">iterfunc, n, nil =          n:walkedges()<br />          iterfunc, n, nil = n:walkinputs()<br />          iterfunc, n, nil = n:walkoutputs()</a></h4>      <p>These iterator functions return an edge, an input edge or an output        edge of the given node <span style="font-weight: bold;">n</span> each        time they are called. In fact they return the following        triple: nextedge(), n, nil for usage in Lua's generic "for loop".</p>      <p>If no more edges can be found the functions return nil.</p>      <p>Example - Iterate over all edges of all nodes in a graph g.</p>      <pre>for n in g:walknodes() do  for e in n:walkedges() do    print(e.label)  endend</pre>      <h2><a name="Node_Metamethods" id="Node_Metamethods">Node Metamethods</a></h2>      <p style="font-weight: bold;">Comparison:     </p>      <p style="font-weight: bold; margin-left: 40px;">n1 == n2</p>      <p>Nodes can be compared using the == operator. The comparison returns        true if the nodes are identical (have equal attributes id). It returns        false otherwise. </p>      <p style="font-weight: bold;">Concatenation:      </p>      <p style="font-weight: bold; margin-left: 40px;">e = n1 .. n2</p>      <p style="font-weight: bold;">Addition:</p>      <p style="font-weight: bold; margin-left: 40px;">e = n1 + n2</p>      <p>Both operators create an edge. The edge does not receive a label and        the name of the edge is automatically assigned to "edge@&lt;id&gt;".</p>      <p>Example:</p>      <pre>$ lua -l graph -iLua 5.2.4  Copyright (C) 1994-2015 Lua.org, PUC-Rio&gt; g=graph.open("g")&gt; =ggraph: 0x7f95995003c8 (alive)&gt; n1=g:node("n1")&gt; n2=g:node"n2"&gt; =n1node: 0x7f95994004f8 (alive)&gt; =n2node: 0x7f959951f208 (alive)&gt; e1=n1+n2&gt; =e1edge: 0x7f959951fb48 (alive)&gt; =e1.nameedge@1&gt; e2=n1..n2&gt; =e2edge: 0x7f9599700348 (alive)&gt; =e2.nameedge@1&gt; =e1==e2true</pre> </div>    <a name="Node_Metamethods" id="Node_Metamethods"> </a>    <div id="footer"><a name="Node_Metamethods" id="Node_Metamethods">(c)        2006-2017 Herbert Leuwer, November 2006    </a><a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>  </body></html>

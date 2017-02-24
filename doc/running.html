@@ -1,163 +1,2 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
-<head>
-
-  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
-
-
-  <title>LuaGRAPH - Running</title>
-  <link media="screen" href="style.css" rel="stylesheet" type="text/css" />
-
-  <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />
-</head>
-
-
-<body>
-
-<div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;" id="logo"><a name="home2" id="home2"></a><a href="http://www.lua.org"><img style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" id="lualogo" alt="www.lua.org" src="luagraph.png" name="lualogo" hspace="20" /></a></div>
-
-<div id="header">
-<h1 style="height: 120px; margin-left: 0px; width: 928px;">
-<big><big><a name="home" id="home"></a><br />
-
-LuaGRAPH - Reference</big></big><br />
-
-GRAPH Programming&nbsp;with Lua</h1>
-
-</div>
-
-<div id="leftnavigation">
-<ul>
-
-  <li style="margin-left: 0px; width: 185px;"><a class="current" href="index.html">Home</a></li>
-
-  <li><a href="index.html#license">License</a></li>
-
-  <li><a href="index.html#features">Features</a></li>
-
-  <li><a href="index.html#downloads">Download</a></li>
-
-  <li><a href="index.html#installation">Installation</a></li>
-
-  <li><a href="running.html">MANUAL</a></li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li><a href="#running">Running</a></li>
-
-      <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-        <ul>
-
-          <li><a href="#loadbin">LuaGRAPH scripts</a></li>
-
-          <li><a href="#loading_graph">Loading module</a></li>
-
-        </ul>
-
-      </li>
-
-      <li><a href="graph.html">Design</a></li>
-
-      <li><a href="graph.html">Graphs</a></li>
-
-      <li><a href="objects.html#data_types">Nodes</a></li>
-
-      <li><a href="objects.html#varbinds">Edges</a></li>
-
-      <li><a href="examples.html">Examples</a></li>
-
-    </ul>
-
-  </li>
-
-  <li><a href="index.html#whatsnew">What's New</a></li>
-
-  <li><a href="index.html#credits">Credits</a></li>
-
-  <li><a href="index.html#links">Links</a></li>
-
-  <li><a href="index.html#todo">ToDo</a></li>
-
-</ul>
-
-</div>
-
-<div id="content">
-<h1><a name="running" id="running"></a>Running LuaGRAPH</h1>
-
-<h5>&nbsp;<span style="font-weight: bold;"><a name="loadbin" id="loadbin"></a>LuaGRAPH scripts</span></h5>
-
-<p>LuaGRAPH scripts are standard Lua scripts and may utilise all
-the features provided by Lua and it's companion libraries. You
-start a LuaGRAPH script simply from the command line:</p>
-
-<pre>$ lua SCRIPTFILE<br /></pre>
-
-<p>However, in order to make use of LuaGRAPH it must be loaded into
-the Lua universe. This can be done by using Lua's -l commandline
-option:</p>
-
-<pre>$ lua -l graph -l OTHER SCRIPTFILE<br /></pre>
-
-<p>or using the Lua <span style="font-weight: bold;">require</span>
-function.</p>
-
-<p>This line starts the Lua interpreter and loads LuaGRAPH and
-other modules specified via the -l command line option before the
-user script SCRIPTFILE is loaded and executed.</p>
-
-<p style="font-weight: bold;"><span style="font-weight: normal;">The user script has now access to all the
-LuaGRAPH definitions via the global table&nbsp;<span style="font-weight: bold; font-style: italic;">graph.</span></span></p>
-
-<p style="font-weight: bold;"><span style="font-weight: normal;">You can also specify lua as the interpreter
-to use inside the Lua script, which then allows you to directly
-execute the script.</span></p>
-
-<pre>#!/usr/bin/env lua<br />
-...
-</pre>
-
-<p style="font-weight: bold;"><span style="font-weight: normal;">Note, that this line is NOT standard Lua
-code and must only appear in the first line of your
-script.</span></p>
-
-<h5><a name="loading_graph" id="loading_graph"></a>Loading module
-"graph"</h5>
-
-<p>A more flexible way is to load the&nbsp; LuaGRAPH library from
-within your Lua script:</p>
-
-<pre>...<br />
--- Load the LuaGRAPH module<br />
-require "graph" <br />
-...
-</pre>
-
-<p>This&nbsp;loads all definitions provided by LuaGRAPH into the
-new global namespace <span style="font-weight: bold; font-style: italic;">graph</span>.</p>
-
-<p>Since the namespaces are accessed frequently, it&nbsp;is
-recommended to access LuaGRAPH definitions using a&nbsp;local
-reference&nbsp;to the&nbsp;namespace. It also allows you to rename
-the namespace.</p>
-
-<pre>-- Load the LuaGRAPH module <br />
-local graph = require "graph"<br />
-</pre>
-
-<p>In the case the user defined Lua code is distributed among
-different script files, it is always possible to set such local
-references:</p>
-
-<pre>-- Since graph is a symbol in the global Lua namespace the <br />
--- following code is always valid: <br />
-local graph = graph
-</pre>
-</div>
-
-<div id="footer">(c) 2006-2009 Herbert Leuwer, November 2006&nbsp;&nbsp;
-&nbsp;<a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>
-
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en-gb" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb">  <head>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=windows-1252" />    <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />    <title>LuaGRAPH - Running</title>    <link media="screen" href="style.css" rel="stylesheet" type="text/css" />    <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />  </head>  <body>    <div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;"      id="logo"><a        href="http://www.lua.org"><img          hspace="20"          style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;"          id="lualogo"          alt="www.lua.org"          src="luagraph.png"          name="lualogo" /></a></div>    <div id="header">      <h1 style="height: 120px; margin-left: 0px; width: 928px;"> <big><big><a              name="home"              id="home"><br />              LuaGRAPH - Reference</a></big></big><a name="home" id="home"><br />          GRAPH Programming with Lua</a></h1>    </div>    <div id="leftnavigation">      <ul>        <li style="margin-left: 0px; width: 185px;"><a name="home" id="home"></a><a            class="current"            href="index.html">Home</a></li>        <li><a href="index.html#license">License</a></li>        <li><a href="index.html#features">Features</a></li>        <li><a href="index.html#downloads">Download</a></li>        <li><a href="index.html#installation">Installation</a></li>        <li><a href="running.html">MANUAL</a></li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li><a href="#running">Running</a></li>            <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">              <ul>                <li><a href="#loadbin">LuaGRAPH scripts</a></li>                <li><a href="#loading_graph">Loading module</a></li>              </ul>            </li>            <li><a href="graph.html">Design</a></li>            <li><a href="graph.html">Graphs</a></li>            <li><a href="file:///Users/leuwer/git/luagraph.git/doc/node.html">Nodes</a></li>            <li><a href="file:///Users/leuwer/git/luagraph.git/doc/edge.html">Edges</a></li>            <li><a href="examples.html">Examples</a></li>          </ul>        </li>        <li><a href="index.html#whatsnew">What's New</a></li>        <li><a href="index.html#credits">Credits</a></li>        <li><a href="index.html#links">Links</a></li>        <li><br />        </li>      </ul>    </div>    <div id="content">      <h1><a name="running" id="running">Running LuaGRAPH</a></h1>      <h5><a name="running" id="running"> <span style="font-weight: bold;"></span></a>LuaGRAPH
+        scripts</h5>      <p>LuaGRAPH scripts are standard Lua scripts and may utilise all the        features provided by Lua and it's companion libraries. You start a        LuaGRAPH script simply from the command line:</p>      <pre>$ lua SCRIPTFILE</pre>      <p>However, in order to make use of LuaGRAPH it must be loaded into the        Lua universe. This can be done by using Lua's -l commandline option:</p>      <pre>$ lua -l graph -l OTHER SCRIPTFILE</pre>      <p>or using the Lua <span style="font-weight: bold;">require</span>        function.</p>      <p>This line starts the Lua interpreter and loads LuaGRAPH and other        modules specified via the -l command line option before the user script        SCRIPTFILE is loaded and executed.</p>      <p style="font-weight: bold;"><span style="font-weight: normal;">The user          script has now access to all the LuaGRAPH definitions via the global          table <span style="font-weight: bold; font-style: italic;">graph.</span></span></p>      <p style="font-weight: bold;"><span style="font-weight: normal;">You can          also specify lua as the interpreter to use inside the Lua script,          which then allows you to directly execute the script.</span></p>      <pre>#!/usr/bin/env lua...</pre>      <p style="font-weight: bold;"><span style="font-weight: normal;">Note,          that this line is NOT standard Lua code and must only appear in the          first line of your script.</span></p>      <h5><a name="loading_graph" id="loading_graph">Loading module "graph"</a></h5>      <p>A more flexible way is to load the  LuaGRAPH library from within your        Lua script:</p>      <pre>...-- Load the LuaGRAPH modulerequire "graph" ...</pre>      <p>This loads all definitions provided by LuaGRAPH into the new global        namespace <span style="font-weight: bold; font-style: italic;">graph</span>.</p>      <p>Since the namespaces are accessed frequently, it is recommended to        access LuaGRAPH definitions using a local reference to the namespace. It        also allows you to rename the namespace.</p>      <pre>-- Load the LuaGRAPH module local graph = require "graph"</pre>      <p>In the case the user defined Lua code is distributed among different        script files, it is always possible to set such local references:</p>      <pre>-- Since graph is a symbol in the global Lua namespace the -- following code is always valid: local graph = graph</pre> </div>    <div id="footer"><a name="loading_graph" id="loading_graph">(c) 2006-20017        Herbert Leuwer, November 2006    </a><a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>  </body></html>

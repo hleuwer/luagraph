@@ -2,11 +2,10 @@
  * LuaGRAPH toolkit
  * Graph support for Lua.
  * Herbert Leuwer
- * 30-7-2006
+ * 30-7-2006, 01/2017
  *
  * Node related functionality.
  *
- * $Id: gr_node.c,v 1.1 2006-12-17 11:01:56 leuwer Exp $
 \*=========================================================================*/
 
 /*=========================================================================*\
@@ -18,12 +17,9 @@
 #include "lua.h"
 #include "lauxlib.h"
 
-#if !defined(LUA_VERSION_NUM) || (LUA_VERSION_NUM < 501)
-#include "compat-5.1.h"
-#endif
-
 #include "gr_graph.h"
-/*=========================================================================*\
+
+/*=========================================================================* \
  * Defines
 \*=========================================================================*/
 
@@ -34,7 +30,6 @@ static int gr_nameof(lua_State *L);
 static int gr_id(lua_State *L);
 static int gr_equal(lua_State *L);
 static int gr_delete(lua_State *L);
-static int gr_rename(lua_State *L);
 static int gr_degree(lua_State *L);
 static int gr_graphof(lua_State *L);
 static int gr_edge(lua_State *L);
@@ -44,13 +39,14 @@ static int gr_nextinput(lua_State *L);
 static int gr_walkinputs(lua_State *L);
 static int gr_nextoutput(lua_State *L);
 static int gr_walkoutputs(lua_State *L);
+static int gr_info(lua_State *L);
+static int gr_tostring(lua_State *L);
 
 /*=========================================================================*\
  * Data
 \*=========================================================================*/
-static const luaL_reg reg_methods[] = {
+static const luaL_Reg reg_methods[] = {
   {"delete", gr_delete},
-  {"rename", gr_rename},
   {"degree", gr_degree},
   {"edge", gr_edge},
   {"nextedge", gr_nextedge},
@@ -61,22 +57,25 @@ static const luaL_reg reg_methods[] = {
   {"walkoutputs", gr_walkoutputs},
   {"type", get_object_type},
   {"rawget", getval},
+  {"info", gr_info},
   {NULL, NULL}
 };
 
-static const luaL_reg reg_rmembers[] = {
+static const luaL_Reg reg_rmembers[] = {
   {"id", gr_id},
   {"name", gr_nameof},
+  {"status", gr_status},
   {"graph", gr_graphof},
   {NULL, NULL}
 };
 
-static const luaL_reg reg_metamethods[] = {
+static const luaL_Reg reg_metamethods[] = {
+  {"__gc", gr_collect},
   {"__eq", gr_equal},
-  {"__gc", gr_delete},
   {"__newindex", object_newindex_handler},
   {"__concat", gr_edge},
   {"__add", gr_edge},
+  {"__tostring", gr_tostring},
   {NULL, NULL}
 };
 /*=========================================================================*\
@@ -85,6 +84,10 @@ static const luaL_reg reg_metamethods[] = {
 /*-------------------------------------------------------------------------*\
  * Utility Functions
 \*-------------------------------------------------------------------------*/
+
+/*
+ * Create a new Lua userdata object and configure metatable.
+ */
 int new_node(lua_State *L){
   return new_object(L, "node", reg_rmembers, reg_methods, reg_metamethods, 
 		    object_index_handler);
@@ -113,6 +116,10 @@ static int gr_equal(lua_State *L)
 static int gr_nameof(lua_State *L)
 {
   gr_node_t *ud = tonode(L, 1, STRICT);
+  if (ud->status != ALIVE){
+    luaL_error(L, "deleted");
+    return 0;
+  }  
   lua_pushstring(L, agnameof(ud->n));
   return 1;
 }
@@ -131,6 +138,55 @@ static int gr_id(lua_State *L)
 }
 
 /*-------------------------------------------------------------------------*\
+ * Write info about a node to stdout.
+ * Example:
+ * n:info()
+\*-------------------------------------------------------------------------*/
+static int gr_info(lua_State *L)
+{
+  Agraph_t  *g;
+  gr_node_t *ud = tonode(L, 1, STRICT);
+  Agedge_t *se;
+  Agsym_t *sym;
+  
+  g = agraphof(ud->n);
+  printf("INFO NODE '%s' '%s' id=%lu seq=%d\n", agnameof(ud->n), ud->name, (unsigned long) AGID(ud->n), AGSEQ(ud->n));
+  printf("  ptr: %p\n", ud->n);
+  printf("  Symbols:\n");
+  se = agfstout(g, ud->n);
+  sym=0;
+  while ((sym = agnxtattr(g,AGNODE,sym))!=NULL)
+         printf("    %s = '%s'\n",sym->name,sym->defval);
+#if 0
+  printf("  Out edges: d-out=%d u-out=%d\n", agdegree(g, ud->n, 0, 1), agcountuniqedges(g, ud->n, 0, 1));
+#endif
+  while (se) {
+    printf("    name: '%s', head: '%s', tail: '%s' id=%lud, seq=%d %p\n",
+           agnameof(se), agnameof(aghead(se)), agnameof(agtail(se)), (unsigned long) AGID(se), AGSEQ(se), (void*)se);
+    se = agnxtout(g, se);
+  }
+#if 0
+  printf("  In edges: d-in=%d u-in=%d\n", agdegree(g, ud->n, 1, 0), agcountuniqedges(g, ud->n, 1, 0));
+#endif
+  se = agfstin(g, ud->n);
+  while (se) {
+    printf("    name: '%s', head: '%s', tail: '%s' îd=%lu seq=%d %p\n",
+           agnameof(se), agnameof(aghead(se)), agnameof(agtail(se)), (unsigned long) AGID(se), AGSEQ(se), (void*)se);
+    se = agnxtin(g, se);
+  }
+#if 0
+  printf("  Edges: d-io=%d u-io=%d\n", agdegree(g, ud->n, 1, 1), agcountuniqedges(g, ud->n, 1, 1));
+#endif  
+  se = agfstedge(g, ud->n);
+  while (se) {
+    printf("    name: '%s', head: '%s', tail: '%s' id=%lud seq=%d %p\n",
+           agnameof(se), agnameof(aghead(se)), agnameof(agtail(se)), (unsigned long) AGID(se), AGSEQ(se), (void*)se);
+    se = agnxtedge(g, se, ud->n);
+  }
+  return 0;
+}
+
+/*-------------------------------------------------------------------------* \
  * Method: n.delete(self)
  * Delete a node. All associated edges are deleted as well.
  * Returns non-nil on success.
@@ -141,38 +197,17 @@ static int gr_delete(lua_State *L)
 {
   Agraph_t *g;
   gr_node_t *ud = tonode(L, 1, NONSTRICT);
+
   if (ud->n != NULL){
     /* Delete all associated edges with tail on this node */
-    Agedge_t *se, *ne;
-    int ix;
-    g = ud->n->graph;
-    se = agfstedge(g, ud->n);
-    while (se){
-      ne = agnxtedge(g, se, ud->n);
-      ix = get_object(L, se);         /* ud, se */
-      if (!(lua_isnil(L, -ix))){
-	TRACE("n:delete(): closing subedge: ud=%p 'edge@%d' id=0x%0x e=%p\n", 
-	       (void *) lua_touserdata(L, -ix), AGID(se), AGID(se), (void *)se);
-	lua_pushcfunction(L, gr_delete_edge); /* ud, se, func */
-	lua_pushvalue(L, -2);                 /* ud, se, func, se */
-	lua_call(L, 1, LUA_MULTRET);          /* ud, se */
-	lua_pop(L, 1);                        /* ud */
-      } else {
-	lua_pop(L, 2);                        /* ud */
-      }
-      se = ne;
-    }
-    TRACE("n:delete(): ud=%p '%s' id=0x%0x \n", 
-	  (void *) ud, agnameof(ud->n), AGID(ud->n));
-    del_object(L, ud->n);
-    agdelete(g, ud->n);
-    ud->n = NULL;
-    if (ud->name){
-      free(ud->name);
-      ud->name = NULL;
+    g = agraphof(ud->n);
+    if (ud->status == ALIVE){
+      TRACE("   n.delete(): deleting node '%s' ud=%p id=0x%0lx (%s %d) \n", 
+            agnameof(ud->n), (void *) ud, (unsigned long) AGID(ud->n), __FILE__, __LINE__);
+      agdelnode(g, ud->n);
     }
   } else {
-    TRACE("n:delete(): ud=%p already closed\n", (void *)ud);
+    TRACE("   n:delete(): ud=%p already closed (%s %d)\n", (void *)ud, __FILE__, __LINE__);
   }
   lua_pushnumber(L, 0);
   return 1;
@@ -184,34 +219,6 @@ static int gr_delete(lua_State *L)
 int gr_delete_node(lua_State *L)
 {
   return gr_delete(L);
-}
-
-/*-------------------------------------------------------------------------*\
- * Method: n.rename(self, name)
- * Renames a graph. Null name will assign an auto-name 'node@ID'.
- * Returns old name.
- * Example:
- * oldname, err = n:rename("NODENEWNAME") or n:rename()
-\*-------------------------------------------------------------------------*/
-static int gr_rename(lua_State *L)
-{
-  char sbuf[32];
-  gr_node_t *ud = tonode(L, 1, STRICT);
-  char *name = (char *) lua_tostring(L, 2);
-  char *oldname = agnameof(ud->n);
-  if (!name){
-    sprintf(sbuf, "node@%d", AGID(ud->n));
-    agrename(ud->n, agstrdup(sbuf));
-    free(ud->name);
-    ud->name = strdup(sbuf);
-  } else {
-    agrename(ud->n, agstrdup(name));
-    free(ud->name);
-    ud->name = strdup(name);
-  }
-  lua_pushstring(L, oldname);
-  agstrfree(oldname);
-  return 1;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -233,7 +240,7 @@ int gr_degree(lua_State *L)
   int indeg = TRUE;
   int outdeg = TRUE;
   n = ud->n;
-  g = ud->n->graph;
+  g = agroot(ud->n);
   if (*flag != '*'){
     luaL_error(L, "invalid format specifier");
     return 0;
@@ -265,33 +272,27 @@ int gr_degree(lua_State *L)
 \*-------------------------------------------------------------------------*/
 int gr_graphof(lua_State *L)
 {
-  int rv;
   gr_node_t *ud = tonode(L, 1, STRICT);
-  //  Agraph_t *g = ud->n->u.subg;
-  Agraph_t *g = ud->subg;
+  Agraph_t *g = agraphof(ud->n);
   if (g == NULL){
     lua_pushnil(L);
-    return 1;
+    lua_pushstring(L, "no graph");
+    return 2;
   }
-  rv = get_object(L, g);
-  if (rv == 2){
-    lua_error(L);
-    return 0;
-  } else {
-    return rv;
-  }
+  return get_object(L, g);
 }
 
 /*-------------------------------------------------------------------------*\
  * Method: e, tail, head = n.edge(self, node, label, flag)
- * Finds or creates an edge. The given node becomes the tail of the edge.
+ * Finds or creates an edge. The given node is the tail of the edge.
+ * The created node is the the edge.
  * Label is optional.
- * The optional flag nocreate=true inhibits auto-creation.
+ * The optional flag nocreate=true inhibits auto-creation of the edge.
  * Any node given by name is implicitly created and it's userdata returned
  * as additional results - even if nocreate is not set.
  * Example:
- * e, tail, head = e:node(n2, "edge-1")
- * e, err = g:edge(...)
+ * e, tail, head = n.edge(head, "edge-1", true | false)
+ * e, tail, head = e:node("headname", "edge-1", true | false)
 \*-------------------------------------------------------------------------*/
 static int gr_edge(lua_State *L)
 {
@@ -299,46 +300,47 @@ static int gr_edge(lua_State *L)
   gr_edge_t *edge;                 
   int rv;
   char *label;
-  char sbuf[32];
+  char ename[32];
   Agraph_t *g;
   gr_node_t *head;
   gr_node_t *tail = tonode(L, 1, STRICT);
+
+  g = agroot(tail->n);
+  
   if (lua_isuserdata(L, 2))
     head = tonode(L, 2, STRICT);
   else {
-    /* Create a node given by name */
-    lua_pushcfunction(L, gr_create_node);            /* tail, nhead, (label), func */
-    get_object(L, tail->n->graph);                   /* tail, nhead, (label), func, graph */
-    lua_pushstring(L, (const char *) luaL_checkstring(L, 2)); /* ... func, graph, nhead */
-    if (lua_isboolean(L, 4))
-      lua_pushvalue(L, 4);
+    lua_pushcfunction(L, gr_create_node);             /* tail, nhead, (label), (nocreate), func */
+    get_object(L, agroot(tail->n));                   /* tail, nhead, (label), (nocreate), func, graph */
+    lua_pushvalue(L, 2);                              /* ... func, graph, nhead */
+    if (lua_isboolean(L, 4))                                  
+      lua_pushvalue(L, 4);                            /* ... func, graph, nhead, (nocreate) */
     else
-      lua_pushboolean(L, 0);
-    /* g.node(self, name, flag) */
-    lua_call(L, 3,  1);                              /* tail, nhead, (label), head */ 
+      lua_pushboolean(L, 0);                          /* ... func, graph, nhead, false */
+    lua_call(L, 3,  1);                              /* tail, nhead, (label), head */
+    if (lua_isnil(L, -1))
+      return  2;
     head = tonode(L, -1, STRICT);
     lua_pop(L,1);                                    /* tail, nhead, (label) */
   }
-
-  g = tail->n->graph;
-  if (tail->n->graph != head->n->graph){
+  
+  g = agroot(tail->n);
+  if (g != agroot(head->n)){
     luaL_error(L, "head/tail not in same graph");
   }
-  label = (char *) luaL_optstring(L, 3, "");         /* ud, peer, name, (flag) */
-  if ((e = agfindedge(g, tail->n, head->n)) != NULL){
-    /* Edge exists */
+  label = (char *) luaL_optstring(L, 3, NULL);         /* ud, peer, name, (flag) */
+  if ((e = agedge(g, tail->n, head->n, label, 0)) != NULL){
     rv = get_object(L, e);                           /* ud, peer, name, (flag), edge */
     if (lua_isnil(L, -rv)){
+      /* not yet registered */
       lua_pop(L, rv);                                /* ud, peer, name, (flag) */ 
-      /* Edge not yet registered */
       edge = lua_newuserdata(L, sizeof(gr_edge_t));  /* ud, peer, name, (flag), edge */
       edge->e = e;
-      if (strlen(label) > 0)
+      if (label)
 	agset(e, "label", label);
-      sprintf(sbuf, "edge@%d", AGID(e));
-      edge->name = strdup(sbuf);
+      edge->name = strdup(agnameof(e));
       edge->type = AGEDGE;
-      set_object(L, e);              /* ud, peer, name, (flag), edge */
+      edge->status = ALIVE;
       new_edge(L);
       lua_pushlightuserdata(L, tail);
       lua_pushlightuserdata(L, head);     /* ud, peer, name, (flag), edge, tail, head */
@@ -357,16 +359,16 @@ static int gr_edge(lua_State *L)
       return 2;
     }
     edge = lua_newuserdata(L, sizeof(gr_edge_t));
-    if (!(edge->e = agedge(g, tail->n, head->n))){
+    sprintf(ename, "edge@%u", newid());
+    if ((edge->e = agedge(g, tail->n, head->n, ename, 1)) == NULL){
       luaL_error(L, "agedge failed");
       return 0;
     }
-    if (strlen(label) > 0)
+    if (label)
       agset(edge->e, "label", label);
-    sprintf(sbuf, "edge@%d", AGID(edge->e));
-    edge->name = strdup(sbuf);
+    edge->name = strdup(agnameof(edge->e));
     edge->type = AGEDGE;
-    set_object(L, edge->e);
+    edge->status = ALIVE;
     new_edge(L);
     lua_pushlightuserdata(L, tail);
     lua_pushlightuserdata(L, head);
@@ -392,7 +394,7 @@ static int gr_nextedge(lua_State *L)
   Agedge_t *e;
   gr_edge_t *ud_e;
   gr_node_t *ud_n = tonode(L, 1, STRICT);
-  g = ud_n->n->graph;
+  g = agroot(ud_n->n);
 
   if (lua_isnil(L, 2)){
     e = agfstedge(g, ud_n->n);
@@ -415,9 +417,10 @@ static int gr_nextedge(lua_State *L)
       lua_pop(L, rv);
       ud_e = lua_newuserdata(L, sizeof(gr_edge_t)); 
       ud_e->e = e;
-      sprintf(sbuf, "edge@%d", AGID(e));
+      sprintf(sbuf, "edge@%lu", (unsigned long) AGID(e));
       ud_e->name = strdup(sbuf);
       ud_e->type = AGEDGE;
+      ud_e->status = ALIVE;
       set_object(L, e);
       return new_edge(L);
     }
@@ -457,7 +460,7 @@ static int gr_nextinout(lua_State *L, edge_first_iter_t *fst, edge_next_iter_t *
   char sbuf[32];
   gr_edge_t *ud_e;
   gr_node_t *ud_n = tonode(L, 1, STRICT);
-  Agraph_t *g = ud_n->n->graph;
+  Agraph_t *g = agroot(ud_n->n);
 
   if (lua_isnil(L, 2))
     e = fst(g, ud_n->n);
@@ -480,7 +483,7 @@ static int gr_nextinout(lua_State *L, edge_first_iter_t *fst, edge_next_iter_t *
       lua_pop(L, rv);
       ud_e = lua_newuserdata(L, sizeof(gr_edge_t)); 
       ud_e->e = e;
-      sprintf(sbuf, "edge@%d", AGID(e));
+      sprintf(sbuf, "edge@%lu", (unsigned long) AGID(e));
       ud_e->name = strdup(sbuf);
       ud_e->type = AGEDGE;
       set_object(L, e);
@@ -526,3 +529,15 @@ static int gr_walkoutputs(lua_State *L)
   return 3;
 }
 
+/*-------------------------------------------------------------------------*\
+ * Metamethod: __tostring [boolean]
+ * Return a string presentation of a graph object.
+ * Example:
+ * g == h or g != h with metamethods
+\*-------------------------------------------------------------------------*/
+static int gr_tostring(lua_State *L)
+{
+  gr_object_t *ud = toobject(L, 1, NULL, NONSTRICT);
+  lua_pushfstring(L, "node: %p (%s)", ud, ud->p.status == ALIVE ? "alive" : "dead");
+  return 1;
+}

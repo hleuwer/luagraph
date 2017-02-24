@@ -1,896 +1,1 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
-<head>
-
-  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
-
-
-  <title>LuaGRAPH Reference - Graph methods</title>
-  <link media="screen" href="style.css" rel="stylesheet" type="text/css" />
-
-  <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" />
-</head>
-
-
-<body>
-
-<div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;" id="logo"><a name="home2" id="home2"></a><a href="http://www.lua.org"><img style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" id="lualogo" alt="www.lua.org" src="luagraph.png" name="lualogo" hspace="20" /></a></div>
-
-<div id="header">
-<h1 style="height: 120px; margin-left: 0px; width: 928px;">
-<big><big><a name="home" id="home"></a><br />
-
-LuaGRAPH - Reference</big></big><br />
-
-Graph Programming with Lua</h1>
-
-</div>
-
-<div id="leftnavigation">
-<ul>
-
-  <li style="margin-left: 0px; width: 185px;"><a class="current" href="index.html">Home</a></li>
-
-  <li><a href="index.html#license">License</a></li>
-
-  <li><a href="index.html#features">Features</a></li>
-
-  <li><a href="index.html#download">Download</a></li>
-
-  <li><a href="index.html#installation">Installation</a></li>
-
-  <li><a href="running.html">MANUAL</a></li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li><a href="running.html">Running&nbsp;</a></li>
-
-      <li><a href="#object_names">Design</a></li>
-
-      <li><a href="graph.html">Graphs</a></li>
-
-      <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-        <ul>
-
-          <li><a href="graph.html#functions">Functions</a></li>
-
-        </ul>
-
-        <ul>
-
-          <li><a href="#graph_attributes">Attributes</a></li>
-
-          <li><a href="#graph_methods">Methods</a></li>
-
-          <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-            <ul>
-
-              <li><a href="#g_close">g.close</a></li>
-
-              <li><a href="#g_close">g.cluster</a></li>
-
-              <li><a href="#g_defaults">g.defaults</a></li>
-
-              <li><a href="#g_declare">g.declare</a></li>
-
-              <li><a href="#g_delete">g.delete</a></li>
-
-              <li><a href="#g_edge">g.edge</a></li>
-
-              <li><a href="#g_getattr">g.getattr</a></li>
-
-              <li><a href="#g_getattr">g.getgraphattr</a></li>
-
-              <li><a href="#g_getattr">g.getnodeattr</a></li>
-
-              <li><a href="#g_getattr">g.getedgeattr</a></li>
-
-              <li><a href="#g_findnode">g.findnode</a></li>
-
-              <li><a href="#g_findedge">g.findedge</a></li>
-
-              <li><a href="#g_idnode">g.idnode</a></li>
-
-              <li><a href="#g_insert">g.insert</a></li>
-
-              <li><a href="#g_layout">g.layout</a></li>
-
-              <li><a href="#g_nextgraph">g.nextgraph</a></li>
-
-              <li><a href="#g_nextnode">g.nextnode</a></li>
-
-              <li><a href="#g_node">g.node</a></li>
-
-              <li><a href="#g_rawget">g.rawget</a></li>
-
-              <li><a href="#g_record">g.record</a></li>
-
-              <li><a href="#g_rename">g.rename</a></li>
-
-              <li><a href="#g_render">g.render</a></li>
-
-              <li><a href="#g_setattr">g:setattr</a></li>
-
-              <li><a href="#g_node">g.setgraphattr</a></li>
-
-              <li><a href="#g_node">g.setnodeattr</a></li>
-
-              <li><a href="#g_node">g.setedgeattr</a></li>
-
-              <li><a href="#g_subgraph">g.subgraph</a></li>
-
-              <li><a href="#g_show">g.show</a></li>
-
-              <li><a href="#g_showdotty">g.showdotty</a></li>
-
-              <li><a href="#g_type">g.type</a></li>
-
-              <li><a href="#g_walkgraphs">g.walkgraphs</a></li>
-
-              <li><a href="#g_walknodes">g.walknodes</a></li>
-
-              <li><a href="#g_write">g.write</a></li>
-
-            </ul>
-
-          </li>
-
-        </ul>
-
-        <ul>
-
-          <li><a href="#metamethods"><span style="font-weight: bold;">Metamethods</span></a></li>
-
-        </ul>
-
-      </li>
-
-      <li><a href="node.html"><span style="font-weight: bold;">Nodes</span></a></li>
-
-      <li><a href="edge.html">Edges</a></li>
-
-      <li><a href="examples.html">Examples</a></li>
-
-    </ul>
-
-  </li>
-
-  <li><a href="index.html#whatsnew">What's New</a></li>
-
-  <li><a href="index.html#credits">Credits</a></li>
-
-  <li><a href="index.html#links">Links</a></li>
-
-  <li><a href="index.html#todo">ToDo</a></li>
-
-</ul>
-
-</div>
-
-<div id="content">
-<h2><a name="graphs" id="graphs"></a>Graphs</h2>
-
-<h2><a name="graph_attributes" id="graph_attributes"></a>Graph
-Attributes</h2>
-
-<p>Attributes required for graph layout and graph rendering are
-always stored as key-value pairs in the form: g[key] or g.key, Only
-strings are allowed as keys. Any&nbsp;number of user defined string
-attributes, which are not necessarily&nbsp;used by the graphviz
-library can be set.</p>
-
-<p>With it's creation each&nbsp;graph or subgraph automatically
-receives&nbsp; one of the following read-only attributes.</p>
-
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
-
-  <tbody>
-
-    <tr>
-
-      <td style="width: 153px; font-weight: bold;">Attribute Key</td>
-
-      <td style="width: 141px; font-weight: bold;">Value Type</td>
-
-      <td style="width: 229px; font-weight: bold;">Description</td>
-
-      <td style="width: 119px; font-weight: bold;">Notes</td>
-
-    </tr>
-
-    <tr>
-
-      <td style="width: 153px;">nnodes</td>
-
-      <td style="width: 141px;">number</td>
-
-      <td style="width: 229px;">Number of nodes contained in the given
-graph</td>
-
-      <td style="width: 119px;"></td>
-
-    </tr>
-
-    <tr>
-
-      <td>nedges</td>
-
-      <td style="width: 141px;">number</td>
-
-      <td style="width: 229px;">Number of edges contained in the
-graph</td>
-
-      <td style="width: 119px;"></td>
-
-    </tr>
-
-    <tr>
-
-      <td>name</td>
-
-      <td style="width: 141px;">string</td>
-
-      <td style="width: 229px;">Name of the graph</td>
-
-      <td style="width: 119px;"></td>
-
-    </tr>
-
-    <tr>
-
-      <td>root</td>
-
-      <td style="width: 141px;">graph userdata</td>
-
-      <td style="width: 229px;">Parent graph</td>
-
-      <td style="width: 119px;">next higher in the hierarchy</td>
-
-    </tr>
-
-    <tr>
-
-      <td>parent</td>
-
-      <td style="width: 141px;">graph userdata</td>
-
-      <td style="width: 229px;">Root graph</td>
-
-      <td style="width: 119px;">highest in the hierarchy</td>
-
-    </tr>
-
-    <tr>
-
-      <td>isstrict</td>
-
-      <td style="width: 141px;">boolean</td>
-
-      <td style="width: 229px;">true if graph is strict</td>
-
-      <td style="width: 119px;"></td>
-
-    </tr>
-
-    <tr>
-
-      <td>isdirected</td>
-
-      <td>boolean</td>
-
-      <td>true if graph is directed</td>
-
-      <td>directed graphs are the default</td>
-
-    </tr>
-
-    <tr>
-
-      <td>isroot</td>
-
-      <td>boolean</td>
-
-      <td>true if graph is the root graph</td>
-
-      <td></td>
-
-    </tr>
-
-    <tr>
-
-      <td>graph</td>
-
-      <td>graph userdata</td>
-
-      <td>Graph to which the given subgraph belongs</td>
-
-      <td>trivial for graphs because it returns the graph itself</td>
-
-    </tr>
-
-    <tr>
-
-      <td style="width: 153px;">id</td>
-
-      <td style="width: 141px;">number</td>
-
-      <td style="width: 229px;">Graphviz internal unique id</td>
-
-      <td style="width: 119px;"></td>
-
-    </tr>
-
-  </tbody>
-</table>
-
-<br />
-
-<h1><a name="graph_methods" id="graph_methods"></a>Graph
-Methods</h1>
-
-<h4><a name="g_close" id="g_close"></a>g:close()</h4>
-
-<p>Closes graph g. All graph objects contained in the graph are
-deleted as well. Note, that proxy object references to these graph
-objects are invalidated and&nbsp;their subsequent
-usage&nbsp;produces errors.</p>
-
-<h4><a name="g_cluster" id="g_cluster"></a>sg, err =
-g:cluster(NAME, ATTRIBUTES, NOCREATE)<br />
-
-sg, err = g:cluster(PARAM)</h4>
-
-<p>The first form creates or retrieves a cluster with
-name&nbsp;NAME and sets the given <span style="font-weight: bold;">ATTRIBUTES.</span> The function adds the
-prefix "cluster_" to the given <span style="font-weight: bold;">NAME.</span> This prefix instructs LuaGRAPH to
-encapsulate the subgraph into a surrounding box. If the flag
-<span style="font-weight: bold;">NOCREATE</span> is true, the
-function will not create the subgraph if it does not already
-exist.</p>
-
-<p>The second form does basically&nbsp;the same, but provides a
-different and more advanced syntax. The first numeric element of
-<span style="font-weight: bold;">PARAM</span> is taken as the name
-for the node, the second element is the nocreation flag. All
-non-numeric elements are interpreted as attributes.</p>
-
-<p>The function returns nil plus an error message if the node could
-neither be found&nbsp;nor created.</p>
-
-<h4><a name="g_defaults" id="g_defaults"></a>attributes =
-g:defaults()</h4>
-
-<p>Returns default values for graph objects in graph g. The result
-is returned as nested table containing 3 subtables indexed as
-"graph", "node" and "edge". Each subtable&nbsp;contains the default
-attributes as key-value pairs:</p>
-
-<pre>{graph={ATTR, ...}, node={ATTR, ...}, edge = {ATTR}}<br /></pre>
-
-<h4><a name="g_declare" id="g_declare"></a>result =
-g:declare(ATTRIBUTES)</h4>
-
-<p>Declares attributes and their default values for the given graph
-g. &nbsp;Attributes are given as nested table containing 3
-subtables indexed as "graph", "node" and "edge". Each of these
-subtables contains the declarations as key-value pairs.</p>
-
-<p>The attribute table has the following form:</p>
-
-<pre>{graph={ATTR, ...}, node={ATTR, ...}, edge = {ATTR}}<br /></pre>
-
-<p>The function returns the number of attributes set.</p>
-
-<h4><a name="g_delete" id="g_delete"></a>result =
-g:delete(OBJECT)</h4>
-
-<p>Deletes the given <span style="font-weight: bold;">OBJECT</span>, which must be a valid Lua
-userdata representing a graph, node or edge object. If <span style="font-weight: bold;">OBJECT</span> is a graph then all nodes and
-edges within that graph are deleted as well. If object is a node,
-all edges to or from this node are deleted as well. If object is an
-edge, only the edge is deleted. Lua userdata associated to the
-graphviz objects are invalidated and eventually deleted during
-carbage collection.</p>
-
-<p>The function always returns 0.</p>
-
-<h4><a name="g_edge" id="g_edge"></a>e, tail, head = g:edge(TAIL,
-HEAD [, LABEL [, NOCREATE]])<br />
-
-edges, nodes= g:edge(PARAM)</h4>
-
-<p>Creates or retrieves one or multiple edges connecting two or
-more nodes. &nbsp;The first form connects node <span style="font-weight: bold;">TAIL</span> with node <span style="font-weight: bold;">HEAD</span>. The nodes can be specified by
-name or via a userdata reference. The parameter <span style="font-weight: bold;">LABEL</span> is optional. If provided it
-defines the label for the edge. The edge automatically receives
-the&nbsp;name "edge@&lt;id&gt;". If <span style="font-weight: bold;">NOCREATE</span> is set to true the function
-will not try to create the edge if does not exist.</p>
-
-<p>The function returns a userdata reference to the edge, the tail
-node and the headnode. In case of failures, the function returns
-nil plus an error message.&nbsp;</p>
-
-<p>The second form connects multiple nodes and also creates
-multiple edges. Numeric elements in table <span style="font-weight: bold;">PARAM</span> are interpreted as nodes. They
-can be given by name or as a userdata reference. Non-numeric
-elements of table <span style="font-weight: bold;">PARAM</span> are
-interpreted as attributes for each&nbsp;edge, that
-is&nbsp;created.</p>
-
-<p>Example:</p>
-
-<pre>e, tail, head = g:edge("tailnode", headnode, "tail=&gt;head")<br />
-edges, nodes = g:edge{"tailnode", midnode, headnode, label="tail=&gt;head"}
-</pre>
-
-<h4><a name="g_getattr" id="g_getattr"></a>attributes =
-g:getattr()</h4>
-
-<p>See <a href="#g_defaults">g.defaults</a>().</p>
-
-<h4><a name="g_findnode" id="g_findnode"></a>n, err =
-g:findnode(NAME)</h4>
-
-<p>Retrieves userdata reference of a node with <span style="font-weight: bold;">NAME</span> in graph g. Returns nil plus an
-error message if the node could not be found.</p>
-
-<h4><a name="g_findedge" id="g_findedge"></a>e, err =
-g:findedge(TAIL, HEAD, LABEL)</h4>
-
-<p>Retrieves userdata reference of an edge with <span style="font-weight: bold;">LABEL</span> between the nodes <span style="font-weight: bold;">TAIL</span> and <span style="font-weight: bold;">HEAD.</span> The nodes can be given as either
-userdata references or by name. Returns nil plus an error message
-if the edge could not be found.</p>
-
-<h4><a name="g_idnode" id="g_idnode"></a>n, err = g:idnode(ID)</h4>
-
-<p>Retrieves userdata reference of an node identified by a numeric
-<span style="font-weight: bold;">ID</span>. Returns nil plus an
-error message if the node could not be found.</p>
-
-<h4><a name="g_insert" id="g_insert"></a>result =
-g:insert(OBJECT)</h4>
-
-<p>Inserts <span style="font-weight: bold;">OBJECT</span> given as
-userdata into graph g. &nbsp;The function always returns 0.</p>
-
-<h4><a name="g_layout" id="g_layout"></a>result, err =
-g:layout(ENGINE)</h4>
-
-<p>Generates a layout of graph g using the algorithm defined by
-<span style="font-weight: bold;">ENGINE,</span> which takes one of
-the following string values:</p>
-
-<ul>
-
-  <li style="font-weight: bold;">dot</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>directed&nbsp;graph layout. This is the default algorithm.</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">neato</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>undirected graph layout&nbsp;using spring models</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">fdp</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>undirected graph layout&nbsp;using the spring model</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">circo</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>circular graph layout, where nodes are placed in a circle</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">twopi</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>radial graph layout</li>
-
-    </ul>
-
-  </li>
-
-  <li style="font-weight: bold;">nop, nop2</li>
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    <ul>
-
-      <li>undirected graph layout like neato, but assumes the graph has
-position attributes attached.</li>
-
-    </ul>
-
-  </li>
-
-</ul>
-
-<p>During the layout all objects within the graph and the graph
-itself receive new attributes which represent the drawing
-coordinates.</p>
-
-<p>Note, that the layout can be performed only ONCE per graph. Any
-attempt to layout the graph after a layout has already been
-generated leads to an error.</p>
-
-<p>The function returns nil plus an error message in case of
-failures, e.g. if the requested layout already exists.</p>
-
-<h4><a name="g_nextgraph" id="g_nextgraph"></a>sg =
-g:nextgraph(LAST)</h4>
-
-<p>Iterator retrieving the next subgraph of graph g. If the
-parameter <span style="font-weight: bold;">LAST</span> is nil, the
-first subgraph is returned. If <span style="font-weight: bold;">LAST</span> is a valid subgraph
-(userdata)&nbsp; the next instance is returned. The function can be
-used standalone, but is mainly provided to be returned as iterator
-function from g:walkgraphs().</p>
-
-<p>If no subgraph can be found the function returns nil.</p>
-
-<h4><a name="g_nextnode" id="g_nextnode"></a>n =
-g:nextnode(LAST)</h4>
-
-<p>Iterator retrieving the next node of graph g. If the parameter
-<span style="font-weight: bold;">LAST</span> is nil, the first node
-is returned. If <span style="font-weight: bold;">LAST</span> is a
-valid node (userdata)&nbsp; the next instance is returned. The
-function can be used standalone, but is mainly provided to be
-returned as iterator function from <a href="#g_walknodes">g:walknodes()</a>.</p>
-
-<p>If no subgraph can be found the function returns nil.</p>
-
-<h4><a name="g_node" id="g_node"></a>n, err = g:node(NAME,
-ATTRIBUTES [,NOCREATE])<br />
-
-n, err = g:node(PARAM)</h4>
-
-<p>The first form creates or retrieves a node with name NAME and
-sets the given <span style="font-weight: bold;">ATTRIBUTES</span>.
-If the flag <span style="font-weight: bold;">NOCREATE</span> is
-true, the function will not create the node if does not already
-exist.</p>
-
-<p>The second form does basically&nbsp;the same but provides a
-different syntax. The first numeric element of <span style="font-weight: bold;">PARAM</span> is taken as name for the node,
-the second element is the nocreation flag. All non-numeric elements
-are interpreted as attributes.</p>
-
-<p>The function returns nil plus an error message if the node could
-neither be found&nbsp;nor created.</p>
-
-<p>Examples:</p>
-
-<pre>n, err = g:node("N1", {color="blue"})<br />
-n, err = g:node{"N2", color = "blue", false, shape = "circle"}
-</pre>
-
-<h4><a name="g_rawget" id="g_rawget"></a>result =
-g:rawget(KEY)</h4>
-
-<p>Retrieves an attributes from a graph object g without using Lua
-metamethods. Attributes are always returned as strings. Only
-attributes in the graphviz library's directories are searched.</p>
-
-<p>The function returns nil if no attributes with <span style="font-weight: bold;">KEY</span> could be found.</p>
-
-<h4><a name="g_record" id="g_record"></a>n, err = g:record(NAME,
-BOX, ATTRIBUTES [, NOCREATE])<br />
-
-n, err = g:record(PARAM)</h4>
-
-<p>The first form retrieves or creates a record of name
-<span style="font-weight: bold;">NAME</span> and sets the given
-<span style="font-weight: bold;">ATTRIBUTES</span>. If the flag
-<span style="font-weight: bold;">NOCREATE</span> is true, the
-function will not create the record if does not already exist.</p>
-
-<p>The second form does basically&nbsp;the same but provides a
-different syntax. The first element with a numeric key
-(PARAM[1])&nbsp; is taken as name for the node, the second element
-with numeric index (PARAM[2]) is the BOX (see below) description
-and the third element with numeric index (PARAM[3]) is the
-nocreation flag. All non-numeric elements are interpreted as
-attributes.</p>
-
-<p>The parameter <span style="font-weight: bold;">BOX</span> is a
-function that constructs a graphviz compatible format of a node
-label which allows the layout engine to create the graphical
-representation of a record.</p>
-
-<p>Luayats provides the two functions <span style="font-weight: bold;">graph.vbox(...)</span> and <span style="font-weight: bold;">grap.hbox(...)</span> which can be directly
-used to satisfy the&nbsp; parameter <span style="font-weight: bold;">BOX</span>. By using hbox as paramter to vbox
-and vice versa it is possible to construct a valid node description
-in a hierarchical manner. Both functions take a list as parameter.
-Each element of this list is either a visible port <span style="font-weight: bold;">label</span> (string element) or another vbox
-or hbox. The field within a vbox are placed top to down, while the
-elements in a hbox are place left to right. Using the string
-"&lt;PORT&gt;" plus the ports visible label, assigns PORT as the
-name of the port. Edges can then be instructed to end at the port
-instead of the complete node (record). Specifying&nbsp; ports is
-optional.</p>
-
-<p>The usage of the BOX functions are best explained using an
-example:</p>
-
-<pre>local gr = require "graph"<br />
-<br />
---<br />
--- Define the graph<br />
---<br />
-local g = gr.graph{"G",<br />
-  -- Need 'record' as shape attribute<br />
-  node = {shape = "record"},<br />
-  -- Classical graphviz record definition<br />
-  gr.node{"n1", label="&lt;f0&gt; left|&lt;f1&gt; mid\ dle|&lt;f2&gt; right"};<br />
-  gr.node{"n2", label = "&lt;f0&gt; one|&lt;f1&gt; two"},<br />
-  gr.node{"n3", label = "hello\\nworld 1|{ b |{c|&lt;here&gt; d|e}|f}|&lt;g&gt; g|{h|z}"},<br />
-<br />
-  gr.edge{"n1:f2", "n2:f1"},<br />
-  gr.edge{"n1", "n3"},<br />
-  gr.edge{"n2:f0:n", "n3:here:sw"},<br />
-  gr.edge{"n1:f0", "n3:w"},<br />
-  -- Luayats record definition using vbox and hbox function<br />
-  gr.record{"n4",<br />
-    gr.hbox{<br />
-      "hello\\nworld 2",<br />
-      gr.vbox{<br />
-        "b",<br />
-        gr.hbox{"c", "&lt;here&gt; d", "e"},<br />
-        "f"<br />
-      },<br />
-      "&lt;g&gt; g",<br />
-      gr.vbox{"h", "z"}<br />
-    }<br />
-  },<br />
-  -- Same elements but starting top to down<br />
-  gr.record{"n5",<br />
-    gr.vbox{<br />
-      "hello\\nworld 3",<br />
-      gr.hbox{<br />
-        "b",<br />
-        gr.vbox{"c", "&lt;here&gt; d", "e"},<br />
-        "f"<br />
-      },<br />
-      "&lt;g&gt; g",<br />
-      gr.hbox{"h", "z"}<br />
-    }<br />
-  },<br />
-  -- Connect two ports<br />
-  gr.edge{"n4:here", "n5:e"}<br />
-}<br />
-<br />
---<br />
--- Layout using 'dot' (default) engine<br />
---<br />
-g:layout()<br />
-<br />
---<br />
--- Render into different formats<br />
---<br />
-g:render("ps", "out.ps")<br />
-g:render("gif", "out.gif")<br />
-g:render("svg", "out.svg")<br />
-g:render("png", "out.png")<br />
-<br />
---<br />
--- That's it<br />
---<br />
-g:close()<br />
-<br />
-</pre>
-
-<p>This script constructs the following graph:</p>
-
-<p><img style="height: 512px; width: 597px;" alt="record1.gif" src="record1.gif" /><br />
-</p>
-
-<h4><a name="g_rename" id="g_rename"></a>result =
-g:rename(NAME)</h4>
-
-<p>Renames the given graph g. The function returns the graph's
-previous name.</p>
-
-<h4><a name="g_render" id="g_render"></a>result, err =
-g:render(FORMAT, FILE)</h4>
-
-<p>The function renders a graph that has been layed out. The string
-parameter <span style="font-weight: bold;">FORMAT</span> defines
-one of&nbsp; the following output formats:</p>
-
-<pre>goofy:luagraph$ lua -l graph -e "table.foreach(graph.OUTPUTFORMATS, print)"<br />
-fig     FIG<br />
-wbmp    Wireless BitMap format<br />
-jpg     JPEG (deprecated - 8 May 2006 - will no longer be supported)<br />
-pcl     Hewlett Packard Printer Control<br />
-svg     Scalable Vector Graphics<br />
-imap    Server-side and client-side imagemaps<br />
-jpeg    JPEG (deprecated - 8 May 2006 - will no longer be supported)<br />
-dot     DOT<br />
-gd2     Graphics Draw 2 format<br />
-cmapx   Server-side and client-side imagemaps<br />
-ismap   Server-side imagemap (deprecated)<br />
-vrml    VRML<br />
-plain-ext       Extended text format<br />
-dia     Dia format<br />
-xdot    extended DOT<br />
-mif     FrameMaker MIF format<br />
-cmap    Client-side imagemap (deprecated)<br />
-svgz    Scalable Vector Graphics<br />
-gd      Graphics Draw format<br />
-ps2     PostScript for PDF<br />
-ps      PostScript<br />
-gif     Graphics Interchage Format<br />
-mp      MetaPost<br />
-vtx     Visual Thought format<br />
-plain   Simple text format<br />
-png     Portable Network Graphics format<br />
-gtk     Antialiased image using a GTK 2.0 canvas<br />
-hpgl    Hewlett Packard Graphics Language HP-GL/2<br />
-pic     Autodesk PIC
-</pre>
-
-<p>If format is omitted the function will produce a plain text
-output. The rendered graph is written to <span style="font-weight: bold;">FILE</span>. If <span style="font-weight: bold;">FILE</span> is nil the graph is written to
-stdout.</p>
-
-<p>The function can be used multiple time to produce different
-output formats of a graph layout.</p>
-
-<p>The function returns a non-nil value upon success and nil plus
-an error message in case of errors.</p>
-
-<h4><a name="g_setattr" id="g_setattr"></a>result =
-g:setattr(ATTRIBUTES)</h4>
-
-<p>See <a href="#g_declare">g.declare()</a></p>
-
-<h4><a name="g_subgraph" id="g_subgraph"></a>sg, err =
-g:subgraph(NAME, ATTRIBUTES, NOCREATE)<br />
-
-sg, err = g:subgraph(PARAM)</h4>
-
-<p>The first form creates or retrieves a subgraph with name NAME
-and sets the given <span style="font-weight: bold;">ATTRIBUTES</span>. If the flag <span style="font-weight: bold;">NOCREATE</span> is true, the function will not
-create the subgraph if does not already exist.</p>
-
-<p>The second form does basically&nbsp;the same but provides a
-different and more advanced syntax. The first numeric element of
-<span style="font-weight: bold;">PARAM</span> is taken as name for
-the node, the second element is the nocreation flag. All
-non-numeric elements are interpreted as attributes.</p>
-
-<p>The function returns nil plus an error message if the node could
-not be found or not created.</p>
-
-<p>Examples:</p>
-
-<pre>n, err = g:subgraph("SG", {color="blue"})<br />
-n, err = g:node{"N2", color = "blue", false, shape = "circle"}
-</pre>
-
-<h4><a name="g_show" id="g_show"></a>result = g:show()</h4>
-
-<p>Renders the given graph using the "gtk" rendering engine, which
-produces an antialiased graph in a GTK canvas. The function ends
-when the window is closed and returns a non-nil value upon success
-and nil plus an error message in case of errors.</p>
-
-<p>Note:</p>
-
-<p>For graphviz version lower than 2.10, which does not yet provide
-the "gtk" rendering engine the function will silently calls
-<a href="#g_showdotty">g:showdotty()</a> and returns the
-corresponding results of this function.</p>
-
-<p>See also <a href="#g_render">g.render().</a></p>
-
-<h4><a name="g_showdotty" id="g_showdotty"></a>result =
-g:showdotty(DOIT)</h4>
-
-<p>Displays the given graph using the "dotty" program that comes
-with the graphviz package. The function first layouts and renders
-the graph into a temporary file using the DOT format and then
-passes this file to the dotty program using the Lua standard
-functionos.execute(...)</p>
-
-<p>The function forwards the error code of os.execute(...).</p>
-
-<h4><a name="g_type" id="g_type"></a>result = g:type()<br />
-
-result = object:type()</h4>
-
-<p>You can apply the type() function to any graph object. The
-function returns the type of the object as string. In the special
-case of graphs the function returns the string "graph". Passing an
-invalid object to this function raises an error. For nodes and
-edges the call returns "node" and "edge", respectively.</p>
-
-<h4><a name="g_walkgraphs" id="g_walkgraphs"></a>iterfunc, state,
-nil = g:walkgraphs()</h4>
-
-<p>This iterator function returns a subgraph of the given graph
-each time it is called. In fact it returns the following triple:
-getnext(), g, nil for usage in Lua's generic "for loop".</p>
-
-<p>If no more subgraph can be found the function returns nil.</p>
-
-<p>Example:</p>
-
-<pre>for sg in g:walkgraphs() do<br />
-  print(sg.name)<br />
-end
-</pre>
-
-<h4><a name="g_walknodes" id="g_walknodes"></a>iterfunc, state, nil
-= g:walknodes()</h4>
-
-<p>This iterator function returns a node within the given graph
-each time it is called. In fact it returns the following triple:
-nextnode, g, nil for usage in Lua's generic "for loop".</p>
-
-<p>If no more nodes can be found the function returns nil.</p>
-
-<p>Example:</p>
-
-<pre>for n in g:walknodes() do<br />
-  print(n.name)<br />
-end
-</pre>
-
-<h4><a name="g_write" id="g_write"></a>result, err =
-g:write([FILE])</h4>
-
-<p>Writes a graph in DOT notation into <span style="font-weight: bold;">FILE</span>, which is the name of the file. If
-<span style="font-weight: bold;">FILE</span> is omitted the graph
-is written to standard output.</p>
-
-<p>The function returns a non-nil result on success and nil plus an
-error message in case of failures.</p>
-
-<h4><a name="metamethods" id="metamethods"></a>Graph
-metamethods</h4>
-
-<p style="font-weight: bold;">Comparison:
-&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
-<p style="font-weight: bold; margin-left: 40px;">g1 == g2</p>
-
-<p>Graphs and subgraphs can be compared using the ==&nbsp;operator.
-The comparison returns true if the graphs are identical (have equal
-attributes id). It returns false otherwise.&nbsp;</p>
-
-</div>
-
-<div id="footer">(c) 2006-2009 Herbert Leuwer, November 2006&nbsp;&nbsp;
-&nbsp;<a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>
-
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en-gb" xml:lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">  <head>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=windows-1252" />    <meta content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org"      name="generator" />    <title>LuaGRAPH Reference - Graph methods</title>    <link type="text/css" rel="stylesheet" href="style.css" media="screen" />    <link type="text/css" href="styleprint.css" rel="stylesheet" media="print" />  </head>  <body>    <div id="logo" style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;"><a        id="home2"        name="home2"></a><a        href="http://www.lua.org"><img          hspace="20"          name="lualogo"          src="luagraph.png"          alt="www.lua.org"          id="lualogo"          style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" /></a></div>    <div id="header">      <h1 style="height: 120px; margin-left: 0px; width: 928px;"> <big><big><a              id="home"              name="home"><br />              LuaGRAPH - Reference</a></big></big><a id="home" name="home"><br />          Graph Programming with Lua</a><a id="home" name="home"></a></h1>    </div>    <div id="leftnavigation">      <ul>        <li style="margin-left: 0px; width: 185px;"><a href="index.html" class="current">Home</a></li>        <li><a href="index.html#license">License</a></li>        <li><a href="index.html#features">Features</a></li>        <li><a href="index.html#download">Download</a></li>        <li><a href="index.html#installation">Installation</a></li>        <li><a href="running.html">MANUAL</a></li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li><a href="running.html">Running </a></li>            <li><a href="#object_names">Design</a></li>            <li><a href="graph.html">Graphs</a></li>            <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">              <ul>                <li><a href="graph.html#functions">Functions</a></li>              </ul>              <ul>                <li><a href="#graph_attributes">Attributes</a></li>                <li><a href="#graph_methods">Methods</a></li>                <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">                  <ul>                    <li><a href="#g_close">g.close</a></li>                    <li><a href="#g_close">g.cluster</a></li>                    <li><a href="#g_defaults">g.defaults</a></li>                    <li><a href="#g_declare">g.declare</a></li>                    <li><a href="#g_delete">g.delete</a></li>                    <li><a href="#g_edge">g.edge</a></li>                    <li><a href="#g_getattr">g.getattr</a></li>                    <li><a href="#g_getattr">g.getgraphattr</a></li>                    <li><a href="#g_getattr">g.getnodeattr</a></li>                    <li><a href="#g_getattr">g.getedgeattr</a></li>                    <li><a href="#g_findnode">g.findnode</a></li>                    <li><a href="#g_findedge">g.findedge</a></li>                    <li><a href="#g_idnode">g.idnode</a></li>                    <li><a href="#g_layout">g.layout</a></li>                    <li><a href="#g_nextgraph">g.nextgraph</a></li>                    <li><a href="#g_nextnode">g.nextnode</a></li>                    <li><a href="#g_node">g.node</a></li>                    <li><a href="#g_rawget">g.rawget</a></li>                    <li><a href="#g_record">g.record</a></li>                    <li><a href="#g_render">g.render</a></li>                    <li><a href="#g_setattr">g:setattr</a></li>                    <li><a href="#g_node">g.setgraphattr</a></li>                    <li><a href="#g_node">g.setnodeattr</a></li>                    <li><a href="#g_node">g.setedgeattr</a></li>                    <li><a href="#g_subgraph">g.subgraph</a></li>                    <li><a href="#g_show">g.show</a></li>                    <li><a href="#g_showdotty">g.showdotty</a></li>                    <li><a href="#g_type">g.type</a></li>                    <li><a href="#g_walkgraphs">g.walkgraphs</a></li>                    <li><a href="#g_walknodes">g.walknodes</a></li>                    <li><a href="#g_write">g.write</a></li>                  </ul>                </li>              </ul>              <ul>                <li><a href="#metamethods"><span style="font-weight: bold;">Metamethods</span></a></li>              </ul>            </li>            <li><a href="node.html"><span style="font-weight: bold;">Nodes</span></a></li>            <li><a href="edge.html">Edges</a></li>            <li><a href="examples.html">Examples</a></li>          </ul>        </li>        <li><a href="index.html#whatsnew">What's New</a></li>        <li><a href="index.html#credits">Credits</a></li>        <li><a href="index.html#links">Links</a></li>      </ul>    </div>    <div id="content">      <h2><a id="graphs" name="graphs">Graphs</a></h2>      <h2><a id="graph_attributes" name="graph_attributes">Graph Attributes</a></h2>      <p>Attributes required for graph layout and graph rendering are always        stored as key-value pairs in the form: g[key] or g.key, Only strings are        allowed as keys. Any number of user defined string attributes, which are        not necessarily used by the graphviz library can be set.</p>      <p>With it's creation each graph or subgraph automatically receives  one        of the following read-only attributes.</p>      <table cellspacing="2" cellpadding="2" border="1" style="text-align: left; width: 100%;">        <tbody>          <tr>            <td style="width: 153px; font-weight: bold;">Attribute Key</td>            <td style="width: 141px; font-weight: bold;">Value Type</td>            <td style="width: 229px; font-weight: bold;">Description</td>            <td style="width: 119px; font-weight: bold;">Notes</td>          </tr>          <tr>            <td style="width: 153px;">nnodes</td>            <td style="width: 141px;">number</td>            <td style="width: 229px;">Number of nodes contained in the given              graph</td>            <td style="width: 119px;"><br />            </td>          </tr>          <tr>            <td>nedges</td>            <td style="width: 141px;">number</td>            <td style="width: 229px;">Number of edges contained in the graph</td>            <td style="width: 119px;"><br />            </td>          </tr>          <tr>            <td>name</td>            <td style="width: 141px;">string</td>            <td style="width: 229px;">Name of the graph</td>            <td style="width: 119px;"><br />            </td>          </tr>          <tr>            <td>root</td>            <td style="width: 141px;">graph userdata</td>            <td style="width: 229px;">Parent graph</td>            <td style="width: 119px;">next higher in the hierarchy</td>          </tr>          <tr>            <td>parent</td>            <td style="width: 141px;">graph userdata</td>            <td style="width: 229px;">Root graph</td>            <td style="width: 119px;">highest in the hierarchy</td>          </tr>          <tr>            <td>isstrict</td>            <td style="width: 141px;">boolean</td>            <td style="width: 229px;">true if graph is strict</td>            <td style="width: 119px;"><br />            </td>          </tr>          <tr>            <td>isdirected</td>            <td>boolean</td>            <td>true if graph is directed</td>            <td>directed graphs are the default</td>          </tr>          <tr>            <td>isroot</td>            <td>boolean</td>            <td>true if graph is the root graph</td>            <td><br />            </td>          </tr>          <tr>            <td>graph</td>            <td>graph userdata</td>            <td>Graph to which the given subgraph belongs</td>            <td>trivial for graphs because it returns the graph itself</td>          </tr>          <tr>            <td style="width: 153px;">id</td>            <td style="width: 141px;">number</td>            <td style="width: 229px;">Graphviz internal unique id</td>            <td style="width: 119px;"><br />            </td>          </tr>        </tbody>      </table>      <br />      <h1><a id="graph_methods" name="graph_methods">Graph Methods</a></h1>      <h4><a id="g_close" name="g_close">g:close()</a></h4>      <p>Closes graph g. All graph objects contained in the graph are deleted as        well. Note, that proxy object references to these graph objects are        invalidated and their subsequent usage produces errors.</p>      <h4><a id="g_cluster" name="g_cluster">sg, err = g:cluster(NAME,          ATTRIBUTES, NOCREATE)<br />          sg, err = g:cluster(PARAM)</a></h4>      <p>The first form creates or retrieves a cluster with name NAME and sets        the given <span style="font-weight: bold;">ATTRIBUTES.</span> The        function adds the prefix "cluster_" to the given <span style="font-weight: bold;">NAME.</span>        This prefix instructs LuaGRAPH to encapsulate the subgraph into a        surrounding box. If the flag <span style="font-weight: bold;">NOCREATE</span>        is true, the function will not create the subgraph if it does not        already exist.</p>      <p>The second form does basically the same, but provides a different and        more advanced syntax. The first numeric element of <span style="font-weight: bold;">PARAM</span>        is taken as the name for the node, the second element is the nocreation        flag. All non-numeric elements are interpreted as attributes.</p>      <p>The function returns nil plus an error message if the node could        neither be found nor created.</p>      <h4><a id="g_defaults" name="g_defaults">attributes = g:defaults()</a></h4>      <p>Returns default values for graph objects in graph g. The result is        returned as nested table containing 3 subtables indexed as "graph",        "node" and "edge". Each subtable contains the default attributes as        key-value pairs:</p>      <pre>{graph={ATTR, ...}, node={ATTR, ...}, edge = {ATTR}}</pre>      <h4><a id="g_declare" name="g_declare">result = g:declare(ATTRIBUTES)</a></h4>      <p>Declares attributes and their default values for the given graph g.         Attributes are given as nested table containing 3 subtables indexed as        "graph", "node" and "edge". Each of these subtables contains the        declarations as key-value pairs.</p>      <p>The attribute table has the following form:</p>      <pre>{graph={ATTR, ...}, node={ATTR, ...}, edge = {ATTR}}</pre>      <p>The function returns the number of attributes set.</p>      <h4><a id="g_delete" name="g_delete">result = g:delete(OBJECT)</a></h4>      <p>Deletes the given <span style="font-weight: bold;">OBJECT</span>,        which must be a valid Lua userdata representing a graph, node or edge        object. If <span style="font-weight: bold;">OBJECT</span> is a graph        then all nodes and edges within that graph are deleted as well. If        object is a node, all edges to or from this node are deleted as well. If        object is an edge, only the edge is deleted. Lua userdata associated to        the graphviz objects are invalidated and eventually deleted during        carbage collection.</p>      <p>The function always returns 0.</p>      <h4><a id="g_edge" name="g_edge">e, tail, head = g:edge(TAIL, HEAD [,          LABEL [, NOCREATE]])<br />          edges, nodes= g:edge(PARAM)</a></h4>      <p>Creates or retrieves one or multiple edges connecting two or more        nodes.  The first form connects node <span style="font-weight: bold;">TAIL</span>        with node <span style="font-weight: bold;">HEAD</span>. The nodes can        be specified by name or via a userdata reference. The parameter <span style="font-weight: bold;">LABEL</span>        is optional. If provided it defines the label for the edge. The edge        automatically receives the name "edge@&lt;id&gt;". If <span style="font-weight: bold;">NOCREATE</span>        is set to true the function will not try to create the edge if does not        exist.</p>      <p>The function returns a userdata reference to the edge, the tail node        and the headnode. In case of failures, the function returns nil plus an        error message. </p>      <p>The second form connects multiple nodes and also creates multiple        edges. Numeric elements in table <span style="font-weight: bold;">PARAM</span>        are interpreted as nodes. They can be given by name or as a userdata        reference. Non-numeric elements of table <span style="font-weight: bold;">PARAM</span>        are interpreted as attributes for each edge, that is created.</p>      <p>Example:</p>      <pre>e, tail, head = g:edge("tailnode", headnode, "tail=&gt;head")edges, nodes = g:edge{"tailnode", midnode, headnode, label="tail=&gt;head"}</pre>      <h4><a id="g_getattr" name="g_getattr">attributes = g:getattr()</a></h4>      <p>See <a href="#g_defaults">g.defaults</a>().</p>      <h4><a id="g_findnode" name="g_findnode">n, err = g:findnode(NAME)</a><a name="g_findnode"></a></h4>      <p>Retrieves userdata reference of a node with <span style="font-weight: bold;">NAME</span>        in graph g. Returns nil plus an error message if the node could not be        found.</p>      <h4><a id="g_findedge" name="g_findedge">e, err = g:findedge(TAIL, HEAD,          LABEL)</a></h4>      <p>Retrieves userdata reference of an edge with <span style="font-weight: bold;">LABEL</span>        between the nodes <span style="font-weight: bold;">TAIL</span> and <span          style="font-weight: bold;">HEAD.</span>        The nodes can be given as either userdata references or by name. Returns        nil plus an error message if the edge could not be found.</p>      <h4><a id="g_idnode" name="g_idnode">n, err = g:idnode(ID)</a></h4>      <p>Retrieves userdata reference of an node identified by a numeric <span          style="font-weight: bold;">ID</span>.        Returns nil plus an error message if the node could not be found.</p>      <h4><a id="g_layout" name="g_layout">result, err = g:layout(ENGINE)</a></h4>      <p>Generates a layout of graph g using the algorithm defined by <span style="font-weight: bold;">ENGINE,</span>        which takes one of the following string values:</p>      <ul>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>          </ul>        </li>        <li style="font-weight: bold;">dot</li>        <ul>          <li style="font-weight: bold;">directed graph layout. This is the            default algorithm.</li>        </ul>        <li style="font-weight: bold;">neato</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>undirected graph layout using spring models</li>          </ul>        </li>        <li style="font-weight: bold;">fdp</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>undirected graph layout using the spring model</li>          </ul>        </li>        <li style="font-weight: bold;">circo</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>circular graph layout, where nodes are placed in a circle</li>          </ul>        </li>        <li style="font-weight: bold;">twopi</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>radial graph layout</li>          </ul>        </li>        <li style="font-weight: bold;">nop, nop2</li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li>undirected graph layout like neato, but assumes the graph has              position attributes attached.</li>          </ul>        </li>      </ul>      <p>During the layout all objects within the graph and the graph itself        receive new attributes which represent the drawing coordinates.</p>      <p>Note, that the layout can be performed only ONCE per graph. Any attempt        to layout the graph after a layout has already been generated leads to        an error.</p>      <p>The function returns nil plus an error message in case of failures,        e.g. if the requested layout already exists.</p>      <h4><a id="g_nextgraph" name="g_nextgraph">sg = g:nextgraph(LAST)</a></h4>      <p>Iterator retrieving the next subgraph of graph g. If the parameter <span          style="font-weight: bold;">LAST</span>        is nil, the first subgraph is returned. If <span style="font-weight: bold;">LAST</span>        is a valid subgraph (userdata)  the next instance is returned. The        function can be used standalone, but is mainly provided to be returned        as iterator function from g:walkgraphs().If no subgraph can be found the        function returns nil.</p>      <h4><a id="g_nextnode" name="g_nextnode">n = g:nextnode(LAST)</a></h4>      <p>Iterator retrieving the next node of graph g. If the parameter <span style="font-weight: bold;">LAST</span>        is nil, the first node is returned. If <span style="font-weight: bold;">LAST</span>        is a valid node (userdata)  the next instance is returned. The function        can be used standalone, but is mainly provided to be returned as        iterator function from <a href="#g_walknodes">g:walknodes()</a>. </p>      <p>If no subgraph can be found the function returns nil.</p>      <h4><a id="g_node" name="g_node">n, err = g:node(NAME, ATTRIBUTES          [,NOCREATE])<br />          n, err = g:node(PARAM)</a></h4>      <p>The first form creates or retrieves a node with name NAME and sets the        given <span style="font-weight: bold;">ATTRIBUTES</span>. If the flag <span          style="font-weight: bold;">NOCREATE</span>        is true, the function will not create the node if does not already        exist.</p>      <p>The second form does basically the same but provides a different        syntax. The first numeric element of <span style="font-weight: bold;">PARAM</span>        is taken as name for the node, the second element is the nocreation        flag. All non-numeric elements are interpreted as attributes.</p>      <p>The function returns nil plus an error message if the node could        neither be found nor created.</p>      <p>Examples:</p>      <pre>n, err = g:node("N1", {color="blue"})<br />n, err = g:node{"N2", color = "blue", false, shape = "circle"}</pre><h4><a id="g_rawget" name="g_rawget">result =g:rawget(KEY)</a></h4><p>Retrieves an attributes from a graph object g without using Luametamethods. Attributes are always returned as strings. Onlyattributes in the graphviz library's directories are searched.</p><p>The function returns nil if no attributes with <spanstyle="font-weight: bold;">KEY</span> could be found.</p><h4><a id="g_record" name="g_record">n, err = g:record(NAME,BOX, ATTRIBUTES [, NOCREATE])<br />n, err = g:record(PARAM)</a></h4><p>The first form retrieves or creates a record of name<span style="font-weight: bold;">NAME</span> and sets the given<span style="font-weight: bold;">ATTRIBUTES</span>. If the flag<span style="font-weight: bold;">NOCREATE</span> is true, thefunction will not create the record if does not already exist.</p><p>The second form does basically the same but provides adifferent syntax. The first element with a numeric key(PARAM[1])  is taken as name for the node, the second elementwith numeric index (PARAM[2]) is the BOX (see below) descriptionand the third element with numeric index (PARAM[3]) is thenocreation flag. All non-numeric elements are interpreted asattributes.</p><p>The parameter <span style="font-weight: bold;">BOX</span> is afunction that constructs a graphviz compatible format of a nodelabel which allows the layout engine to create the graphicalrepresentation of a record.</p><p>Luayats provides the two functions <span style="font-weight: bold;">graph.vbox(...)</span> and <spanstyle="font-weight: bold;">grap.hbox(...)</span> which can be directlyused to satisfy the  parameter <span style="font-weight: bold;">BOX</span>. By using hbox as paramter to vboxand vice versa it is possible to construct a valid node descriptionin a hierarchical manner. Both functions take a list as parameter.Each element of this list is either a visible port <span style="font-weight: bold;">label</span> (string element) or another vboxor hbox. The field within a vbox are placed top to down, while theelements in a hbox are place left to right. Using the string"&lt;PORT&gt;" plus the ports visible label, assigns PORT as thename of the port. Edges can then be instructed to end at the portinstead of the complete node (record). Specifying  ports isoptional.</p><p>The usage of the BOX functions are best explained using anexample:</p><pre>local gr = require "graph"---- Define the graph--local g = gr.graph{"G",  -- Need 'record' as shape attribute  node = {shape = "record"},  -- Classical graphviz record definition  gr.node{"n1",     label="&lt;f0&gt; left|&lt;f1&gt; mid\\ dle|&lt;f2&gt; right"};  gr.node{"n2",     label = "&lt;f0&gt; one|&lt;f1&gt; two"},  gr.node{"n3",     label = "hello\\nworld 1|{ b |{c|&lt;here&gt; d|e}|f}|&lt;g&gt; g|{h|z}"},  gr.edge{"n1:f2", "n2:f1"},  gr.edge{"n1", "n3"},  gr.edge{"n2:f0:n", "n3:here:sw"},  gr.edge{"n1:f0", "n3:w"},  -- Luayats record definition using vbox and hbox function  gr.record{"n4",    gr.hbox{      "hello\\nworld 2",      gr.vbox{	"b",	gr.hbox{"c", "&lt;here&gt; d", "e"},	"f"      },      "&lt;g&gt; g",      gr.vbox{"h", "z"}    }  },  -- Same elements but starting top to down  gr.record{"n5",    gr.vbox{      "hello\\nworld 3",      gr.hbox{	"b",	gr.vbox{"c", "&lt;here&gt; d", "e"},	"f"      },      "&lt;g&gt; g",      gr.hbox{"h", "z"}    }  },  -- Connect two ports  gr.edge{"n4:here", "n5:e"}}---- Layout using 'dot' (default) engine--g:layout()g:write()---- Render into different formats--g:render("pdf", "out.pdf")g:render("gif", "out.gif")g:render("svg", "out.svg")g:render("jpg", "out.jpg")g:render("png", "out.png")g:show()---- That's it--g:close()</pre><p>This script constructs the following graph:</p><p><img src="record1.gif" alt="record1.gif" style="height: 512px; width: 597px;" /></p><h4><a id="g_render" name="g_render">result, err =g:render(RENDER_FORMAT, FILE [,LAYOUT_FORMAT])</a></h4><p>The function renders a graph that has been layed out. The stringparameter <span style="font-weight: bold;">RENDER_FORMAT</span> definesone of  the following output formats:</p><pre>macbookpro:luagraph.git leuwer$ lua -l graph -e 'for _,v in pairs(graph.plugins()) do io.stdout:write(v.." ") end print()'cairo dot dot_json fig gd json json0 lasi map mp pic pov ps quartz svg tk vml vrml xdot xdot_json</pre><p>If format is omitted the function will produce a plain textoutput. The rendered graph is written to <span style="font-weight: bold;">FILE</span>. If <spanstyle="font-weight: bold;">FILE</span> is nil the graph is written tostdout.</p><p>The function can be used multiple time to produce differentoutput formats of a graph layout.</p><p>The function returns a non-nil value upon success and nil plusan error message in case of errors.</p><h4><a id="g_setattr" name="g_setattr">result =g:setattr(ATTRIBUTES)</a></h4><p>See g.declare()</p><h4><a id="g_subgraph" name="g_subgraph">sg, err =g:subgraph(NAME, ATTRIBUTES, NOCREATE)<br />sg, err = g:subgraph(PARAM)</a></h4><p>The first form creates or retrieves a subgraph with name NAMEand sets the given <span style="font-weight: bold;">ATTRIBUTES</span>. If the flag <spanstyle="font-weight: bold;">NOCREATE</span> is true, the function will notcreate the subgraph if does not already exist.</p><p>The second form does basically the same but provides adifferent and more advanced syntax. The first numeric element of<span style="font-weight: bold;">PARAM</span> is taken as name forthe node, the second element is the nocreation flag. Allnon-numeric elements are interpreted as attributes.</p><p>The function returns nil plus an error message if the node couldnot be found or not created.</p><p>Examples:</p><pre>n, err = g:subgraph("SG", {color="blue"})n, err = g:node{"N2", color = "blue", false, shape = "circle"}</pre><h4><a id="g_show" name="g_show">result = g:show()</a></h4><p>Renders the given graph using the "gtk" rendering engine, whichproduces an antialiased graph in a GTK canvas. The function endswhen the window is closed and returns a non-nil value upon successand nil plus an error message in case of errors.</p><p>Note:</p><p>For graphviz version lower than 2.10, which does not yet providethe "gtk" rendering engine the function will silently calls<a href="#g_showdotty">g:showdotty()</a> and returns thecorresponding results of this function.</p><p>See also <a href="#g_render">g.render().</a></p><h4><a id="g_showdotty" name="g_showdotty">result =g:showdotty(DOIT)</a></h4><p>Displays the given graph using the "dotty" program that comeswith the graphviz package. The function first layouts and rendersthe graph into a temporary file using the DOT format and thenpasses this file to the dotty program using the Lua standardfunctionos.execute(...)</p><p>The function forwards the error code of os.execute(...).</p><h4><a id="g_type" name="g_type">result = g:type()<br />result = object:type()</a></h4><p>You can apply the type() function to any graph object. Thefunction returns the type of the object as string. In the specialcase of graphs the function returns the string "graph". Passing aninvalid object to this function raises an error. For nodes andedges the call returns "node" and "edge", respectively.</p><h4><a id="g_walkgraphs"name="g_walkgraphs">iterfunc, state,nil = g:walkgraphs()</a></h4><p>This iterator function returns a subgraph of the given grapheach time it is called. In fact it returns the following triple:getnext(), g, nil for usage in Lua's generic "for loop".</p><p>If no more subgraph can be found the function returns nil.</p><p></p><p>Example:</p><p></p><p>for sg in g:walkgraphs() do  print(sg.name)end</p><h4><a id="g_walknodes" name="g_walknodes">iterfunc, state, nil= g:walknodes()</a></h4><p>This iterator function returns a node within the given grapheach time it is called. In fact it returns the following triple:nextnode, g, nil for usage in Lua's generic "for loop".</p><p>If no more nodes can be found the function returns nil.</p><p>Example:</p><pre>for n in g:walknodes() do  print(n.name)end</pre><h4><a id="g_write" name="g_write">result, err =g:write([FILE])</a></h4><p>Writes a graph in DOT notation into <span style="font-weight: bold;">FILE</span>, which is the name of the file. If<span style="font-weight: bold;">FILE</span> is omitted the graphis written to standard output.</p><p>The function returns a non-nil result on success and nil plus anerror message in case of failures.</p><h4><a id="metamethods" name="metamethods">Graphmetamethods</a></h4><p>Comparison:    </p><p style="font-weight: bold; margin-left: 40px;">g1 == g2</p><p>Graphs and subgraphs can be compared using the == operator.The comparison returns true if the graphs are identical (have equalattributes id). It returns false otherwise. </p></div><div id="footer"><a id="metamethods"name="metamethods">(c) 2006-2017 Herbert Leuwer, November 2006   </a><a href="mailto:herbert.leuwer@t-online.de">Contact</a></div></body></html>

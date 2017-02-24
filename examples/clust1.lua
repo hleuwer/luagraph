@@ -4,7 +4,7 @@ gr = require "graph"
 -- For simple formatted printing
 --
 local function printf(fmt, ...)
-  print(string.format(fmt, unpack(arg)))
+   print(string.format(fmt, ...))
 end
 
 --
@@ -42,7 +42,6 @@ digraph G {
 	a3 -> a0;
 }
 ]]
-
 
 -- Print graph as dotfile
 printf("1. Generated 'dot' format:")

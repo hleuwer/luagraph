@@ -12,12 +12,13 @@ uclean: clean
 	rm -f `find . -name "#*"` 
 	rm -f graph/core.so $(LUAGRAPH_SO) 
 	rm -f out.*
+	rm -rf outdir
 
 .PHONY: install uninstall install-doc uninstall-doc
 
 install: all
 	mkdir -p $(INSTALL_SHARE) $(INSTALL_LIB)/graph
-	$(INSTALL_DATA) graph.lua $(INSTALL_SHARE)
+	$(INSTALL_DATA) graph$(V).lua $(INSTALL_SHARE)
 	cd src && $(INSTALL_COPY) $(LUAGRAPH_SO) $(INSTALL_LIB)/graph/core.$(EXT)
 
 uninstall:
@@ -32,21 +33,22 @@ uninstall-doc:
 	rm -rf $(INSTALL_DOC)
 
 .PHONY: test testd
+
 test:
 	$(LUABIN) test/test.lua
 
-testd:
+testd: 
 	$(LUABIN) test/test.lua DEBUG
 
-.PHONY: tag tag-git tag-cvs tag-svn
+.PHONY: tag tag-git 
 tag: tag-git
-	cvs tag -F latest
 
 tag-git:
 	git tag -F latest
 
-tag-cvs:
-	cvs tag -F latest
+
+show::
+	@echo "System shortname: "$(SYSTEM)
 
 .PHONY: dist dist-git dist-cvs dist-svn
 dist: dist-git
@@ -54,14 +56,3 @@ dist: dist-git
 dist-git:
 	mkdir -p $(EXPORTDIR)
 	git archive --format=tar --prefix=$(DISTNAME)/ HEAD | gzip >$(EXPORTDIR)/$(DISTARCH)
-
-dist-cvs:
-	mkdir -p $(EXPORTDIR)/$(DISTNAME)
-	cvs export -r latest -d $(EXPORTDIR)/$(DISTNAME) $(CVSMODULE)
-	cd $(EXPORTDIR); tar -cvzf $(DISTNAME).tar.gz $(DISTNAME)/*
-	rm -rf $(EXPORTDIR)/$(DISTNAME)
-
-dist-svn:
-	svn export $(REPOSITORY)/$(SVNMODULE) $(EXPORTDIR)/$(DISTNAME)
-	cd $(EXPORTDIR); tar -cvzf $(DISTARCH) $(DISTNAME)/*
-	rm -rf $(EXPORTDIR)/$(DISTNAME)

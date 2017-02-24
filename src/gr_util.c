@@ -2,51 +2,102 @@
  * LuaGRAPH toolkit
  * Graph support for Lua.
  * Herbert Leuwer
- * 30-7-2006
+ * 30-7-2006, 01/2017
  *
  * Utilities
  *
- * $Id: gr_util.c,v 1.1 2006-12-17 11:01:56 leuwer Exp $
 \*=========================================================================*/
 
 /*=========================================================================*\
  * Includes
 \*=========================================================================*/
 #include <string.h>
+#include <stdlib.h>
 #include "lua.h"
 #include "lauxlib.h"
-
-#if 0
-#if !defined(LUA_VERSION_NUM) || (LUA_VERSION_NUM < 501)
-#include "compat-5.1.h"
-#endif
-#else
-#include "compat-5.1.h"
-#endif
 #include "gr_graph.h"
 
-/*=========================================================================*\
+/*=========================================================================* \
  * Functions
 \*=========================================================================*/
+static unsigned int localid = 0;
+
+unsigned int newid(void){
+  localid = localid + 1;
+  return localid;
+}
+
+/*
+ * Convert numerical kind indication into readable text string.
+ */
+char *agobjkindstr(struct Agobj_s *obj)
+{
+  int kind = agobjkind(obj);
+  return kind == AGRAPH ? "graph" : kind == AGNODE ? "node" : kind == AGEDGE ? "edge" : "unknown";
+}
+
+/*
+ * Insertion callback: called when an object is inserted by cgraph.
+ * Used to register proxy object on top of stack in Lua registry using cgraph object as key.
+ */
+void cb_insert(struct Agraph_s *g, struct Agobj_s *obj, void *L)
+{
+  /* register user data on top of stack */
+  TRACE("   cb_insert(): register object '%s' type: %s\n", agnameof(obj), agobjkindstr(obj));
+  set_object((lua_State *)L, (void *) obj);
+}
+
+/*
+ * Deletion callback: called when an object is inserted by cgraph.
+ * De-register proxy object.
+ */
+void cb_delete(Agraph_t *g, Agobj_t *obj, void *L)
+{
+  char *skey;
+
+  TRACE("   cb_delete() : unregister object '%s' kind=%s ptr=%p\n", agnameof(obj),
+        agobjkind(obj) == AGRAPH ? "graph" : agobjkind(obj) == AGNODE ? "node" :
+        agobjkind(obj) == AGEDGE ? "edge" : "unknown", obj);
+  skey = agget(obj, "__attrib__");
+  if (skey && (strlen(skey) != 0)) {
+    printf("   cb_delete(): nulling attrib\n");
+    lua_pushstring(L, skey);
+    lua_pushnil(L);
+    lua_rawset(L, LUA_REGISTRYINDEX);
+    agset(obj, "__attrib__", NULL);
+    agstrfree(agroot(obj), skey);
+  }
+  del_object(L, obj);
+}
+
+/*
+ * Modification callback. Not used by LuaGRAPH
+ */ 
+void cb_modify(Agraph_t *g, Agobj_t *obj, void *L, Agsym_t *sym)
+{
+  TRACE("   cb_modify(): modify object '%s'\n", agnameof(obj));
+}
+
 /*
  * Query Lua stack for an object
  */
 gr_object_t *toobject(lua_State *L, int narg, const char *type, int strict)
 {
   gr_object_t *ud;
+  
   if (type != NULL){
     ud = luaL_checkudata(L, narg, type);
   } else {
     ud = lua_touserdata(L, narg);
   }
   if (!ud){
-    luaL_error(L, "bad argument #%d (valid userdata `%s' expected; null received)", 
+    luaL_error(L, "bad argument %d (valid userdata `%s' expected; null received)", 
 	       narg, (type) ? type : "???");
     return NULL;
   }
-  if (strict && (ud->p.p == NULL)){
-    luaL_error(L, "bad argument #%d (valid userdata `%s' expected: invalid received)", 
-	       narg, (type) ? type : "???");
+    if (strict && (ud->p.p == NULL)){
+      luaL_error(L, "bad argument #%d (valid userdata `%s' %d expected: invalid received)", 
+	       narg, (type) ? type : "???", ud->p.status);
     lua_error(L);
     return NULL;
   }
@@ -58,31 +109,66 @@ gr_object_t *toobject(lua_State *L, int narg, const char *type, int strict)
  */
 int set_object(lua_State *L, void *key)
 {
-  TRACE("set_object(): key=%p\n", key);
+  TRACE("   set_object(): key=%p (%s %d)\n", key, __FILE__, __LINE__);
   lua_pushlightuserdata(L, key);       /* ud, key */
   lua_pushvalue(L, -2);                /* ud, key, ud */
   lua_rawset(L, LUA_REGISTRYINDEX);    /* ud */
   return 1;
 }
 
+int set_status(lua_State *L, void *key, int status)
+{
+  gr_object_t *ud;
+  
+  lua_pushlightuserdata(L, key);       /* ?, key */
+  lua_rawget(L, LUA_REGISTRYINDEX);
+  ud = lua_touserdata(L, -1);
+  if (ud)
+    ud->p.status = status;
+  return 0;
+}
 /*
  * Delete an object from Lua registry.
  */
 int del_object(lua_State *L, void *key)
 {
-  char *skey;
-  TRACE("del_object(): key=%p\n", key);
-  lua_pushlightuserdata(L, key);       /* ?, key */
+  TRACE("   del_object(): key=%p '%s' (%s %d)\n", key, agnameof(key), __FILE__, __LINE__);
+  set_status(L, key, DEAD);
+  lua_pushlightuserdata(L, key);
   lua_pushnil(L);                      /* ?, key, nil */
   lua_rawset(L, LUA_REGISTRYINDEX);    /* ? */
-  skey = agget(key, ".attrib");
-  if (skey && (strlen(skey) != 0)) {
-    lua_pushstring(L, skey);
-    lua_pushnil(L);
-    lua_rawset(L, LUA_REGISTRYINDEX);
-    agset(key, ".attrib", NULL);
-    agstrfree(skey);
+  return 0;
+}
+
+/*-------------------------------------------------------------------------*\
+ * Property: status [string]
+ * Returns the string "alive" or "dead" for the given graph.
+ * Use to test whether a reference to a graph object kept in a lua variable
+ * is still alive.
+ * Example:
+ * b = g.status
+\*-------------------------------------------------------------------------*/
+int gr_status(lua_State *L)
+{
+  gr_object_t *ud = toobject(L, 1, NULL, NONSTRICT);
+  if (ud){
+    if (ud->p.status == ALIVE)
+      lua_pushstring(L, "alive");
+    else
+      lua_pushstring(L, "dead");
+  } else {
+    lua_pushstring(L, "???");
   }
+  return 1;
+}
+
+int gr_collect(lua_State *L)
+{
+  gr_object_t *ud = lua_touserdata(L, 1);
+  TRACE("   gr_collect(): %s ud=%p ptr=%p\n", ud->p.name, ud, ud->p.p);
+  if (ud->p.name)
+    free(ud->p.name);
+  ud->p.p = NULL;
   return 0;
 }
 
@@ -91,13 +177,16 @@ int del_object(lua_State *L, void *key)
  */
 int get_object(lua_State *L, void *key)
 {
-  TRACE("get_object():  key=%p\n", key);
+  gr_object_t *ud;
   lua_pushlightuserdata(L, key);               /* ?, key */
   lua_rawget(L, LUA_REGISTRYINDEX);            /* ?, ud or nil */
-  if (lua_isnil(L, -1)){                          
-    lua_pushstring(L, "not found");            /* ?, nil, err */
+  ud = lua_touserdata(L, -1);
+  if (ud == NULL){                          
+    TRACE("   get_object(): key = %p not found (%s %d)\n", key, __FILE__, __LINE__);
+    lua_pushstring(L, "object not found in registry");            /* ?, nil, err */
     return 2;
   }
+  TRACE("   get_object(): key=%p ud=%p '%s' (%s %d)\n", key, ud, ud->p.name, __FILE__,__LINE__);
   return 1;                                    /* ?, ud */
 }
 
@@ -125,7 +214,8 @@ static int setval(lua_State *L)
   gr_object_t *ud = toobject(L, 1, NULL, STRICT);
   char *key = (char *) luaL_checkstring(L, 2);
   char *value = (char *) luaL_checkstring(L, 3);
-  return  agsafeset(ud->p.p, key, value, NULL);
+  //  return agset(ud->p.p, key, value);
+  return  agsafeset(ud->p.p, key, value, "");
 }
 
 /*
@@ -139,6 +229,7 @@ int object_index_handler(lua_State *L)
 {
   gr_object_t *ud;
   char *skey;
+
   /* Read member lookup in first upvalue */
   lua_pushvalue(L, 2);                      /* ud, key, key */
   lua_rawget(L, lua_upvalueindex(1));       /* ud, key, getfunc (member) or nil (method) */
@@ -160,7 +251,7 @@ int object_index_handler(lua_State *L)
 	/* Try generic storage */
 	lua_settop(L, 2);                      /* ud, key */
 	ud = toobject(L, 1, NULL, STRICT);
-	skey = agget(ud->p.p, ".attrib");
+	skey = agget(ud->p.p, "__attrib__");
 	if (skey && strlen(skey) > 0){
 	  lua_pushstring(L, skey);            /* ud, key, skey */
 	  lua_rawget(L, LUA_REGISTRYINDEX);   /* ud, key, stab */
@@ -187,14 +278,15 @@ int object_index_handler(lua_State *L)
 int object_newindex_handler(lua_State *L)
 {
   char sskey[16], *skey;
+  TRACE("   newindex(): key='%s' value='%s'\n", lua_tostring(L, 2), lua_tostring(L, 3));
   if ((!lua_isstring(L, 2)) || (!lua_isstring(L, 3))){
     gr_object_t *ud = toobject(L, 1, NULL, STRICT);
-    skey = agget(ud->p.p, ".attrib");
+    skey = agget(ud->p.p, "__attrib__");
     if (!skey || (strlen(skey) == 0)){
       /* Let's create an attrib table on the fly if none exists */
       sprintf(sskey, "%p", ud->p.p);
-      skey = agstrdup(sskey);
-      agset(ud->p.p, ".attrib", skey);
+      skey = agstrdup(agroot(ud->p.p), sskey);
+      agset(ud->p.p, "__attrib__", skey);
       lua_pushstring(L, skey);             /* ud, key, value, skey */
       lua_newtable(L);                     /* ud, key, value, skey, stab */
       lua_rawset(L, LUA_REGISTRYINDEX);    /* ud, key, value, */
@@ -215,14 +307,14 @@ int object_newindex_handler(lua_State *L)
  * Lua entry stack: ud
  * Lua exit stack:  ud
  */
-int new_object(lua_State *L, const char *kind, const luaL_reg *reg_rmembers, 
-	       const luaL_reg *reg_methods, const luaL_reg *reg_metamethods,
+int new_object(lua_State *L, const char *kind, const luaL_Reg *reg_rmembers, 
+	       const luaL_Reg *reg_methods, const luaL_Reg *reg_metamethods,
 	       index_handler_t *index_handler)
 {
-  int methods, metatable, rv;
-
+  int methods, metatable;
   /* Put methods in a table */
   lua_newtable(L);                         /* ud, mtab */
+
   register_metainfo(L, reg_methods);
   methods = lua_gettop(L);
 
@@ -252,7 +344,7 @@ int new_object(lua_State *L, const char *kind, const luaL_reg *reg_rmembers,
   lua_pushcclosure(L, index_handler, 2);  /* ud, mtab, mt, "__index", func */
   lua_rawset(L, metatable);               /* ud, mtab, mt */
 
-  rv = lua_setmetatable(L, -3);           /* ud, mtab */
+  lua_setmetatable(L, -3);           /* ud, mtab */
   lua_pop(L,1);                           /* ud */
 
   return 1;
@@ -266,7 +358,7 @@ void *chk_object(lua_State *L, void *obj)
   gr_object_t *ud = (gr_object_t *) obj;
   if (ud->p.p == NULL){
     lua_pushfstring(L, "invalid userdata of type `%s' detected", 
-		    ud->p.type == AGGRAPH ? "graph" :
+		    ud->p.type == AGRAPH ? "graph" :
 		    ud->p.type == AGNODE ? "node" :
 		    ud->p.type == AGEDGE ? "edge" : "unknown");
     lua_error(L);
@@ -285,64 +377,11 @@ void *chk_object(lua_State *L, void *obj)
 int get_object_type(lua_State *L)
 {
   gr_object_t *ud = toobject(L, 1, NULL, STRICT);
-  lua_pushstring(L, AGTYPE(ud->p.p) == AGGRAPH ? "graph" :
+  lua_pushstring(L, AGTYPE(ud->p.p) == AGRAPH ? "graph" :
 		 AGTYPE(ud->p.p) == AGNODE ? "node" :
 		 AGTYPE(ud->p.p) == AGEDGE ? "edge" : "unkown");
   return 1;
 }
 
-#ifdef FINISHME
-void insert_callback(Agobj_t *obj, void *arg)
-{
-  gr_cbrecord_t *cbrec = (gr_cbrecord_t *)aggetrec(obj, "lua_State", FALSE);
-  lua_State *L = cbrec->L;
-}
 
-void delete_callback(Agobj_t *obj, void *arg)
-{
-}
 
-void update_callback(Agobj_t *obj, void *arg, Agsym_t *sym)
-{
-  gr_cbrecord_t *cbrec = (gr_cbrecord_t *)aggetrec(obj, "lua_State", FALSE);
-  lua_State *L = cbrec->L;
-  char *key = sym->name;
-  char *value = agxget(obj, sym);
-  gr_object_t *ud = get_object(L, obj);         /* ud */
-  if (!obj){
-    luaL_error(L, "not found");
-  }
-  lua_pushlightuserdata(L, &ud->p.cb.mod);           /* ud, key */
-  lua_rawget(L, LUA_REGISTRYINDEX);             /* ud, func */
-  lua_pushvalue(L, -2);                         /* ud, func, ud */
-  lua_pushstring(L, key);                       /* ud, func, ud, key */
-  lua_pushstring(L, value);                     /* ud, func, ud, key, value */
-  lua_call(L, 3, 0);                            /* ud */
-  lua_pop(L, 1);
-}
-#endif
-
-/*
- * Some homemade extension to libgraph.
- */
-Agraph_t *agfstsubg(Agraph_t *g, Agedge_t **lastedge)
-{
-  Agedge_t *e;
-  Agraph_t *meta = g->meta_node->graph;
-  e = agfstout(meta, g->meta_node);
-  *lastedge = e;
-  if (!e)
-    return NULL;
-  return agusergraph(e->head);
-}
-
-Agraph_t *agnxtsubg(Agraph_t *g, Agedge_t **lastedge)
-{
-  Agedge_t *e;
-  Agraph_t *meta = g->meta_node->graph;
-  e = agnxtout(meta, *lastedge);
-  *lastedge = e;
-  if (!e)
-    return NULL;
-  return agusergraph(e->head);
-}

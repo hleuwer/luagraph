@@ -1,6 +1,6 @@
 local gr = require "graph"
 
-if table.getn(arg) < 2 then
+if #arg < 2 then
   print("usage: lua render.lua FILE FORMAT")
   print("       FORMAT: dot, neato, twopi, fdp, circo")
   os.exit(-1)
@@ -29,11 +29,7 @@ local f, err = assert(loadfile(arg[1]))
 local g = f(fmt)
 
 printf("Generated '%s' format:", fmt)
-if string.find(fmt, "nop") then
-  g:layout("neato")
-end
 g:write()
 g:show()
-g:layout(fmt)
-g:render("png", "out.png")
+g:render("pdf", "out.pdf", fmt)
 g:close()

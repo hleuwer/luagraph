@@ -1,6 +1,5 @@
-
 LuaGRAPH
-=======
+========
 
 
 * LuaGRAPH
@@ -14,15 +13,9 @@ LuaGRAPH
 	http://www.graphviz.org/
 
 
-  You must have Lua version 5.1. Lua can be downloaded 
+  You must have Lua version 5.1, 5.2 or 5.3. Lua can be downloaded 
   from its home page:
 	  http://www.tecgraf.puc-rio.br/lua/
-
-  If you use LuaGRAPH with Lua 5.0 you should have the compat-5.1 package properly
-  installed on your system. Note, Lua 5.0 is no longer officially supported by
-  LuaGRAPH.
-  If you use LuaGRAPH with Lua 5.1 you should set the compiler switch COMPAT_H in
-  your makefile.
 
 
 * Documentation
@@ -38,13 +31,42 @@ LuaGRAPH
   -------------
 
   See the license agreement in the file LICENSE.
-  For the graphviz license see the file COPYING.
 
 * Download
   --------
-  LuaGRAPH can be downloaded from LuaForge at 
+  LuaGRAPH can be downloaded from github at
 	
-	http://luaforge.net
+	https://github.com/hleuwer/luagraph
+
+* Configuration
+  -------------
+
+  Before building LuaGRAPH you have to adopt the config file by
+  adjusting various constants to the installed Lua and Graphviz version.
+
+* Status
+  ------
+  Newest version is LuaGRAPH 2.0 now supports the `cgraph´ library and all
+  Lua versions from Lua 5.1 to Lua 5.3. Lua 5.0 is no longer supported.
+  It has been tested on MacOS Sierra version 10.12.13, Linux Debian and
+  Windows 10 running as guest in a Virtual Box virtual machine under MacOS.
+
+  Under MacOS and Linux all regression tests pass without any error. Under
+  Windows a couple of functions do not work. See below for explanation.
+
+  Since it runs perfectly und MacOS and Linux I decided to publish LuaGRAPH 2.0.
+
+  The library itself runs also under Windows, but the program crashes with
+  an access violation when it comes to more deep interworking with the Windows
+  kernel during reading graphs from files, loading of plugins (both preloaded
+  and on-demand loading). This may be caused by the fact that the binary
+  version of Graphviz 2.38 was compiled (VC 2010?) with a different version
+  than the Luagraph library (VC2015) and the Lua interpreter (VC2008 or MingGW),
+  which leads to loading of multiple version of the Microsoft C runtime
+  libraries. I didn't spend too much effort to make Graphviz compile on
+  my platform using MingGW, MSYS2 or VC2015.
+
+  Any help on this issue is welcome. 
 
 * Installation
   ------------
@@ -52,15 +74,13 @@ LuaGRAPH
   In order to build LuaGRAPH on a Linux, Unix or Cygwin/Mingw based
   POSIX like system:
 
-  1. Make sure you have Lua 5.1. LuaGRAPH may still work with Lua 5.0.
-     However, Lua 5.0 is no longer officially supported.
+  1. Make sure you have Lua 5.1 to 5.3. 
      The file test.lua in the test subdirectory uses lualogging which 
-     can be downloaded from LuaForge at http://luaforge.net or via
-     LuaRocks at http://www.luarocks.org.
+     can be installed via Luarocks at http://www.luarocks.org.
 
   2. With graphviz version 2.12 you might have to use the `ltdl' library 
      that comes with graphviz in order to have the rendering plugins to 
-     work properly. Version 2.26 is currently the last graphviz version
+     work properly. Version 2.40 is currently the last graphviz version
      that is supported.
 
   3. LuaGRAPH comes with a makefile and a simple config file to adopt
@@ -91,18 +111,12 @@ LuaGRAPH
   None.
 
 
-* LuaGRAPH on MS Windows
-  ---------------------
-
-  Not yet finished.
-
-
 * Comments and bug reports
   ------------------------
 
   Please send your comments and bug reports to the Lua mailing list.
 
-December 2006 (March 2010)
+December 2006 (January 2017)
 
 Have fun.
 

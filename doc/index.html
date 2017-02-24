@@ -1,473 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb"><head>
-
-
-
-
-
-
-
-  
-  
-  
-  
-  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" /><title>LuaGRAPH - Design</title>
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <link media="screen" href="style.css" rel="stylesheet" type="text/css" />
-
-
-
-
-
-  
-  
-  
-  
-  <link media="print" rel="stylesheet" href="styleprint.css" type="text/css" /></head><body>
-
-
-
-
-
-<div style="top: 12px; height: 129px; left: 0px; text-align: center; width: 925px;" id="logo"><a name="home2" id="home2" /><a href="http://www.lua.org"><img style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" id="lualogo" alt="www.lua.org" src="luagraph.png" name="lualogo" hspace="20" /></a></div>
-
-
-
-
-
-<div id="header">
-<h1 style="height: 120px; margin-left: 0px; width: 928px;">
-<big><big><a name="home" id="home" /><br />
-
-
-
-
-
-LuaGRAPH</big></big><br />
-
-
-
-
-
-Graph Programming with Lua</h1>
-
-
-
-
-
-</div>
-
-
-
-
-
-<div id="leftnavigation">
-<ul>
-
-
-
-
-
-  <li style="margin-left: 0px; width: 185px;"><a class="current" href="index.html">Home</a></li>
-
-
-
-
-
-  <li><a href="index.html#license">License</a></li>
-
-
-
-
-
-  <li><a href="index.html#features">Features</a></li>
-
-
-
-
-
-  <li><a href="index.html#download">Download</a></li>
-
-
-
-
-
-  <li><a href="index.html#installation">Installation</a></li>
-
-
-
-
-
-  <li><a href="running.html">MANUAL</a></li>
-
-
-
-
-
-  <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">
-    
-    
-    
-    
-    <ul>
-
-
-
-
-
-      <li><a href="running.html">Running&nbsp;</a> <a href="design.html">Design</a><br />
-
-
-
-
-
-        <a href="graph.html">Graphs</a>&nbsp;</li>
-
-
-
-
-      <li><a href="node.html">Nodes</a>&nbsp;</li>
-
-
-
-
-      <li><a href="edge.html">Edges</a>&nbsp;</li>
-
-
-
-
-      <li><a href="examples.html">Examples</a></li>
-
-
-
-
-
-    
-    
-    
-    
-    </ul>
-
-
-
-
-
-  </li>
-
-
-
-
-
-  <li><a href="#whatsnew">What's New</a></li>
-
-
-
-
-
-  <li><a href="#links">Links</a></li>
-
-
-
-
-
-  <li><a href="#todo">ToDo</a></li>
-
-
-
-
-
-</ul>
-
-
-
-
-
-</div>
-
-
-
-
-
-<div id="content">
-<h1><a name="luagraph" id="luagraph" />LuaGRAPH</h1>
-
-
-
-
-
-<p>LuaGRAPH is a binding to the graphviz library. It allows to
-create, manipulate, layout and render graphs using the Lua
-programming language.&nbsp;</p>
-
-<p>LuaGRAPH has been tested under Linux and Windows using cygwin.</p>
-
-
-
-
-
-<h1><a name="License" id="License" />License</h1>
-
-
-
-
-
-<p>LuaGRAPH is released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT/X-Consortium
-License</a>.</p>
-
-
-
-
-
-<h1><a name="features" id="features" />Features</h1>
-
-
-
-
-
-<ul>
-
-
-
-
-
-  <li>Define graphs using Lua syntax elements (tables,
-functions)</li>
-
-
-
-
-
-  <li>Layout and render graphs</li>
-
-
-
-
-
-  <li>Iterators for subgraphs, nodes and edges</li>
-
-
-
-
-
-  <li>Set and get for all graphviz attributes for graphs, nodes and
-edges</li>
-
-
-
-
-
-  <li>Set and get user defined properties (even methods) to any graph
-object</li>
-
-
-
-
-
-</ul>
-
-
-
-
-
-<h1><a name="download" id="download" />Download</h1>
-
-
-
-
-
-<p style="font-family: Helvetica,Arial,sans-serif;">LuaGRAPH can
-be&nbsp; downloaded from <a href="http://luaforge.net/">LuaForge</a>.</p>
-
-
-
-
-
-<h1><a name="installation" id="installation" />Installation</h1>
-
-
-
-
-
-<p style="font-family: Helvetica,Arial,sans-serif;">You need the
-following components to compile and install LuaGRAPH:</p>
-
-
-
-
-
-<ul>
-
-
-
-
-
-  <li><a href="http://www.lua.org">Lua</a> version 5.1</li>
-
-
-
-
-
-  <li><a href="http://www.lua.org">Lua</a> 5.1 compatibility package
-    <a href="http://www.keplerproject.org/compat/">Compat-5.1</a>
-release 5 or later <br />
-</li>
-
-
-
-
-
-  <li>The <a href="http://www.graphviz.org">graphviz</a> library
-version 2.8&nbsp; or later. Version 2.26 recommended.</li>
-
-
-
-
-
-</ul>
-
-
-
-
-
-<p style="font-family: Helvetica,Arial,sans-serif;">The module itself has no dependencies on other modules. The example and test scripts use the module <a href="http://luaforge.net/projects/lualogging/">lualogging</a>.&nbsp;</p>
-
-<p style="font-family: Helvetica,Arial,sans-serif;">For detailed
-install instructions see the README file that comes with the
-distribution.</p>
-
-
-
-
-
-<h1><a name="whatsnew" id="whatsnew" />What's New ?</h1>
-
-
-
-
-
-<ul>
-
-  <li>2010-03-21: LuaGRAPH version 1.0.4 has been released</li>
-  <ul>
-    <li>Mintor update to macht grapviz version 2.26</li>
-    <li>Dropped official Lua 5.0 support<br />
-    </li>
-  </ul>
-  <li>2009-07-07: LuaGRAPH version 1.0.3 has been released</li>
-
-
-
-  
-  
-  <ul>
-
-
-    <li>Minor update to match graphviz version 2.20</li>
-
-  
-  </ul>
-
-  <li>2007-01-11: LuaGRAPH version 1.0.2 has been released.</li>
-
-  
-  <ul>
-
-    <li>Improved&nbsp;encapsulation of the graph namespace (removed package.seeall).</li>
-
-    <li>No functional changes !</li>
-
-  
-  </ul>
-
-  <li>2006-12-14: LuaGRAPH version 1.0.1 has been released.</li>
-
-  
-  <ul>
-
-    <li>Initial release.&nbsp;</li>
-
-  
-  </ul>
-
-
-
-
-
-</ul>
-
-
-
-
-
-<h1><a name="links" id="links" />Links</h1>
-
-
-
-
-
-<p><a href="http://www.lua.org/">Lua Homepage</a></p>
-
-
-
-
-
-<p><a href="http://www.graphviz.org/">graphviz Homepage</a></p>
-
-
-
-
-
-<p><a href="http://lua-users.org/">Lua Wiki</a></p>
-
-
-
-
-
-<p><a href="http://lua-users.org/lists/lua-l/">Lua Mailing
-List</a></p>
-
-
-
-
-
-<h1><a name="todo" id="todo" />ToDo</h1>
-
-
-
-
-
-<p>Please refer to file TODO in the top level directory of
-LuaGRAPH.</p>
-
-
-
-
-
-</div>
-
-
-
-
-
-<div id="footer">(c) 2006-2010 Herbert Leuwer, November 2006&nbsp;&nbsp;
-&nbsp;<a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>
-
-
-
-
-
-</body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en-gb" xml:lang="en-gb" xmlns="http://www.w3.org/1999/xhtml">  <head>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=windows-1252" />    <meta content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org"      name="generator" />    <title>LuaGRAPH - Design</title>    <link type="text/css" rel="stylesheet" href="style.css" media="screen" />    <link type="text/css" href="styleprint.css" rel="stylesheet" media="print" />  </head>  <body><a id="home2" name="home2"></a><a href="http://www.lua.org"><img hspace="20"        name="lualogo"        src="luagraph.png"        alt="www.lua.org"        id="lualogo"        style="border: 0px solid ; left: 0px; top: 6px; width: 115px; height: 118px; float: left;" /></a>    <div id="header">      <h1 style="height: 120px; margin-left: 0px; width: 928px;"><big><big><a id="home"              name="home"><br />              LuaGRAPH</a></big></big><a id="home" name="home"><br />          Graph Programming with Lua</a></h1>    </div>    <div id="leftnavigation">      <ul>        <a id="home" name="home"> </a>        <li style="margin-left: 0px; width: 185px;"><a href="index.html" class="current">Home</a></li>        <li><a href="index.html#license">License</a></li>        <li><a href="index.html#features">Features</a></li>        <li><a href="index.html#download">Download</a></li>        <li><a href="index.html#installation">Installation</a></li>        <li><a href="running.html">MANUAL</a></li>        <li style="list-style-type: none; list-style-image: none; list-style-position: outside;">          <ul>            <li><a href="running.html">Running </a> </li>            <li><a href="design.html">Design</a><br />              <a href="graph.html">Graphs</a> </li>            <li><a href="node.html">Nodes</a> </li>            <li><a href="edge.html">Edges</a> </li>            <li><a href="examples.html">Examples</a></li>          </ul>        </li>        <li><a href="#whatsnew">What's New</a></li>        <li><a href="#links">Links</a></li>        <li><br />        </li>      </ul>    </div>    <div id="content">      <h1><a id="luagraph" name="luagraph">LuaGRAPH</a></h1>      <p>LuaGRAPH is a binding to the graphviz library. It allows to create,        manipulate, layout and render graphs using the Lua programming language.<br />        LuaGRAPH has been tested under Linux and Windows using cygwin.</p>      <h1><a id="License" name="License">License</a></h1>      <p>LuaGRAPH is released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT/X-Consortium
+          License</a>.</p>      <h1><a id="features" name="features">Features</a></h1>      <ul>        <li>Define graphs using Lua syntax elements (tables, functions)</li>        <li>Layout and render graphs</li>        <li>Iterators for subgraphs, nodes and edges</li>        <li>Set and get for all graphviz attributes for graphs, nodes and edges</li>        <li>Set and get user defined properties (even methods) to any graph          object</li>      </ul>      <h1><a id="download" name="download">Download</a></h1>      <p style="font-family: Helvetica,Arial,sans-serif;">LuaGRAPH can be         downloaded from <a href="https://github.com/hleuwer/luagraph" target="_top">github</a>. </p>      <h1><a id="installation" name="installation">Installation</a></h1>      <p style="font-family: Helvetica,Arial,sans-serif;">You need the following        components to compile and install LuaGRAPH:</p>      <ul>        <li><a href="http://www.lua.org">Lua</a> version 5.1, 5.2 or 5.3<br />        </li>        <li>The <a href="http://www.graphviz.org">graphviz</a> library version          2.38 or later recommended.</li>        <li>It compiles and runs on MacOS and Linux without any error</li>        <li>It compiles without problems and partly runs on Windows 10. See the          <a href="file:///Users/leuwer/git/luagraph.git/README">README</a> file          for details.</li>      </ul>      <p style="font-family: Helvetica,Arial,sans-serif;">The module itself has        no dependencies on other modules. The example and test scripts use the        module <a href="http://luaforge.net/projects/lualogging/">lualogging</a>. </p>      <p style="font-family: Helvetica,Arial,sans-serif;">For detailed install        instructions see the <a href="file:///Users/leuwer/git/luagraph.git/README">README</a>        file that comes with the distribution. </p>      <h1><a id="whatsnew" name="whatsnew">What's New <br />        </a></h1>      <ul>        <li>2017-01-14: LuaGRAPH version 2.0 has been released</li>        <ul>          <li>Major update to support <i>cgraph</i> instead of the older <i>agraph
+              </i>library</li>          <li>Support of newest graphviz version 2.40<br />          </li>          <li>Support for Lua version 5.1, 5.2 and 5.3</li>          <li>Added function graph.plugins() retrieving layout and render            capabilities.</li>          <li>Removed graph methods g:rename() and g:insert() due to lack of            support by cgraph.</li>          <li>Changed the signature (additional parameters) for some graph            methods.</li>        </ul>      </ul>      <ul>        <ul>        </ul>      </ul>      <ul>        <li>2010-03-21: LuaGRAPH version 1.0.4 has been released</li>        <ul>          <li>Minor update to macht grapviz version 2.26</li>          <li>Dropped official Lua 5.0 support<br />          </li>        </ul>      </ul>      <ul>      </ul>      <ul>        <li>2009-07-07: LuaGRAPH version 1.0.3 has been released</li>        <ul>          <li>Minor update to match graphviz version 2.20</li>        </ul>      </ul>      <ul>        <li>2007-01-11: LuaGRAPH version 1.0.2 has been released.</li>        <ul>          <li>Improved encapsulation of the graph namespace (removed            package.seeall).</li>          <li>No functional changes!</li>        </ul>      </ul>      <ul>        <li>2006-12-14: LuaGRAPH version 1.0.1 has been released.</li>        <ul>          <li>Initial release.</li>        </ul>      </ul>      <h1><a id="links" name="links">Links</a></h1>      <p><a href="http://www.lua.org/">Lua Homepage</a></p>      <p><a href="http://www.graphviz.org/">Graphviz Homepage</a></p>      <p><a href="http://www.graphviz.org/Documentation.php">Grapviz          Documentation<br />        </a></p>      <p><a href="http://lua-users.org/">Lua Wiki</a></p>      <p><a href="http://lua-users.org/lists/lua-l/">Lua Mailing List</a></p>      <br />    </div>    <div id="footer"><a id="todo" name="todo">(c) 2006-2017 Herbert Leuwer,        November 2006    </a><a href="mailto:herbert.leuwer@t-online.de">Contact</a></div>  </body></html>

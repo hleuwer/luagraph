@@ -8,7 +8,7 @@ local g = gr.graph{"G",
   node = {shape = "record"},
   -- Classical graphviz record definition
   gr.node{"n1", 
-    label="<f0> left|<f1> mid\ dle|<f2> right"};
+    label="<f0> left|<f1> mid\\ dle|<f2> right"};
   gr.node{"n2", 
     label = "<f0> one|<f1> two"},
   gr.node{"n3", 

@@ -69,21 +69,17 @@ local g = graph{"G",
 if true then
   g:show()
 end
---
--- Make the layout using 'dot' (default) engine
---
-print("Layout ...")
-g:layout()
 
 --
 -- Render the graph into postscript format
 --
 print("Render ...")
+g:layout("dot")
 g:render("ps", "out.ps")
 g:render("gif", "out.gif")
 g:render("svg", "out.svg")
 g:render("png", "out.png")
-
+g:freelayout()
 --
 -- Close the graph
 --

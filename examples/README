@@ -9,6 +9,7 @@ run.lua     	- Render a graph; select input file on command line
 render.lua  	- Render a graph; select input and algorithm on command line
 subgraph.lua   	- Subgraph example
 tablegraph.lua 	- Some examples to show a Lua table as graph
+renderall.lua   - Renders a graph using all supported renderers.
 
 * Directory "examples/graphs":
 
