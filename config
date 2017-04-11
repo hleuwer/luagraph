@@ -36,6 +36,17 @@ DEBUG = 1
 
 # Current graphviz version
 GVVERSION = $(shell dot -V 2>&1 | cut -d " " -f 5)
+ifeq ($(SYSTEM), Msys)
+  GVROOT=/c/usr
+else
+  ifeq ($(SYSTEM), Darwin)
+    GVROOT=/opt/local
+  else
+    GVROOT=/usr
+  endif
+endif
+GVINC=$(GVROOT)/include
+GVLIB=$(GVROOT)/lib
 
 # Root of Lua Installation
 ifeq ($(SYSTEM), Msys)
@@ -73,25 +84,15 @@ ifeq ($(SYSTEM), Msys)
   LUAINC=$(LUA)/include
   LUABIN=$(LUA)/bin
   EXT = dll
-  GVROOT=/c/usr
 else
   ifeq ($(SYSTEM), Darwin)
     # Lua installation for Darwin
-    LUA = /opt/local
-    GVROOT=/opt/local/include
+    LUA = /usr/local
     EXT = so
-    ifeq ($(LV), 5.3)
-       LUABIN=$(LUA)/bin/lua
-       LUAINC=$(LUA)/include
-       LUALIB=$(LUA)/lib
-       LIBS=-L$(LUALIB) -llua
-    else
-       LUABIN=$(LUA)/bin/lua$(LV)
-       LUAINC=$(LUA)/include/lua-$(LV)
-       LUALIB=$(LUA)/lib/lua-$(LV)
-       LIBS=
-       LIBS=-L$(LUALIB) -llua-$(LV)    
-    endif
+    LUABIN=$(LUA)/bin/lua$V
+    LUAINC=$(LUA)/include/lua/$(LV)
+    LUALIB=$(LUA)/lib/
+    LIBS=
   else
     # Lua installation for Linux (Debian)
     LUA = /usr
@@ -127,10 +128,10 @@ ifeq ($(DEBUG), 1)
 else
      OPT=-O2
 endif
-CFLAGS=-I$(LUAINC) -I$(GVROOT) $(DEF) -Wall $(OPT)
+CFLAGS=-I$(LUAINC) -I$(GVINC) $(DEF) -Wall $(OPT)
 
 ifeq (Darwin, $(SYSTEM))
-  LDFLAGS= $(OPT) -shared -L$(LUALIB) -L/opt/local/lib
+  LDFLAGS= $(OPT) -dynamiclib -undefined dynamic_lookup -L$(LUALIB) -L$(GVLIB)
   LIBS += -lgvc -lcgraph -lcdt -lpathplan -lltdl
 else
   ifeq (Linux, $(SYSTEM))
@@ -139,8 +140,8 @@ else
     LIBS += -lgvc -lcgraph -lcdt -lpathplan -lltdl
   else
     ifeq (Msys, $(SYSTEM))
-      CFLAGS += -mwin32 -I$(GVROOT)/include
-      LDFLAGS= -O -shared -L$(GVROOT)/bin -L$(LUALIB)
+      CFLAGS += -mwin32 -I$(GVINC)
+      LDFLAGS= -O -shared -L$(GVBIN) -L$(LUALIB)
       ifeq ($(USE_BUILTIN_PLUGINS), yes)
         CFLAGS += -DUSE_BUILTIN_PLUGINS
         LIBS += -lgvc -lcdt -lpathplan -lltdl -lcgraph -lgvplugin_dot_layout -lgvplugin_neato_layout -lgvplugin_core -lgvplugin_gd -lgvplugin_pango
