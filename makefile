@@ -18,7 +18,7 @@ uclean: clean
 
 install: all
 	mkdir -p $(INSTALL_SHARE) $(INSTALL_LIB)/graph
-	$(INSTALL_DATA) graph$(V).lua $(INSTALL_SHARE)
+	$(INSTALL_DATA) graph.lua $(INSTALL_SHARE)
 	cd src && $(INSTALL_COPY) $(LUAGRAPH_SO) $(INSTALL_LIB)/graph/core.$(EXT)
 
 uninstall:

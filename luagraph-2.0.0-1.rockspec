@@ -27,7 +27,7 @@ dependencies = {
 }
 external_dependencies = {
    GRAPHVIZ = {
-      header = "graphviz/graph.h"
+      header = "graphviz/cgraph.h"
    }
 }
 build = {
