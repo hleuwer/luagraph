@@ -38,6 +38,8 @@ LuaGRAPH
 	
 	https://github.com/hleuwer/luagraph
 
+  or install with luarocks. See below under "Installation".
+
 * Configuration
   -------------
 
@@ -70,7 +72,19 @@ LuaGRAPH
 
 * Installation
   ------------
+  
+  Install via Luarocks
+  - - - - - - - - - -
+  Simply type the following:
 
+     $ sudo luarocks GRAPHVIZ_DIR=/opt/local install luagraph
+
+  You may have to change the value for the GRAPHVIZ_DIR variable to ensure
+  that luarocks finds your GRAPHVIZ installation. On MacOS it is typically
+  installed in /opt/local.
+
+  Manual Installation
+  - - - - - - - - - - 
   In order to build LuaGRAPH on a Linux, Unix or Cygwin/Mingw based
   POSIX like system:
 

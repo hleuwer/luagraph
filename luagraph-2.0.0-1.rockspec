@@ -5,10 +5,6 @@ source = {
   tag = "2.0.0-1",
   url = "git://github.com/hleuwer/luagraph.git"
 }
--- source = {
---    url = "http://luaforge.net/frs/download.php/4528/luagraph-2.0.0.tar.gz",
---    md5 = "f2f71bcbabf243792e230665b1403f58"
--- }
 description = {
    summary = "A binding to the graphviz graph library",
    detailed = [[
