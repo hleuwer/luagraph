@@ -26,11 +26,13 @@
 \*=========================================================================*/
 #define MYNAME "graph"
 #define MYVERSION "2.0.0"
-#ifdef _WIN32
+#if defined(_WIN32) || defined(WIN32)
 #define MYGVVERSION "2.38"
+#define SYSTEM "Win32"
 #else
 #define MYGVVERSION GVVERSION
 #endif
+#define MYSYSTEM SYSTEM
 #define MYCOPYRIGHT "Copyright (C) 2006-2017, Herbert Leuwer "
 #define MYDESCRIPTION "LuaGRAPH is a library for creating, manipulating and rendering GRAPHs (based on the GRAPHVIZ library cgraph)."
 
@@ -1018,6 +1020,7 @@ static int gr_edge(lua_State *L)
   gr_node_t *tail, *head;
   int rv;
   char ename[32];
+  char *label;
   int head_created = 0;
   int tail_created = 0;
   
@@ -1062,7 +1065,7 @@ static int gr_edge(lua_State *L)
   }
 
   /* param 4: label */
-  char *label = (char *) luaL_optstring(L, 4, NULL);   /* ud, tail, head */
+  label = (char *) luaL_optstring(L, 4, NULL);   /* ud, tail, head */
 
   /* Check whether edge already exists - only required for strict graphs */
   if ((e = agedge(ud->g, tail->n, head->n, NULL, 0)) != NULL){
@@ -1442,6 +1445,9 @@ LUALIB_API int luaopen_graph_core(lua_State *L) {
   lua_rawset(L, -3);
   lua_pushliteral(L, "_DESCRIPTION");
   lua_pushliteral(L, MYDESCRIPTION);
+  lua_rawset(L, -3);
+  lua_pushliteral(L, "_SYSTEM");
+  lua_pushliteral(L, MYSYSTEM);
   lua_rawset(L, -3);
   lua_pushliteral(L, "plugins");
   lua_pushcfunction(L, gr_plugins);

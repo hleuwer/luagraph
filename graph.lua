@@ -397,10 +397,20 @@ end
 local function showdotty(self, doit)
   doit = doit or true
   if doit == true then
-    local fn = os.tmpname()..".dot"
+    local fn
+    print("SYSTEM:", self._SYSTEM)
+    if graph._SYSTEM == "Win32" then
+      fn = "tmpfile.dot"
+    else
+      fn = os.tmpname()..".dot"
+    end
     local rv = self:write(fn)
     print("result: "..rv)
-    rv = os.execute("dotty "..fn)
+    if graph._SYSTEM == "Win32" then
+  	  rv = os.execute("gvedit "..fn)
+  	else
+      rv = os.execute("dotty "..fn)
+    end
     os.remove(fn)
     return rv
   end
