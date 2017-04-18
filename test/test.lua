@@ -42,7 +42,7 @@ local function newgraph(name, kind)
    return g
 end
 
-local showgraph = true
+local showgraph = false
 local printgraph = false
 local shoinfo = false
 
