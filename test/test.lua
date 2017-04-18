@@ -1,6 +1,14 @@
 local graph = require "graph"
 local logger = require "logging.console"
 local pretty = require "pl.pretty"
+local tmp_prefix
+local function tmpname()
+   if graph._SYSTEM == "Win32" then
+      return "."..os.tmpname()
+   else
+      return os.tmpname()
+   end
+end
 ----------------------------------------------------------------------
 -- Logging
 ----------------------------------------------------------------------
@@ -34,7 +42,7 @@ local function newgraph(name, kind)
    return g
 end
 
-local showgraph = false
+local showgraph = true
 local printgraph = false
 local shoinfo = false
 
@@ -45,16 +53,22 @@ local function gprint(g)
   end
 end
 
-local function gshow(g)
+local function _gshow(g)
   if showgraph == true then
-    local fname = os.tmpname()..".dot"
+    local fname = tmpname()..".dot"
     g:write(fname) os.execute("dotty "..fname)
     os.remove(fname)
   end
 end
 
+local function gshow(g)
+   if showgraph == true then
+      g:show()
+   end
+end
+
 local function gcompare(g, ref)
-  local fn = os.tmpname()
+  local fn = tmpname()
   g:write(fn)
   local fref = io.open(ref, "r")
   local sres = fref:read("*a")
@@ -129,7 +143,7 @@ local function test_graph_write()
   -- Write to stdout
   gprint(h)
   -- Write to file
-  local fn = os.tmpname()
+  local fn = tmpname()
   log:debug("write to %s", fn);
   h:write(fn)
   -- Compare contents with reference
@@ -815,7 +829,7 @@ local function test_layout()
   intro("Test layout: layout  ...")
   local g, t = graph.open("Gx")
   local e1 = g:edge{"n1", "n2", label="n1=>n2"}
-  local fn = os.tmpname()
+  local fn = tmpname()
   debug("Layout:")
   assert(g:layout("dot"))
   debug("PLAIN:")
