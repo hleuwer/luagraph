@@ -4,17 +4,26 @@ include config
 all:
 	cd src && $(MAKE) $@
 
+clean-win32:
+	rm -rf Release Debug
+	rm -rf $(LUAGRAPH_WIN32).suo
+	rm -rf $(LUAGRAPH_WIN32).ncb
+	rm -rf $(LUAGRAPH_WIN32).sln
+	rm -rf $(LUAGRAPH_WIN32).vcproj.*
+
 clean depend:
 	cd src && $(MAKE) $@
 
-uclean: clean
+uclean: clean clean-win32
 	rm -f `find . -name "*~"` 
 	rm -f `find . -name "#*"` 
 	rm -f graph/core.so $(LUAGRAPH_SO) 
 	rm -f out.*
 	rm -rf outdir
 
-.PHONY: install uninstall install-doc uninstall-doc
+.PHONY: local-install-win32 install uninstall install-doc uninstall-doc
+local-install-win32:
+	cp Release/$(LUAGRAPH_WIN32).dll graph/core.dll
 
 install: all
 	mkdir -p $(INSTALL_SHARE) $(INSTALL_LIB)/graph

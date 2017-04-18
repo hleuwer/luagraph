@@ -117,6 +117,7 @@ LUAGRAPH=graph$(LV).lua
 
 # Targets
 LUAGRAPH_SO=graph.$(EXT).$(VERSION)
+LUAGRAPH_WIN32=luagraph51-2.0.0-2
 
 # Testing
 TESTLUA=test/test$(LV).lua
