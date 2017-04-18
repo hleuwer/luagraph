@@ -53,28 +53,14 @@ LuaGRAPH
   It has been tested on MacOS Sierra version 10.12.13, Linux Debian and
   Windows 10 running as guest in a Virtual Box virtual machine under MacOS.
 
-  Under MacOS and Linux all regression tests pass without any error. Under
-  Windows a couple of functions do not work. See below for explanation.
-
-  Since it runs perfectly und MacOS and Linux I decided to publish LuaGRAPH 2.0.
-
-  The library itself runs also under Windows, but the program crashes with
-  an access violation when it comes to more deep interworking with the Windows
-  kernel during reading graphs from files, loading of plugins (both preloaded
-  and on-demand loading). This may be caused by the fact that the binary
-  version of Graphviz 2.38 was compiled (VC 2010?) with a different version
-  than the Luagraph library (VC2015) and the Lua interpreter (VC2008 or MingGW),
-  which leads to loading of multiple version of the Microsoft C runtime
-  libraries. I didn't spend too much effort to make Graphviz compile on
-  my platform using MingGW, MSYS2 or VC2015.
-
-  Any help on this issue is welcome. 
-
+  Under Windows luarocks has only been tested with Lua 5.1 using the
+  LuaForWindows installation.
+  
 * Installation
   ------------
   
-  Install via Luarocks
-  - - - - - - - - - -
+  Install via Luarocks (MacOS and Linux only)
+  - - - - - - - - - - - - - - - - - - - - - - 
   Simply type the following:
 
      $ sudo luarocks GRAPHVIZ_DIR=/opt/local install luagraph
@@ -83,9 +69,9 @@ LuaGRAPH
   that luarocks finds your GRAPHVIZ installation. On MacOS it is typically
   installed in /opt/local.
 
-  Manual Installation
-  - - - - - - - - - - 
-  In order to build LuaGRAPH on a Linux, Unix or Cygwin/Mingw based
+  Manual Installation under MacOS or Linux
+  - - - - - - - - - - - - - - - - - - - - -
+  In order to build LuaGRAPH on a Linux, MacOS or Cygwin/Mingw based
   POSIX like system:
 
   1. Make sure you have Lua 5.1 to 5.3. 
@@ -117,7 +103,14 @@ LuaGRAPH
      files in standard places. The directory /usr/local is the default
      install prefix.
 
-     
+  Manual Build and Installation under Windows
+  - - - - - - - - - - - - - - - - - - - - - - 
+  In order to build LuaGRAPH on Windows, use the Visual Studio 2008
+  project file that comes with source code. Load the project and build
+  a Release version inside the Visual Sudio IDE. To make the luagraph
+  module available copy the file Release/luagraph-2.0.0-2.dll into
+  graph/core.dll. Sorry for this inconvenience, which I may remove
+  once I have a really large amount of time.
 
 * Environment Variables
   ---------------------
