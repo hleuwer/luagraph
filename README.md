@@ -4,22 +4,22 @@ LuaGRAPH
   LuaGRAPH is a binding to the graphviz library.
 
   LuaGRAPH requires the graphviz library version 2.26 or later, which
-  can be downloaded from 
-	
-	http://www.graphviz.org/
+  can be downloaded from:
+  
+  [http://www.graphviz.org/](http://www.graphviz.org/)
 
 
   You must have Lua version 5.1, 5.2 or 5.3. Lua can be downloaded 
   from its home page:
-	  http://www.tecgraf.puc-rio.br/lua/
+  
+  [http://www.tecgraf.puc-rio.br/lua/](http://www.tecgraf.puc-rio.br/lua/)
 
 Documentation
 -------------
 
-  Documentation of LuaGRAPH comes with the LuaGRAPH distribution. I recommend also to
-  read the graphviz documentation, which can be found here:
-
-	http://www.graphviz.org/Documentation.php
+  Documentation of LuaGRAPH comes with the LuaGRAPH distribution. I recommend also to read the graphviz documentation, which can be found here:
+  
+[http://www.graphviz.org/Documentation.php](http://www.graphviz.org/Documentation.php)
 	
 
 Legal matters
@@ -30,8 +30,8 @@ Legal matters
 Download
 --------
   LuaGRAPH can be downloaded from github at
-	
-	https://github.com/hleuwer/luagraph
+  
+  [https://github.com/hleuwer/luagraph](https://github.com/hleuwer/luagraph)  
 
   or install with luarocks. See below under "Installation".
   
