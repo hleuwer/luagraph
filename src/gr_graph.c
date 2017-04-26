@@ -28,11 +28,11 @@
 #define MYVERSION "2.0.0"
 #if defined(_WIN32) || defined(WIN32)
 #define MYGVVERSION "2.38"
-#define SYSTEM "Win32"
+#define MYSYSTEM "Win32"
 #else
+#define MYSYSTEM "other"
 #define MYGVVERSION GVVERSION
 #endif
-#define MYSYSTEM SYSTEM
 #define MYCOPYRIGHT "Copyright (C) 2006-2017, Herbert Leuwer "
 #define MYDESCRIPTION "LuaGRAPH is a library for creating, manipulating and rendering GRAPHs (based on the GRAPHVIZ library cgraph)."
 
@@ -107,7 +107,7 @@ lt_symlist_t lt_preloaded_symbols[] = {
 	{ 0, 0 }
 };
 #else
-lt_symlist_t lt_preloaded_symbols[] = {
+  lt_symlist_t lt_preloaded_symbols[] = {
   { 0, 0 }
 };
 #endif
@@ -1422,7 +1422,6 @@ static int gr_plugins(lua_State *L)
   free(list);
   return 2;
 }
-
 /*-------------------------------------------------------------------------*\
  * Module initialization
 \*-------------------------------------------------------------------------*/

@@ -38,7 +38,9 @@ DEBUG = 1
 GVVERSION = $(shell dot -V 2>&1 | cut -d " " -f 5)
 ifeq ($(SYSTEM), Msys)
   GVROOT=/c/usr
+  GVLIB=$(GVROOT)/lib/graphviz
 else
+  GVLIB=$(GVROOT)/lib
   ifeq ($(SYSTEM), Darwin)
     GVROOT=/opt/local
   else
@@ -46,7 +48,6 @@ else
   endif
 endif
 GVINC=$(GVROOT)/include
-GVLIB=$(GVROOT)/lib
 
 # Root of Lua Installation
 ifeq ($(SYSTEM), Msys)
@@ -78,7 +79,7 @@ ifeq ($(SYSTEM), Msys)
   else
     # 2. Lua under MingGW
     LUA=/c/usr/local
-    LUALIB=$(LUA)/bin
+    LUALIB=$(LUA)/lib
     LIBS=-llua$(V)
   endif
   LUAINC=$(LUA)/include
@@ -142,7 +143,7 @@ else
   else
     ifeq (Msys, $(SYSTEM))
       CFLAGS += -mwin32 -I$(GVINC)
-      LDFLAGS= -O -shared -L$(GVBIN) -L$(LUALIB)
+      LDFLAGS= -O -shared -L$(GVLIB) -L$(LUALIB)
       ifeq ($(USE_BUILTIN_PLUGINS), yes)
         CFLAGS += -DUSE_BUILTIN_PLUGINS
         LIBS += -lgvc -lcdt -lpathplan -lltdl -lcgraph -lgvplugin_dot_layout -lgvplugin_neato_layout -lgvplugin_core -lgvplugin_gd -lgvplugin_pango

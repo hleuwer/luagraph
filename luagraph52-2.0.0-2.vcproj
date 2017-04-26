@@ -63,6 +63,7 @@
 				Name="VCLinkerTool"
 				UseLibraryDependencyInputs="true"
 				AdditionalDependencies="lua52.lib gvc.lib cdt.lib pathplan.lib ltdl.lib cgraph.lib"
+				OutputFile="graph/core.dll"
 				Version="2.0.0-2"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="C:\usr\lib\graphviz;C:\usr\local\lib"
@@ -126,6 +127,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -138,7 +140,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="lua52.lib gvc.lib cdt.lib pathplan.lib ltdl.lib cgraph.lib"
+				UseLibraryDependencyInputs="false"
+				AdditionalDependencies="lua52.lib cgraph.lib gvc.lib cdt.lib pathplan.lib ltdl.lib gvplugin_dot_layout.lib gvplugin_neato_layout.lib gvplugin_core.lib gvplugin_gd.lib gvplugin_pango.lib"
+				ShowProgress="0"
+				OutputFile="graph\core.dll"
 				Version="2.0.0-2"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="C:\usr\lib\graphviz;C:\usr\local\lib"
