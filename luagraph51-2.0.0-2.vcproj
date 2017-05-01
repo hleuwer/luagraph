@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="luagraph52-2.0.0-2"
+	Name="luagraph51-2.0.0-2"
 	ProjectGUID="{C8C0838D-1369-4DDB-B27F-9879763BB43F}"
 	RootNamespace="luagraph2002"
 	Keyword="Win32Proj"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="C:\usr\local\include;C:\usr\include"
+				AdditionalIncludeDirectories="C:\Lua\5.1\include;C:\usr\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;LUA_LIB;LUAGRAPH2002_EXPORTS;LUA_BUILD_AS_DLL;LUA_COMPAT_ALL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -140,13 +140,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				UseLibraryDependencyInputs="false"
-				AdditionalDependencies="lua52.lib cgraph.lib gvc.lib cdt.lib pathplan.lib ltdl.lib gvplugin_dot_layout.lib gvplugin_neato_layout.lib gvplugin_core.lib gvplugin_gd.lib gvplugin_pango.lib"
+				AdditionalDependencies="lua51.lib cgraph.lib gvc.lib cdt.lib pathplan.lib ltdl.lib gvplugin_dot_layout.lib gvplugin_neato_layout.lib gvplugin_core.lib gvplugin_gd.lib gvplugin_pango.lib"
 				ShowProgress="0"
 				OutputFile="graph\core.dll"
 				Version="2.0.0-2"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="C:\usr\lib\graphviz;C:\usr\local\lib"
+				AdditionalLibraryDirectories="C:\usr\lib\graphviz;C:\Lua\5.1\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
