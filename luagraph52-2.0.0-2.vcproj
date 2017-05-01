@@ -121,13 +121,13 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="C:\usr\local\include;C:\usr\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;LUA_LIB;LUAGRAPH2002_EXPORTS;LUA_BUILD_AS_DLL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;LUA_LIB;LUAGRAPH2002_EXPORTS;LUA_BUILD_AS_DLL;LUA_COMPAT_ALL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				CompileAs="2"
+				CompileAs="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -208,22 +208,6 @@
 			>
 			<File
 				RelativePath=".\src\gr_graph.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Lua\5.1\include\lauxlib.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Lua\5.1\include\lua.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Lua\5.1\include\luaconf.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Lua\5.1\include\lualib.h"
 				>
 			</File>
 		</Filter>

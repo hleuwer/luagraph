@@ -42,9 +42,9 @@ local function newgraph(name, kind)
    return g
 end
 
-local showgraph = false
-local printgraph = false
-local shoinfo = false
+local showgraph = (os.getenv("SHOWGRAPH") == "yes") or false
+local printgraph = (os.getenv("PRINTGRAPH") == "yes") or false
+local showinfo = (os.getenv("SHOWINFO") == "yes") or false
 
 local function gprint(g) 
   if printgraph == true then
