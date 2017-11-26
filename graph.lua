@@ -13,7 +13,15 @@ local table = require "table"
 local type, getmetatable, pairs, ipairs, assert = 
   _G.type, _G.getmetatable, _G.pairs, _G.ipairs, _G.assert
 
-module("graph", package.seeall)
+local unpack = unpack or table.unpack
+
+if string.find(_VERSION, "5.1") then 
+   module("graph", package.seeall)
+else
+   _ENV = setmetatable(graph, {
+                          __index = _G
+   })
+end
 --
 -- Overloaded graph.open(), graph.read()
 --

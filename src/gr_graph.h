@@ -114,7 +114,7 @@ gr_object_t *toobject(lua_State *L, int narg, const char *type, int strict);
 #define tograph(L, m, s) (&toobject(L, m, "graph", s)->g)
 #define tonode(L, m, s) (&toobject(L, m, "node", s)->n)
 #define toedge(L, m, s) (&toobject(L, m, "edge", s)->e)
-#if LUA_VERSION_NUM == 502
+#if LUA_VERSION_NUM >= 502
 #define register_metainfo(L, f) luaL_setfuncs(L, f, 0)
 #else
 #define register_metainfo(L, f) luaL_register(L, NULL, f)
