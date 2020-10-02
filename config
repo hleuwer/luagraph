@@ -111,7 +111,7 @@ PLATFORM=-D$(SYSTEM)
 DEFCOMPAT=
 
 # Current Version of LuaGRAPH
-VERSION=2.0.0
+VERSION=2.0.1
 
 #LuaGRAPH module frontend
 LUAGRAPH=graph$(LV).lua

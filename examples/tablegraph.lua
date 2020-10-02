@@ -93,6 +93,7 @@ while not ende do
    print("(2) double indexed array")
    print("(3) snmp module")
    print("(4) socket module")
+   print("(5) binary tree")
    print("(q) quit")
    io.write("select: ") io.flush()
    local s = io.read()
@@ -105,6 +106,10 @@ while not ende do
       if  s == "4" then
 	 et[4] = require "socket"
 	 print(et[4])
+      end
+      if s == "5" then
+	 local foo  = assert(loadfile("tree.lua"))
+	 et[5] = foo()
       end
       local ix = tonumber(s)
       if et[ix] ~= nil then
