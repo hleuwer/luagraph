@@ -27,8 +27,8 @@ ifeq ($(SYSTEM), Msys)
     V=52
   endif
 else
-  LV = 5.2
-  V=52
+  LV = 5.3
+  V=53
 endif
 
 # Debugging 1 or 0
@@ -42,12 +42,12 @@ ifeq ($(SYSTEM), Msys)
 else
   GVLIB=$(GVROOT)/lib
   ifeq ($(SYSTEM), Darwin)
-    GVROOT=/opt/local
+    GVROOT=/usr/local
   else
     GVROOT=/usr
   endif
 endif
-GVINC=$(GVROOT)/include
+GVINC=$(GVROOT)/include/graphviz
 
 # Root of Lua Installation
 ifeq ($(SYSTEM), Msys)
@@ -130,7 +130,8 @@ ifeq ($(DEBUG), 1)
 else
      OPT=-O2
 endif
-CFLAGS=-I$(LUAINC) -I$(GVINC) $(DEF) -Wall $(OPT)
+CFLAGS=-I$(LUAINC) -I$(GVINC) $(DEF)  -Wall -Wno-comment -Wno-error=implicit-function-declaration  $(OPT)
+#CFLAGS=-I$(LUAINC) -I$(GVINC) $(DEF)  -Wno-error=implicit-function-declaration $(OPT)
 
 ifeq (Darwin, $(SYSTEM))
   LDFLAGS= $(OPT) -dynamiclib -undefined dynamic_lookup -L$(LUALIB) -L$(GVLIB)

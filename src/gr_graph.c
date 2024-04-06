@@ -25,7 +25,7 @@
  * Defines
 \*=========================================================================*/
 #define MYNAME "graph"
-#define MYVERSION "2.0.0"
+#define MYVERSION "2.1.0"
 #if defined(_WIN32) || defined(WIN32)
 #define MYGVVERSION "2.38"
 #define MYSYSTEM "Win32"
@@ -33,9 +33,10 @@
 #define MYSYSTEM "other"
 #define MYGVVERSION GVVERSION
 #endif
-#define MYCOPYRIGHT "Copyright (C) 2006-2017, Herbert Leuwer "
+#define MYCOPYRIGHT "Copyright (C) 2006-2024, Herbert Leuwer "
 #define MYDESCRIPTION "LuaGRAPH is a library for creating, manipulating and rendering GRAPHs (based on the GRAPHVIZ library cgraph)."
 
+#define NIL(x) ((x) NULL)
 /*=========================================================================*\
  * Prototypes
 \*=========================================================================*/
@@ -1403,7 +1404,11 @@ static int gr_plugins(lua_State *L)
   char **list;
 
   char *kind = (char *) luaL_optstring(L, 1, "render");
+#if 0
   list = gvPluginList(gvc, kind, &count, NULL);
+#else
+  list = gvPluginList(gvc, kind, &count);
+#endif
   if (list == NULL){
     lua_pushnil(L);
     lua_pushstring(L, "no plugins");
