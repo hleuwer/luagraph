@@ -25,9 +25,9 @@
  * Defines
 \*=========================================================================*/
 #define MYNAME "graph"
-#define MYVERSION "2.1.0"
+#define MYVERSION "2.2.0"
 #if defined(_WIN32) || defined(WIN32)
-#define MYGVVERSION "2.38"
+#define MYGVVERSION "2.0.38"
 #define MYSYSTEM "Win32"
 #else
 #define MYSYSTEM "other"
