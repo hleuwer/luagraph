@@ -48,7 +48,7 @@ LuaGRAPH
 
 * Status
   ------
-  Newest version is LuaGRAPH 2.0 now supports the `cgraph´ library and all
+  Newest version is LuaGRAPH 2.2.0 now supports the `cgraph´ library and all
   Lua versions from Lua 5.1 to Lua 5.3. Lua 5.0 is no longer supported.
   It has been tested on MacOS Sierra version 10.12.13, Linux Debian and
   Windows 10 running as guest in a Virtual Box virtual machine under MacOS.
@@ -67,7 +67,8 @@ LuaGRAPH
 
   You may have to change the value for the GRAPHVIZ_DIR variable to ensure
   that luarocks finds your GRAPHVIZ installation. On MacOS it is typically
-  installed in /opt/local.
+  installed in /opt/local or /usr/local or something similar depending on
+  the package manager used.
 
   Manual Installation under MacOS or Linux
   - - - - - - - - - - - - - - - - - - - - -
@@ -123,7 +124,7 @@ LuaGRAPH
 
   Please send your comments and bug reports to the Lua mailing list.
 
-December 2006 (January 2017)
+December 2006 (April 2024)
 
 Have fun.
 
