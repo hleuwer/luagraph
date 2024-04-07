@@ -9,7 +9,7 @@ LuaGRAPH
   [http://www.graphviz.org/](http://www.graphviz.org/)
 
 
-  You must have Lua version 5.1, 5.2 or 5.3. Lua can be downloaded 
+  You must have Lua version 5.1, 5.2, 5.3 or 5.4. Lua can be downloaded 
   from its home page:
   
   [http://www.tecgraf.puc-rio.br/lua/](http://www.tecgraf.puc-rio.br/lua/)
@@ -43,10 +43,10 @@ Configuration
 
 Status
 ------
-  Newest version is LuaGRAPH 2.0 now supports the `cgraphÂ´ library and all
-  Lua versions from Lua 5.1 to Lua 5.3. Lua 5.0 is no longer supported.
-  It has been tested on MacOS Sierra version 10.12.13, Linux Debian and
-  Windows 10 running as guest in a Virtual Box virtual machine under MacOS.
+  Newest version is LuaGRAPH 2.2.0 now supports the `cgraph´ library and all
+  Lua versions from Lua 5.1 to Lua 5.4. Lua 5.0 is no longer supported.
+  It has been tested on MacOS Sonoma, Linux Debian and
+  Windows 10.
 
   Under Windows luarocks has only been tested with Lua 5.1 using the
   LuaForWindows installation.
@@ -58,11 +58,7 @@ Installation
 
   Simply type the following:
 
-     $ sudo luarocks GRAPHVIZ_DIR=/opt/local install luagraph
-
-  You may have to change the value for the GRAPHVIZ_DIR variable to ensure
-  that luarocks finds your GRAPHVIZ installation. On MacOS it is typically
-  installed in /opt/local.
+     $ sudo luarocks GRAPHVIZ_DIR=<path-to-graphviz-installation> install luagraph
 
 **Manual Installation under MacOS or Linux**
 
@@ -118,6 +114,6 @@ Comments and bug reports
 
   Please send your comments and bug reports to the Lua mailing list.
 
-***December 2006 (January 2017)***
+***December 2006 (April 2024)***
 
 ***Have fun!***
