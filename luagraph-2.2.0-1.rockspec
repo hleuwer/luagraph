@@ -1,5 +1,5 @@
 package="LuaGRAPH"
-version="2.2.0"
+version="2.2.0-1"
 -- LuaDist source
 source = {
   tag = "2.2.0-1",
