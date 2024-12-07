@@ -35,8 +35,9 @@
 #endif
 #define MYCOPYRIGHT "Copyright (C) 2006-2024, Herbert Leuwer "
 #define MYDESCRIPTION "LuaGRAPH is a library for creating, manipulating and rendering GRAPHs (based on the GRAPHVIZ library cgraph)."
-
-#define NIL(x) ((x) NULL)
+#ifndef NIL
+  #define NIL(x) ((x) NULL)
+#endif
 /*=========================================================================*\
  * Prototypes
 \*=========================================================================*/
@@ -1404,7 +1405,7 @@ static int gr_plugins(lua_State *L)
   char **list;
 
   char *kind = (char *) luaL_optstring(L, 1, "render");
-#if 0
+#if 1
   list = gvPluginList(gvc, kind, &count, NULL);
 #else
   list = gvPluginList(gvc, kind, &count);
