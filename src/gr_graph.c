@@ -27,11 +27,16 @@
 #define MYNAME "graph"
 #define MYVERSION "2.2.0"
 #if defined(_WIN32) || defined(WIN32)
-#define MYGVVERSION "2.0.38"
-#define MYSYSTEM "Win32"
+  #define MYGVVERSION "2.0.38"
+  #define MYSYSTEM "Win32"
 #else
-#define MYSYSTEM "other"
-#define MYGVVERSION GVVERSION
+  #if defined(__linux__)
+    #define MYSYSTEM "Linux"
+    #define MYGVVERSION GVVERSION
+  #else
+    #define MYSYSTEM "other"
+    #define MYGVVERSION GVVERSION
+  #endif
 #endif
 #define MYCOPYRIGHT "Copyright (C) 2006-2024, Herbert Leuwer "
 #define MYDESCRIPTION "LuaGRAPH is a library for creating, manipulating and rendering GRAPHs (based on the GRAPHVIZ library cgraph)."

@@ -417,7 +417,7 @@ local function showdotty(self, doit)
     if graph._SYSTEM == "Win32" then
   	  rv = os.execute("gvedit "..fn)
   	else
-      rv = os.execute("xdot "..fn)
+          rv = os.execute("xdot "..fn)
     end
     os.remove(fn)
     return rv
